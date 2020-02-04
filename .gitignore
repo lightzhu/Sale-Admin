@@ -8,6 +8,8 @@ npm-debug.log*
 selenium-debug.log
 
 # umi
+.umi
+.umi/
 src/pages/.umi
 
 # Editor directories and files
