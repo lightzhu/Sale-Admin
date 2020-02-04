@@ -8,8 +8,7 @@ npm-debug.log*
 selenium-debug.log
 
 # umi
-.umi
-.umi-production
+src/pages/.umi
 
 # Editor directories and files
 .idea
@@ -18,4 +17,3 @@ selenium-debug.log
 *.ntvs*
 *.njsproj
 *.sln
-
