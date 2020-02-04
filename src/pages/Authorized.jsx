@@ -6,12 +6,8 @@ import { getRouteAuthority } from "@/utils/utils";
 
 const AuthComponent = ({
   children,
-  route = {
-    routes: []
-  },
-  location = {
-    pathname: ""
-  },
+  route = { routes: [] },
+  location = { pathname: "" },
   user
 }) => {
   const { currentUser } = user;
@@ -33,6 +29,4 @@ const AuthComponent = ({
   );
 };
 
-export default connect(({ user }) => ({
-  user
-}))(AuthComponent);
+export default connect(({ user }) => ({ user }))(AuthComponent);

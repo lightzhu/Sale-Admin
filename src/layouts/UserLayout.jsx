@@ -13,11 +13,7 @@ import logo from "../assets/logo.svg";
 import styles from "./UserLayout.less";
 
 const UserLayout = props => {
-  const {
-    route = {
-      routes: []
-    }
-  } = props;
+  const { route = { routes: [] } } = props;
   const { routes = [] } = route;
   const {
     children,

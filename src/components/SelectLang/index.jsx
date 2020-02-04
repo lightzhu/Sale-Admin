@@ -12,18 +12,14 @@ const SelectLang = props => {
 
   const changeLang = ({ key }) => setLocale(key);
 
-  const locales = ["zh-CN", "zh-TW", "en-US", "pt-BR"];
+  const locales = ["zh-CN", "en-US"];
   const languageLabels = {
     "zh-CN": "简体中文",
-    "zh-TW": "繁体中文",
-    "en-US": "English",
-    "pt-BR": "Português"
+    "en-US": "English"
   };
   const languageIcons = {
     "zh-CN": "🇨🇳",
-    "zh-TW": "🇭🇰",
-    "en-US": "🇺🇸",
-    "pt-BR": "🇧🇷"
+    "en-US": "🇺🇸"
   };
   const langMenu = (
     <Menu

@@ -19,9 +19,7 @@ const InjectedWrapper = (() => {
   return sfc;
 })();
 
-import "moment/locale/pt-br";
 import "moment/locale/zh-cn";
-import "moment/locale/zh-tw";
 
 const baseNavigator = true;
 const baseSeparator = "-";
@@ -45,17 +43,6 @@ const localeInfo = {
     data: require("react-intl/locale-data/en"),
     momentLocale: ""
   },
-  "pt-BR": {
-    messages: {
-      ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/admin/Documents/React/Sale-Admin/src/locales/pt-BR.js")
-      )
-    },
-    locale: "pt-BR",
-    antd: require("antd/lib/locale-provider/pt_BR"),
-    data: require("react-intl/locale-data/pt"),
-    momentLocale: "pt-br"
-  },
   "zh-CN": {
     messages: {
       ...(locale => (locale.__esModule ? locale.default : locale))(
@@ -66,17 +53,6 @@ const localeInfo = {
     antd: require("antd/lib/locale-provider/zh_CN"),
     data: require("react-intl/locale-data/zh"),
     momentLocale: "zh-cn"
-  },
-  "zh-TW": {
-    messages: {
-      ...(locale => (locale.__esModule ? locale.default : locale))(
-        require("/Users/admin/Documents/React/Sale-Admin/src/locales/zh-TW.js")
-      )
-    },
-    locale: "zh-TW",
-    antd: require("antd/lib/locale-provider/zh_TW"),
-    data: require("react-intl/locale-data/zh"),
-    momentLocale: "zh-tw"
   }
 };
 
