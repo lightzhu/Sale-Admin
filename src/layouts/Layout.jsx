@@ -95,7 +95,7 @@ const footerRender = () => {
   );
 };
 
-const BasicLayout = props => {
+const Layout = props => {
   const {
     dispatch,
     children,
@@ -128,12 +128,7 @@ const BasicLayout = props => {
     }
   }; // get children authority
 
-  const authorized = getAuthorityFromRouter(
-    props.route.routes,
-    location.pathname || "/"
-  ) || {
-    authority: undefined
-  };
+  const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || "/") || { authority: undefined };
   return (
     <ProLayout
       logo={logo}
@@ -165,11 +160,7 @@ const BasicLayout = props => {
       ]}
       itemRender={(route, params, routes, paths) => {
         const first = routes.indexOf(route) === 0;
-        return first ? (
-          <Link to={paths.join("/")}>{route.breadcrumbName}</Link>
-        ) : (
-          <span>{route.breadcrumbName}</span>
-        );
+        return first ? (<Link to={paths.join("/")}>{route.breadcrumbName}</Link>) : (<span>{route.breadcrumbName}</span>);
       }}
       footerRender={footerRender}
       menuDataRender={menuDataRender}
@@ -184,7 +175,4 @@ const BasicLayout = props => {
   );
 };
 
-export default connect(({ global, settings }) => ({
-  collapsed: global.collapsed,
-  settings
-}))(BasicLayout);
+export default connect(({ global, settings }) => ({ collapsed: global.collapsed, settings }))(Layout);

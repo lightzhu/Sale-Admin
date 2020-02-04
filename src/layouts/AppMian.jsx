@@ -4,7 +4,7 @@ import { PageLoading } from "@ant-design/pro-layout";
 import { Redirect } from "umi";
 import { stringify } from "querystring";
 
-class SecurityLayout extends React.Component {
+class AppMian extends React.Component {
   state = {
     isReady: false
   };
@@ -44,7 +44,4 @@ class SecurityLayout extends React.Component {
   }
 }
 
-export default connect(({ user, loading }) => ({
-  currentUser: user.currentUser,
-  loading: loading.models.user
-}))(SecurityLayout);
+export default connect(({ user, loading }) => ({ currentUser: user.currentUser, loading: loading.models.user }))(AppMian);

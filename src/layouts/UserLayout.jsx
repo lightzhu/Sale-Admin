@@ -1,8 +1,4 @@
-import {
-  DefaultFooter,
-  getMenuData,
-  getPageTitle
-} from "@ant-design/pro-layout";
+import { getMenuData, getPageTitle } from "@ant-design/pro-layout";
 import { Helmet } from "react-helmet";
 import { Link } from "umi";
 import React from "react";
@@ -11,16 +7,11 @@ import { connect } from "dva";
 import SelectLang from "@/components/SelectLang";
 import logo from "../assets/logo.svg";
 import styles from "./UserLayout.less";
-
+/*  登陆注册模块 */
 const UserLayout = props => {
   const { route = { routes: [] } } = props;
   const { routes = [] } = route;
-  const {
-    children,
-    location = {
-      pathname: ""
-    }
-  } = props;
+  const { children, location = { pathname: "" } } = props;
   const { breadcrumb } = getMenuData(routes);
   const title = getPageTitle({
     pathname: location.pathname,
@@ -53,7 +44,7 @@ const UserLayout = props => {
           </div>
           {children}
         </div>
-        <DefaultFooter />
+        {/* <DefaultFooter /> */}
       </div>
     </>
   );

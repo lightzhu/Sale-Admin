@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import { Link } from "umi";
 import { connect } from "dva";
 import styles from "./style.less";
-import LoginFrom from "./components/Login";
+import LoginFrom from "./components";
 const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginFrom;
 
 const LoginMessage = ({ content }) => (
@@ -23,6 +23,7 @@ const LoginMessage = ({ content }) => (
 );
 
 const Login = props => {
+  // console.log(props)
   const { userLogin = {}, submitting } = props;
   const { status, type: loginType } = userLogin;
   const [autoLogin, setAutoLogin] = useState(true);

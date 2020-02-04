@@ -54,4 +54,6 @@ npm test
 
 ## More
 
-You can view full document on our [official website](https://pro.ant.design). And welcome any feedback in our [github](https://github.com/ant-design/ant-design-pro).
+dva 的 connect 方法中使用到了 dva-loading，会自动在 reducers 中的 state 新增了 loading 对象请求前，global 为 false，effects 和 models 为空对象 laoding: { effects: {} global: false models: {} } 请求中： global 为 true； effects 的 key 为 dispatch 的 type 值，value 为 true； models 的 key 为 namespace 值，value 为 true； loading： { effects: {users/user/fetch: true} global: true models: {users: true} } 请求完成： global 为 false； effects 的 key 为 dispatch 的 type 值，value 为 false； models 的 key 为 namespace 值，value 为 false；
+
+loading： { effects: {users/user/fetch: false} global: false models: {users: false} }
