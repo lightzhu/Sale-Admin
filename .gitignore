@@ -7,6 +7,10 @@ npm-debug.log*
 /test/e2e/reports/
 selenium-debug.log
 
+# umi
+.umi
+.umi-production
+
 # Editor directories and files
 .idea
 .vscode
