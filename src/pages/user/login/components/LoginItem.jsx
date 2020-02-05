@@ -2,7 +2,6 @@ import { Button, Col, Input, Row, Form, message } from "antd";
 import React, { useState, useCallback, useEffect } from "react";
 import omit from "omit.js";
 import ItemMap from "./map";
-import LoginContext from "./LoginContext";
 import styles from "./index.less";
 import { getFakeCaptcha } from "@/services/login";
 const FormItem = Form.Item;
@@ -126,18 +125,12 @@ Object.keys(ItemMap).forEach(key => {
   const item = ItemMap[key];
 
   LoginItems[key] = props => (
-    <LoginContext.Consumer>
-      {context => (
-        <LoginItem
-          customProps={item.props}
-          rules={item.rules}
-          {...props}
-          type={key}
-          {...context}
-          updateActive={context.updateActive}
-        />
-      )}
-    </LoginContext.Consumer>
+    <LoginItem
+      customProps={item.props}
+      rules={item.rules}
+      {...props}
+      type={key}
+    />
   );
 });
 export default LoginItems;

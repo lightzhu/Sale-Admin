@@ -55,6 +55,8 @@ class RegisterForm extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
+      } else {
+        console.log(values)
       }
     })
   }
@@ -70,6 +72,7 @@ class RegisterForm extends React.Component {
   }
   compareToFirstPassword = (rule, value, callback) => {
     const { form } = this.props
+    console.log(value, form.getFieldValue('password'))
     if (value && value !== form.getFieldValue('password')) {
       callback('Two passwords that you enter is inconsistent!')
     } else {

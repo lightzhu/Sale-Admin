@@ -1,15 +1,12 @@
-import {
-  AlipayCircleOutlined,
-  TaobaoCircleOutlined,
-  WeiboCircleOutlined
-} from "@ant-design/icons";
-import { Alert, Checkbox } from "antd";
+import { Alert, Checkbox, Form } from "antd";
 import React, { useState } from "react";
 import { Link } from "umi";
 import { connect } from "dva";
+// import classNames from "classnames";
 import styles from "./style.less";
-import LoginFrom from "./components";
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginFrom;
+import Submit from "./components/LoginSubmit";
+import LoginItems from "./components/LoginItem";
+const { UserName, Password } = LoginItems
 
 const LoginMessage = ({ content }) => (
   <Alert
@@ -21,7 +18,7 @@ const LoginMessage = ({ content }) => (
     showIcon
   />
 );
-
+// @Form.create()
 const Login = props => {
   // console.log(props)
   const { userLogin = {}, submitting } = props;
@@ -29,18 +26,26 @@ const Login = props => {
   const [autoLogin, setAutoLogin] = useState(true);
   const [type, setType] = useState("account");
 
-  const handleSubmit = values => {
-    const { dispatch } = props;
-    dispatch({
-      type: "login/login",
-      payload: { ...values, type }
-    });
+  const handleSubmit = () => {
+    const { dispatch } = this.props
+    // const { validateFieldsAndScroll } = form
+    console.log(this.props.form.getFieldsValue);
+    validateFieldsAndScroll((errors, values) => {
+      if (errors) {
+        return
+      }
+      dispatch({
+        type: "login/login",
+        payload: { ...values, type }
+      })
+    })
+
   };
 
   return (
     <div className={styles.main}>
-      <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
-        <Tab key="account" tab="账户密码登录">
+      <Form onSubmit={handleSubmit}>
+        <div>
           {status === "error" && loginType === "account" && !submitting && (
             <LoginMessage content="账户或密码错误（admin/ant.design）" />
           )}
@@ -65,39 +70,7 @@ const Login = props => {
               }
             ]}
           />
-        </Tab>
-        <Tab key="mobile" tab="手机号登录">
-          {status === "error" && loginType === "mobile" && !submitting && (
-            <LoginMessage content="验证码错误" />
-          )}
-          <Mobile
-            name="mobile"
-            placeholder="手机号"
-            rules={[
-              {
-                required: true,
-                message: "请输入手机号！"
-              },
-              {
-                pattern: /^1\d{10}$/,
-                message: "手机号格式错误！"
-              }
-            ]}
-          />
-          <Captcha
-            name="captcha"
-            placeholder="验证码"
-            countDown={120}
-            getCaptchaButtonText=""
-            getCaptchaSecondText="秒"
-            rules={[
-              {
-                required: true,
-                message: "请输入验证码！"
-              }
-            ]}
-          />
-        </Tab>
+        </div>
         <div>
           <Checkbox
             checked={autoLogin}
@@ -115,19 +88,15 @@ const Login = props => {
         </div>
         <Submit loading={submitting}>登录</Submit>
         <div className={styles.other}>
-          其他登录方式
-          <AlipayCircleOutlined className={styles.icon} />
-          <TaobaoCircleOutlined className={styles.icon} />
-          <WeiboCircleOutlined className={styles.icon} />
           <Link className={styles.register} to="/user/register">
             注册账户
           </Link>
         </div>
-      </LoginFrom>
+      </Form>
     </div>
   );
 };
-
+// const myLogin = Form.create(Login)
 export default connect(({ login, loading }) => ({
   userLogin: login,
   submitting: loading.effects["login/login"]
