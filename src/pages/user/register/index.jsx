@@ -1,10 +1,10 @@
 import { Alert, Checkbox, Form } from 'antd';
 import React, { useState } from 'react';
 import { Link } from 'umi';
-import { connect } from 'dva'; // import { Form } from '@ant-design/compatible'
-
+import { connect } from 'dva';
+import { isMobile } from '@/utils/utils';
 import styles from './style.less';
-import RegisterForm from './RegisterForm'; // @Form.create()
+import RegisterForm from './RegisterForm';
 
 const register = props => {
   console.log(props); // const { userLogin = {}, submitting } = props;
@@ -23,7 +23,7 @@ const register = props => {
 
   return (
     <div className={styles.main}>
-      <WrappedForm />
+      <WrappedForm isMobile={isMobile} />
     </div>
   );
 };
