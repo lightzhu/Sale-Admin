@@ -64,7 +64,7 @@ const HeaderSearch = props => {
       >
         <Input
           ref={inputRef}
-          size="middle"
+          size="large"
           defaultValue={defaultValue}
           aria-label={placeholder}
           placeholder={placeholder}
