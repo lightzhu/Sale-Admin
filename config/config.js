@@ -118,10 +118,10 @@ export default {
               authority: ['admin']
             },
             {
-              name: 'list.table-list',
-              icon: 'table',
-              path: '/list',
-              component: './ListTableList'
+              name: 'dashboard',
+              icon: 'desktop',
+              path: '/dashboard',
+              component: './Dashboard'
             },
             {
               component: './404'
@@ -176,13 +176,13 @@ export default {
     }
   },
   manifest: {
-    basePath: '/'
-  } // chainWebpack: webpackPlugin,
-  // proxy: {
-  //   '/server/api/': {
-  //     target: 'https://preview.pro.ant.design/',
-  //     changeOrigin: true,
-  //     pathRewrite: { '^/server': '' },
-  //   },
-  // },
+    basePath: '/' // chainWebpack: webpackPlugin,
+    // proxy: {
+    //   '/server/api/': {
+    //     target: 'https://preview.pro.ant.design/',
+    //     changeOrigin: true,
+    //     pathRewrite: { '^/server': '' },
+    //   },
+    // },
+  }
 }
