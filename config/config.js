@@ -102,7 +102,13 @@ export default {
           routes: [
             {
               path: '/',
-              redirect: '/welcome'
+              redirect: '/home'
+            },
+            {
+              name: 'home',
+              icon: 'home',
+              path: '/home',
+              component: './Home'
             },
             {
               path: '/welcome',

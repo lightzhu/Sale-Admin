@@ -12,13 +12,13 @@ const register = props => {
   // const [autoLogin, setAutoLogin] = useState(true);
   // const [type, setType] = useState("account");
 
-  const handleSubmit = values => {
-    const { dispatch } = props;
-    dispatch({
-      type: 'register/register',
-      payload: { ...values, type },
-    });
-  };
+  // const handleSubmit = values => {
+  //   const { dispatch } = props;
+  //   dispatch({
+  //     type: 'register/register',
+  //     payload: { ...values, type },
+  //   });
+  // };
   const WrappedForm = Form.create({ name: 'validate_reguster' })(RegisterForm);
 
   return (
