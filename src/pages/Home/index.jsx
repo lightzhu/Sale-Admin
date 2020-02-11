@@ -2,13 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import { Spin, Row, Col } from 'antd';
 import { connect } from 'dva';
+import BillListCo from './components/BillList';
+import Repertory from './components/Repertory';
 import styles from './index.less';
 
 class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      homeData: {}
+      homeData: {},
+      billLoading: false
     }
   }
   reqRef = 0;
@@ -19,6 +22,26 @@ class Home extends React.Component {
       dispatch({
         type: 'home/fetch',
       });
+    });
+    if (dispatch) {
+      dispatch({
+        type: "home/getBills"
+      });
+      dispatch({
+        type: "home/getRepertory"
+      });
+    }
+  }
+  loadMoreBills() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "home/getBills"
+    });
+  }
+  productsMore() {
+    const { dispatch } = this.props;
+    dispatch({
+      type: "home/getRepertory"
     });
   }
   componentWillUnmount() {
@@ -40,8 +63,8 @@ class Home extends React.Component {
     }
   }
   render() {
-    const { loading, home } = this.props;
-    const { sumMoney, bills } = home
+    const { loading, home, billLoading, productsListLoading } = this.props;
+    const { sumMoney, sumBills, BillList, ProductsList } = home
     console.log(home)
     return (
       <div className={styles.main}>
@@ -52,24 +75,20 @@ class Home extends React.Component {
               {this.creatLeft(sumMoney, '1', '$')}
             </div>
             <div className={styles.topright}>
-              {this.creatLeft(bills, '2', '单')}
+              {this.creatLeft(sumBills, '2', '单')}
             </div>
           </div>
         </div>
+        <BillListCo title="我的订单" loading={billLoading} loadMore={this.loadMoreBills.bind(this)} list={BillList} />
+        <Repertory title="我的库存" loading={productsListLoading} loadMore={this.productsMore.bind(this)} list={ProductsList} />
         <Spin spinning={loading} size="large"></Spin>
       </div>
     );
   }
 }
-// () => {
-//   const [loading, setLoading] = useState(true);
-//   useEffect(() => {
-//     setTimeout(() => {
-//       setLoading(false);
-//     }, 3000);
-//   }, []);
-// };
 export default connect(({ home, loading }) => ({
   home,
   loading: loading.effects['home/fetch'],
+  billLoading: loading.effects['home/getBills'],
+  productsListLoading: loading.effects['home/getRepertory']
 }))(Home);
