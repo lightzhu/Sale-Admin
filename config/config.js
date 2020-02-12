@@ -111,6 +111,12 @@ export default {
               component: './Home'
             },
             {
+              name: 'commodity',
+              icon: 'file-done',
+              path: '/commodity',
+              component: './Commodity'
+            },
+            {
               path: '/welcome',
               name: 'welcome',
               icon: 'smile',

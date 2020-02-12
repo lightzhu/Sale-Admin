@@ -1,5 +1,6 @@
 import { List, Avatar, Button, Skeleton, Popover } from 'antd';
 import React from 'react';
+import { Link } from "umi";
 import styles from './style.less';
 
 const setColor = (No) => 'status' + No;
@@ -28,7 +29,10 @@ const Repertory = ({ title, list, loading, loadMore }) => {
   );
   return (
     <div className={styles.listBox}>
-      <h5>{title}</h5>
+      <div className={styles.head}>
+        <h5>{title}</h5>
+        <Link to="/welcome"><Button type="primary">上架商品</Button></Link>
+      </div>
       <List
         className={[styles.list, 'felx-list']}
         loading={loading}
