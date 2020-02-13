@@ -69,8 +69,8 @@ const BasicInfo = props => {
           })(<Input placeholder="请输入商品名称" />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label="选择类目">
-          {getFieldDecorator('payAccount', {
-            initialValue: '请选择',
+          {getFieldDecorator('firstCategory', {
+            initialValue: data.firstCategory,
             rules: [
               {
                 required: true,
@@ -78,14 +78,14 @@ const BasicInfo = props => {
               },
             ],
           })(
-            <Select placeholder="test@example.com">
+            <Select placeholder="选择商品主类目">
               {creatCategory(firstCate)}
             </Select>
           )}
         </Form.Item>
         <Form.Item {...formItemLayout} label="二级目录">
-          {getFieldDecorator('payAccount', {
-            initialValue: '请选择',
+          {getFieldDecorator('secCategory', {
+            initialValue: data.secCategory,
             rules: [
               {
                 required: true,
@@ -107,11 +107,11 @@ const BasicInfo = props => {
                 message: '请输入单价',
               },
             ],
-          })(<Input placeholder="请输入单价" />)}
+          })(<Input type='number' placeholder="请输入单价" />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label="付款方式">
           {getFieldDecorator('payType', {
-            initialValue: '请选择',
+            initialValue: data.payType,
             rules: [
               {
                 required: true,
@@ -125,9 +125,20 @@ const BasicInfo = props => {
             </Select>
           )}
         </Form.Item>
+        <Form.Item {...formItemLayout} label="单价">
+          {getFieldDecorator('amount', {
+            initialValue: data.amount,
+            rules: [
+              {
+                required: true,
+                message: '请输入单价',
+              },
+            ],
+          })(<Input type='number' placeholder="请输入单价" />)}
+        </Form.Item>
         <Form.Item {...formItemLayout} label="商品描述">
-          {getFieldDecorator('receiverName', {
-            initialValue: data.receiverName,
+          {getFieldDecorator('describe', {
+            initialValue: data.describe,
             rules: [
               {
                 required: true,
@@ -137,8 +148,8 @@ const BasicInfo = props => {
           })(<Input.TextArea rows={4} placeholder="请输入商品信息" />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label="退货说明">
-          {getFieldDecorator('amount', {
-            initialValue: data.amount,
+          {getFieldDecorator('salesReturn', {
+            initialValue: data.salesReturn,
             rules: [
               {
                 required: true,

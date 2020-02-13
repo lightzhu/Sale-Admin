@@ -1,8 +1,8 @@
-import { Form, Alert, Button, Descriptions, Divider, Statistic, Input } from 'antd';
-import React from 'react';
+import { Form, Alert, Button, Icon, Divider, Upload, Input, Modal, Checkbox } from 'antd';
+import React, { useState } from 'react';
 import { connect } from 'dva';
 import styles from './index.less';
-
+const CheckboxGroup = Checkbox.Group;
 const formItemLayout = {
   labelCol: {
     span: 5,
@@ -13,13 +13,23 @@ const formItemLayout = {
 };
 
 const Advanced = props => {
-  const { form, data, dispatch, submitting } = props;
-
-  if (!data) {
-    return null;
-  }
-
+  const { form, fileList, dispatch, submitting } = props;
+  const [previewVisible, setpreviewVisible] = useState(false);
+  const [previewImage, setpreviewImage] = useState('');
+  const [checkedList, setcheckedList] = useState(['Apple']);
+  const plainOptions = ['Apple', 'Pear', 'Orange'];
+  // if (!data) {
+  //   return null;
+  // }
   const { getFieldDecorator, validateFields, getFieldsValue } = form;
+  const getBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
+  }
 
   const onPrev = () => {
     if (dispatch) {
@@ -48,49 +58,69 @@ const Advanced = props => {
       }
     });
   };
-
-  const { payAccount, receiverAccount, receiverName, amount } = data;
+  const handleCancel = () => setpreviewVisible(false);
+  const handlePreview = async file => {
+    console.log(file)
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setpreviewVisible(true)
+    setpreviewImage(file.url || file.preview)
+  };
+  const uploadButton = (
+    <div>
+      <Icon type="plus" />
+      <div className="ant-upload-text">Upload</div>
+    </div>
+  );
+  const handleChange = (obj) => {
+    console.log(obj);
+    if (dispatch) {
+      dispatch({
+        type: 'commodity/saveFileList',
+        payload: obj.fileList,
+      });
+    }
+  }
+  const checkBoxChange = (value) => {
+    console.log(value)
+    setcheckedList(value)
+  };
   return (
     <Form layout="horizontal" className={styles.stepForm}>
       <Alert
         closable
         showIcon
-        message="确认转账后，资金将直接打入对方账户，无法退回。"
+        message="最多只能上传5张照片,包括产品主图、尺寸图及规格图。"
         style={{
           marginBottom: 24,
         }}
       />
-      <Descriptions column={1}>
-        <Descriptions.Item label="付款账户"> {payAccount}</Descriptions.Item>
-        <Descriptions.Item label="收款账户"> {receiverAccount}</Descriptions.Item>
-        <Descriptions.Item label="收款人姓名"> {receiverName}</Descriptions.Item>
-        <Descriptions.Item label="转账金额">
-          <Statistic value={amount} suffix="元" />
-        </Descriptions.Item>
-      </Descriptions>
+      <div className="clearfix">
+        <Upload
+          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+          listType="picture-card"
+          fileList={fileList}
+          onPreview={handlePreview}
+          onChange={handleChange}
+        >
+          {fileList.length >= 5 ? null : uploadButton}
+        </Upload>
+        <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
+          <img alt="example" style={{ width: '100%' }} src={previewImage} />
+        </Modal>
+      </div>
       <Divider
         style={{
           margin: '24px 0',
         }}
       />
-      <Form.Item {...formItemLayout} label="支付密码" required={false}>
-        {getFieldDecorator('password', {
-          initialValue: '123456',
-          rules: [
-            {
-              required: true,
-              message: '需要支付密码才能进行支付',
-            },
-          ],
-        })(
-          <Input
-            type="password"
-            autoComplete="off"
-            style={{
-              width: '80%',
-            }}
-          />,
-        )}
+      <Form.Item {...formItemLayout} label="变体" required={false}>
+        <CheckboxGroup
+          options={plainOptions}
+          value={checkedList}
+          onChange={checkBoxChange}
+        />
       </Form.Item>
       <Form.Item
         style={{
@@ -126,5 +156,5 @@ const Advanced = props => {
 
 export default connect(({ commodity, loading }) => ({
   submitting: loading.effects['commodity/submitStepForm'],
-  data: commodity.step,
+  fileList: commodity.fileList,
 }))(Form.create()(Advanced));
