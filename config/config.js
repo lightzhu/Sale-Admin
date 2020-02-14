@@ -111,6 +111,12 @@ export default {
               component: './Home'
             },
             {
+              name: 'inventory',
+              icon: 'table',
+              path: '/inventory',
+              component: './Inventory'
+            },
+            {
               name: 'commodity',
               icon: 'file-done',
               path: '/commodity',

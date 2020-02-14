@@ -4,6 +4,7 @@ export default {
   'menu.home': '首页',
   'menu.admin': '管理页',
   'menu.login': '登录',
+  'menu.inventory': '库存',
   'menu.register': '注册',
   'menu.commodity': '商品',
   'menu.register.result': '注册结果',

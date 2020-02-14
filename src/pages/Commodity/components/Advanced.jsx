@@ -18,10 +18,8 @@ const Advanced = props => {
   const [previewImage, setpreviewImage] = useState('');
   const [checkedList, setcheckedList] = useState(['Apple']);
   const plainOptions = ['Apple', 'Pear', 'Orange'];
-  // if (!data) {
-  //   return null;
-  // }
-  const { getFieldDecorator, validateFields, getFieldsValue } = form;
+
+  // const { getFieldDecorator, validateFields, getFieldsValue } = form;
   const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -33,11 +31,10 @@ const Advanced = props => {
 
   const onPrev = () => {
     if (dispatch) {
-      const values = getFieldsValue();
-      dispatch({
-        type: 'commodity/saveStepFormData',
-        payload: { ...data, ...values },
-      });
+      // dispatch({
+      //   type: 'commodity/saveFileList',
+      //   payload: { ...data, ...values },
+      // });
       dispatch({
         type: 'commodity/saveCurrentStep',
         payload: 'info',
@@ -47,16 +44,12 @@ const Advanced = props => {
 
   const onValidateForm = e => {
     e.preventDefault();
-    validateFields((err, values) => {
-      if (!err) {
-        if (dispatch) {
-          dispatch({
-            type: 'commodity/submitStepForm',
-            payload: { ...data, ...values },
-          });
-        }
-      }
-    });
+    if (dispatch) {
+      dispatch({
+        type: 'commodity/submitStepForm',
+        payload: { current: 'confirm' },
+      });
+    }
   };
   const handleCancel = () => setpreviewVisible(false);
   const handlePreview = async file => {

@@ -65,10 +65,9 @@ const CommodityModel = {
     },
 
     saveStepFormData(state, { payload }) {
-      return { ...state, step: { ...state.step, ...payload } }
+      return { ...state, ...payload }
     },
     saveFileList(state, { payload }) {
-      // fileList: { ...payload }
       return { ...state, fileList: [...payload] }
     }
   }
