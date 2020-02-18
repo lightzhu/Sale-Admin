@@ -1,31 +1,10 @@
-import { Button, Divider, Dropdown, Menu, message, Form } from 'antd';
-import React, { useState, useRef } from 'react';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import ProTable from '@ant-design/pro-table';
-import CreateForm from './components/CreateForm';
+import { Button, Divider, Dropdown, Radio, message, Form } from 'antd';
+import React from 'react';
 import UpdateForm from './components/UpdateForm';
-import { queryRule, updateRule, addRule, removeRule } from './service';
+import SaTable from './components/SaTable';
+import { queryTable, updateRule, addRule, removeRule } from './service';
+import styles from './index.less';
 
-/**
- * 添加节点
- * @param fields
- */
-const handleAdd = async fields => {
-  const hide = message.loading('正在添加');
-
-  try {
-    await addRule({
-      desc: fields.desc,
-    });
-    hide();
-    message.success('添加成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('添加失败请重试！');
-    return false;
-  }
-};
 /**
  * 更新节点
  * @param fields
@@ -72,166 +51,85 @@ const handleRemove = async selectedRows => {
   }
 };
 
-const TableList = () => {
-  const [createModalVisible, handleModalVisible] = useState(false);
-  const [updateModalVisible, handleUpdateModalVisible] = useState(false);
-  const [stepFormValues, setStepFormValues] = useState({});
-  const actionRef = useRef();
-  const columns = [
-    {
-      title: '规则名称',
-      dataIndex: 'name',
-    },
-    {
-      title: '描述',
-      dataIndex: 'desc',
-    },
-    {
-      title: '服务调用次数',
-      dataIndex: 'callNo',
-      sorter: true,
-      renderText: val => `${val} 万`,
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      valueEnum: {
-        0: {
-          text: '关闭',
-          status: 'Default',
-        },
-        1: {
-          text: '运行中',
-          status: 'Processing',
-        },
-        2: {
-          text: '已上线',
-          status: 'Success',
-        },
-        3: {
-          text: '异常',
-          status: 'Error',
-        },
-      },
-    },
-    {
-      title: '上次调度时间',
-      dataIndex: 'updatedAt',
-      sorter: true,
-      valueType: 'dateTime',
-    },
-    {
-      title: '操作',
-      dataIndex: 'option',
-      valueType: 'option',
-      render: (_, record) => (
-        <>
-          <a
-            onClick={() => {
-              handleUpdateModalVisible(true);
-              setStepFormValues(record);
-            }}
-          >
-            配置
-          </a>
-          <Divider type="vertical" />
-          <a href="">订阅警报</a>
-        </>
-      ),
-    },
-  ];
-  return (
-    <>
-      <ProTable
-        headerTitle="查询表格"
-        actionRef={actionRef}
-        rowKey="key"
-        toolBarRender={(action, { selectedRows }) => [
-          <Button icon="plus" type="primary" onClick={() => handleModalVisible(true)}>
-            新建
-          </Button>,
-          selectedRows && selectedRows.length > 0 && (
-            <Dropdown
-              overlay={
-                <Menu
-                  onClick={async e => {
-                    if (e.key === 'remove') {
-                      await handleRemove(selectedRows);
-                      action.reload();
-                    }
-                  }}
-                  selectedKeys={[]}
-                >
-                  <Menu.Item key="remove">批量删除</Menu.Item>
-                  <Menu.Item key="approval">批量审批</Menu.Item>
-                </Menu>
-              }
-            >
-              <Button icon="download">
-                批量操作
-              </Button>
-            </Dropdown>
-          ),
-        ]}
-        tableAlertRender={(selectedRowKeys, selectedRows) => (
-          <div>
-            已选择{' '}
-            <a
-              style={{
-                fontWeight: 600,
-              }}
-            >
-              {selectedRowKeys.length}
-            </a>{' '}
-            项&nbsp;&nbsp;
-            <span>
-              服务调用次数总计 {selectedRows.reduce((pre, item) => pre + item.callNo, 0)} 万
-            </span>
-          </div>
-        )}
-        request={params => queryRule(params)}
-        columns={columns}
-        rowSelection={{}}
-      />
-      <CreateForm
-        onSubmit={async value => {
-          const success = await handleAdd(value);
+class TableList extends React.Component {
+  state = {
+    updateModalVisible: false,
+    stepFormValues: {},
+    tableData: [],
+    checkValue: 0, // 0:全部  1:在售  2:不可售
+  }
+  handleUpdateModalVisible(boolean) {
+    this.setState({
+      updateModalVisible: boolean
+    })
+  }
+  setStepFormValues(row) {
+    console.log(row)
+    this.setState({
+      stepFormValues: row
+    })
+  }
+  onChange = e => {
+    console.log('radio checked', e.target.value);
+    this.setState({
+      checkValue: e.target.value,
+    });
+  };
 
-          if (success) {
-            handleModalVisible(false);
-
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          }
-        }}
-        onCancel={() => handleModalVisible(false)}
-        modalVisible={createModalVisible}
-      />
-      {stepFormValues && Object.keys(stepFormValues).length ? (
-        <UpdateForm
-          onSubmit={async value => {
-            const success = await handleUpdate(value);
-
-            if (success) {
-              handleModalVisible(false);
-              setStepFormValues({});
-
-              if (actionRef.current) {
-                actionRef.current.reload();
-              }
-            }
-          }}
-          onCancel={() => {
-            handleUpdateModalVisible(false);
-            setStepFormValues({});
-          }}
-          updateModalVisible={updateModalVisible}
-          values={stepFormValues}
+  componentDidMount() {
+    queryTable().then((data) => {
+      console.log(data)
+      this.setState({
+        tableData: data.data
+      })
+    })
+  }
+  render() {
+    const { stepFormValues, updateModalVisible } = this.state
+    return (
+      <>
+        <div className={styles.checkbox}>
+          <span className={styles.label}>商品状态:</span>
+          <Radio.Group onChange={this.onChange} value={this.state.checkValue}>
+            <Radio value={0}>全部</Radio>
+            <Radio value={1}>在售</Radio>
+            <Radio value={2}>不可售</Radio>
+          </Radio.Group>
+        </div>
+        <SaTable
+          tableData={this.state.tableData}
+          updateModalVisible={this.handleUpdateModalVisible.bind(this)}
+          setStepFormValues={this.setStepFormValues.bind(this)}
         />
-      ) : null}
-    </>
-  );
+        {stepFormValues && Object.keys(stepFormValues).length ? (
+          <UpdateForm
+            onSubmit={async value => {
+              const success = await handleUpdate(value);
+              if (success) {
+                handleModalVisible(false);
+                setStepFormValues({});
+
+                if (actionRef.current) {
+                  actionRef.current.reload();
+                }
+              }
+            }}
+            onCancel={() => {
+              this.handleUpdateModalVisible(false);
+              this.setStepFormValues({});
+            }}
+            updateModalVisible={updateModalVisible}
+            values={stepFormValues}
+          />
+        ) : null}
+      </>
+    );
+  }
+
 };
 
 export default Form.create()(TableList);
+// export default connect(({ home, loading }) => ({
+//   home,
+//   loading: loading.effects['home/fetch'],
+// }))(TableList);

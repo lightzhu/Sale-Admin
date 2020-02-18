@@ -1,25 +1,25 @@
-import request from '@/utils/request';
+import request from '@/utils/request'
 
-export async function queryRule(params) {
+export async function queryTable(params) {
   return request('/api/rule', {
-    params,
-  });
+    params
+  })
 }
 export async function removeRule(params) {
   return request('/api/rule', {
     method: 'POST',
-    data: { ...params, method: 'delete' },
-  });
+    data: { ...params, method: 'delete' }
+  })
 }
 export async function addRule(params) {
   return request('/api/rule', {
     method: 'POST',
-    data: { ...params, method: 'post' },
-  });
+    data: { ...params, method: 'post' }
+  })
 }
 export async function updateRule(params) {
   return request('/api/rule', {
     method: 'POST',
-    data: { ...params, method: 'update' },
-  });
+    data: { ...params, method: 'update' }
+  })
 }

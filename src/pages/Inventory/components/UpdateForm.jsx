@@ -1,10 +1,7 @@
-// import { Form } from '@ant-design/compatible';
-// import '@ant-design/compatible/assets/index.css';
-import { Button, DatePicker, Input, Modal, Radio, Select, Steps, Form } from 'antd';
+import { Button, DatePicker, Input, Modal, Radio, Select, Form } from 'antd';
 import React, { Component } from 'react';
 
 const FormItem = Form.Item;
-const { Step } = Steps;
 const { TextArea } = Input;
 const { Option } = Select;
 const RadioGroup = Radio.Group;
@@ -21,7 +18,7 @@ class UpdateForm extends Component {
       span: 7,
     },
     wrapperCol: {
-      span: 13,
+      span: 17,
     },
   };
 
@@ -30,7 +27,7 @@ class UpdateForm extends Component {
     this.state = {
       formVals: {
         name: props.values.name,
-        desc: props.values.desc,
+        describe: props.values.desc,
         key: props.values.key,
         target: '0',
         template: '0',
@@ -41,7 +38,6 @@ class UpdateForm extends Component {
       currentStep: 0,
     };
   }
-
   handleNext = currentStep => {
     const { form, onSubmit: handleUpdate } = this.props;
     const { formVals: oldValue } = this.state;
@@ -62,24 +58,11 @@ class UpdateForm extends Component {
       );
     });
   };
-
-  backward = () => {
-    const { currentStep } = this.state;
-    this.setState({
-      currentStep: currentStep - 1,
-    });
-  };
-
-  forward = () => {
-    const { currentStep } = this.state;
-    this.setState({
-      currentStep: currentStep + 1,
-    });
-  };
-
   renderContent = (currentStep, formVals) => {
     const { form } = this.props;
-
+    const { getFieldDecorator } = form;
+    console.log(form)
+    // 编辑商品图片
     if (currentStep === 1) {
       return [
         <FormItem key="target" {...this.formLayout} label="监控对象">
@@ -122,121 +105,90 @@ class UpdateForm extends Component {
         </FormItem>,
       ];
     }
-
-    if (currentStep === 2) {
-      return [
-        <FormItem key="time" {...this.formLayout} label="开始时间">
-          {form.getFieldDecorator('time', {
-            rules: [
-              {
-                required: true,
-                message: '请选择开始时间！',
-              },
-            ],
-          })(
-            <DatePicker
-              style={{
-                width: '100%',
-              }}
-              showTime
-              format="YYYY-MM-DD HH:mm:ss"
-              placeholder="选择开始时间"
-            />,
-          )}
-        </FormItem>,
-        <FormItem key="frequency" {...this.formLayout} label="调度周期">
-          {form.getFieldDecorator('frequency', {
-            initialValue: formVals.frequency,
-          })(
-            <Select
-              style={{
-                width: '100%',
-              }}
-            >
-              <Option value="month">月</Option>
-              <Option value="week">周</Option>
-            </Select>,
-          )}
-        </FormItem>,
-      ];
-    }
-
+    // 基本信息的模版
     return [
-      <FormItem key="name" {...this.formLayout} label="规则名称">
-        {form.getFieldDecorator('name', {
+      // <FormItem key="name" {...this.formLayout} label="规则名称">
+      //   {getFieldDecorator('name', {
+      //     rules: [
+      //       {
+      //         required: true,
+      //         message: '请输入规则名称！',
+      //       },
+      //     ],
+      //     initialValue: formVals.name,
+      //   })(<Input placeholder="请输入" />)}
+      // </FormItem>,
+      <Form.Item  {...this.formLayout} label="商品名称">
+        {getFieldDecorator('name', {
+          initialValue: "",
           rules: [
             {
               required: true,
-              message: '请输入规则名称！',
+              message: '请输入商品名称',
             },
           ],
-          initialValue: formVals.name,
-        })(<Input placeholder="请输入" />)}
-      </FormItem>,
-      <FormItem key="desc" {...this.formLayout} label="规则描述">
-        {form.getFieldDecorator('desc', {
+        })(<Input placeholder="请输入商品名称" />)}
+      </Form.Item>,
+      < Form.Item {...this.formLayout} label="单价">
+        {getFieldDecorator('key', {
+          initialValue: "",
           rules: [
             {
               required: true,
-              message: '请输入至少五个字符的规则描述！',
-              min: 5,
+              message: '请输入单价',
             },
           ],
-          initialValue: formVals.desc,
-        })(<TextArea rows={4} placeholder="请输入至少五个字符" />)}
-      </FormItem>,
+        })(<Input type='number' placeholder="请输入单价" />)}
+      </Form.Item>,
+      <Form.Item {...this.formLayout} label="付款方式">
+        {getFieldDecorator('payType', {
+          initialValue: 'alipay',
+          rules: [
+            {
+              required: true,
+              message: '请选择付款方式',
+            },
+          ],
+        })(
+          <Select style={{ width: '100%' }} placeholder="付款方式">
+            <Option value="alipay">支付宝</Option>
+            <Option value="bank">银行账户</Option>
+          </Select>
+        )}
+      </Form.Item>,
+      <Form.Item {...this.formLayout} label="库存数">
+        {getFieldDecorator('amount', {
+          initialValue: "",
+          rules: [
+            {
+              required: true,
+              message: '请输入数量',
+            },
+          ],
+        })(<Input type='number' placeholder="请输入数量" />)}
+      </Form.Item>,
+      <Form.Item {...this.formLayout} label="商品描述">
+        {getFieldDecorator('describe', {
+          initialValue: '',
+          rules: [
+            {
+              required: true,
+              message: '请输入商品信息',
+            },
+          ],
+        })(<Input.TextArea rows={4} placeholder="请输入商品信息" />)}
+      </Form.Item>
     ];
   };
 
   renderFooter = currentStep => {
     const { onCancel: handleUpdateModalVisible, values } = this.props;
-
-    if (currentStep === 1) {
-      return [
-        <Button
-          key="back"
-          style={{
-            float: 'left',
-          }}
-          onClick={this.backward}
-        >
-          上一步
-        </Button>,
-        <Button key="cancel" onClick={() => handleUpdateModalVisible(false, values)}>
-          取消
-        </Button>,
-        <Button key="forward" type="primary" onClick={() => this.handleNext(currentStep)}>
-          下一步
-        </Button>,
-      ];
-    }
-
-    if (currentStep === 2) {
-      return [
-        <Button
-          key="back"
-          style={{
-            float: 'left',
-          }}
-          onClick={this.backward}
-        >
-          上一步
-        </Button>,
-        <Button key="cancel" onClick={() => handleUpdateModalVisible(false, values)}>
-          取消
-        </Button>,
-        <Button key="submit" type="primary" onClick={() => this.handleNext(currentStep)}>
-          完成
-        </Button>,
-      ];
-    }
-
     return [
       <Button key="cancel" onClick={() => handleUpdateModalVisible(false, values)}>
         取消
       </Button>,
       <Button key="forward" type="primary" onClick={() => this.handleNext(currentStep)}>
-        下一步
+        确认修改
       </Button>,
     ];
   };
@@ -246,28 +198,17 @@ class UpdateForm extends Component {
     const { currentStep, formVals } = this.state;
     return (
       <Modal
-        width={640}
+        width={660}
         bodyStyle={{
           padding: '32px 40px 48px',
         }}
         destroyOnClose
-        title="规则配置"
+        title="库存基本信息编辑"
         visible={updateModalVisible}
         footer={this.renderFooter(currentStep)}
         onCancel={() => handleUpdateModalVisible(false, values)}
         afterClose={() => handleUpdateModalVisible()}
       >
-        <Steps
-          style={{
-            marginBottom: 28,
-          }}
-          size="small"
-          current={currentStep}
-        >
-          <Step title="基本信息" />
-          <Step title="配置规则属性" />
-          <Step title="设定调度周期" />
-        </Steps>
         {this.renderContent(currentStep, formVals)}
       </Modal>
     );
