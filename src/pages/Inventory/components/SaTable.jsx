@@ -1,6 +1,6 @@
 import { Button, Divider, Dropdown, Radio, message, Form, Table } from 'antd';
 import React, { useState, useRef } from 'react';
-import { queryTable, updateRule, addRule, removeRule } from '../service';
+import { queryTable, updateRule, disableShop, removeRule } from '../service';
 import styles from '../index.less';
 
 
@@ -28,33 +28,30 @@ const handleUpdate = async fields => {
     return false;
   }
 };
-/**
- *  删除节点
- * @param selectedRows
- */
-
-const handleRemove = async selectedRows => {
-  const hide = message.loading('正在删除');
-  if (!selectedRows) return true;
-  try {
-    await removeRule({
-      key: selectedRows.map(row => row.key),
-    });
-    hide();
-    message.success('删除成功，即将刷新');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除失败，请重试');
-    return false;
-  }
-};
 
 const SaTable = (props) => {
   // const [createModalVisible, handleModalVisible] = useState(false);
   // const [updateModalVisible, handleUpdateModalVisible] = useState(false);
-  // const [stepFormValues, setStepFormValues] = useState({});
-  const { updateModalVisible, setStepFormValues } = props;
+  const { updateModalVisible, setStepFormValues, updateRowStatus } = props;
+  const unSold = async selectedRows => {
+    console.log(selectedRows)
+    const hide = message.loading('正在下架');
+    if (!selectedRows) return true;
+    try {
+      let data = await disableShop({
+        key: selectedRows.key,
+      });
+      console.log(data)
+      updateRowStatus(data)
+      hide();
+      message.success('下架成功，即将刷新');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('下架失败，请重试');
+      return false;
+    }
+  };
   const columns = [
     {
       title: '商品名称',
@@ -81,25 +78,22 @@ const SaTable = (props) => {
     {
       title: '上架数量',
       dataIndex: 'productNo',
-      sorter: true,
+      // sorter: true,
     },
     {
       title: '状态',
       dataIndex: 'status',
-      valueEnum: {
-        0: {
-          text: '不可售',
-          status: 'Default',
-        },
-        1: {
-          text: '销售中',
-          status: 'Processing',
-        },
-        2: {
-          text: '缺货',
-          status: 'Error',
-        },
-      },
+      render: (val) => {
+        let text = '';
+        if (val == 0) {
+          text = '不可售';
+        } else if (val == 1) {
+          text = '销售中';
+        } else {
+          text = '缺货';
+        }
+        return text;
+      }
     },
     {
       title: '更新时间',
@@ -109,7 +103,7 @@ const SaTable = (props) => {
     {
       title: '价格($)',
       dataIndex: 'price',
-      renderText: val => `${val}`,
+      renderText: val => `${val}p`,
     },
     {
       title: '操作',
@@ -126,7 +120,9 @@ const SaTable = (props) => {
             编辑
           </a>
           <Divider type="vertical" />
-          <a href="">下架</a>
+          <a onClick={() => {
+            unSold(record)
+          }}>下架</a>
         </>
       ),
     },

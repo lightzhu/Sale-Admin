@@ -69,6 +69,11 @@ class TableList extends React.Component {
       stepFormValues: row
     })
   }
+  updateRowStatus(data) {
+    this.setState({
+      tableData: data.data
+    })
+  }
   onChange = e => {
     console.log('radio checked', e.target.value);
     this.setState({
@@ -100,6 +105,7 @@ class TableList extends React.Component {
           tableData={this.state.tableData}
           updateModalVisible={this.handleUpdateModalVisible.bind(this)}
           setStepFormValues={this.setStepFormValues.bind(this)}
+          updateRowStatus={this.updateRowStatus.bind(this)}
         />
         {stepFormValues && Object.keys(stepFormValues).length ? (
           <UpdateForm

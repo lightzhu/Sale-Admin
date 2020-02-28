@@ -84,7 +84,7 @@ function getTableData(req, res, u) {
   return res.json(result)
 }
 
-function postRule(req, res, u, b) {
+function disableShop(req, res, u, b) {
   let url = u
 
   if (!url || Object.prototype.toString.call(url) !== '[object String]') {
@@ -92,56 +92,22 @@ function postRule(req, res, u, b) {
     url = req.url
   }
 
-  const body = (b && b.body) || req.body
-  const { method, name, desc, key } = body
-
-  switch (method) {
-    /* eslint no-case-declarations:0 */
-    case 'delete':
-      tableListDataSource = tableListDataSource.filter(
-        item => key.indexOf(item.key) === -1
-      )
-      break
-
-    case 'post':
-      const i = Math.ceil(Math.random() * 10000)
-      tableListDataSource.unshift({
-        key: i,
-        href: 'https://ant.design',
-        avatar: [
-          'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
-          'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png'
-        ][i % 2],
-        name: `TradeCode ${i}`,
-        title: `一个任务名称 ${i}`,
-        owner: '曲丽丽',
-        desc,
-        callNo: Math.floor(Math.random() * 1000),
-        status: Math.floor(Math.random() * 10) % 2,
-        updatedAt: new Date(),
-        createdAt: new Date(),
-        progress: Math.ceil(Math.random() * 100)
-      })
-      break
-
-    case 'update':
-      tableListDataSource = tableListDataSource.map(item => {
-        if (item.key === key) {
-          return { ...item, desc, name }
-        }
-
-        return item
-      })
-      break
-
-    default:
-      break
-  }
+  const { key } = req.query
+  // console.log(key)
+  let dataSource = tableListDataSource
+  dataSource = dataSource.map(item => {
+    if (item.key == key) {
+      item.status = 0
+    }
+    return item
+  })
 
   const result = {
-    list: tableListDataSource,
+    data: dataSource,
+    total: dataSource.length,
+    success: true,
     pagination: {
-      total: tableListDataSource.length
+      total: dataSource.length
     }
   }
   return res.json(result)
@@ -149,5 +115,5 @@ function postRule(req, res, u, b) {
 
 export default {
   'GET /api/rule': getTableData,
-  'POST /api/rule': postRule
+  'GET /api/disableShop': disableShop
 }

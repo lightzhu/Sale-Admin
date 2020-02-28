@@ -24,44 +24,37 @@ class UpdateForm extends Component {
 
   constructor(props) {
     super(props);
+    console.log(props)
     this.state = {
-      formVals: {
-        name: props.values.name,
-        describe: props.values.desc,
-        key: props.values.key,
-        target: '0',
-        template: '0',
-        type: '1',
-        time: '',
-        frequency: 'month',
-      },
+      formVals: props.values,
       currentStep: 0,
     };
   }
-  handleNext = currentStep => {
-    const { form, onSubmit: handleUpdate } = this.props;
-    const { formVals: oldValue } = this.state;
+  handleUpdate = () => {
+    const { form } = this.props;
+    // const { formVals: oldValue } = this.state;
     form.validateFields((err, fieldsValue) => {
       if (err) return;
-      const formVals = { ...oldValue, ...fieldsValue };
-      this.setState(
-        {
-          formVals,
-        },
-        () => {
-          if (currentStep < 2) {
-            this.forward();
-          } else {
-            handleUpdate(formVals);
-          }
-        },
-      );
+      const formVals = { ...fieldsValue };
+      console.log(formVals)
+      // this.setState(
+      //   {
+      //     formVals,
+      //   },
+      //   () => {
+      //     if (currentStep < 2) {
+      //       this.forward();
+      //     } else {
+      //       handleUpdate(formVals);
+      //     }
+      //   },
+      // );
     });
   };
   renderContent = (currentStep, formVals) => {
     const { form } = this.props;
     const { getFieldDecorator } = form;
-    console.log(form)
+    console.log(formVals)
     // 编辑商品图片
     if (currentStep === 1) {
       return [
@@ -107,20 +100,9 @@ class UpdateForm extends Component {
     }
     // 基本信息的模版
     return [
-      // <FormItem key="name" {...this.formLayout} label="规则名称">
-      //   {getFieldDecorator('name', {
-      //     rules: [
-      //       {
-      //         required: true,
-      //         message: '请输入规则名称！',
-      //       },
-      //     ],
-      //     initialValue: formVals.name,
-      //   })(<Input placeholder="请输入" />)}
-      // </FormItem>,
-      <Form.Item  {...this.formLayout} label="商品名称">
+      <Form.Item key="name"  {...this.formLayout} label="商品名称">
         {getFieldDecorator('name', {
-          initialValue: "",
+          initialValue: formVals.name,
           rules: [
             {
               required: true,
@@ -129,9 +111,9 @@ class UpdateForm extends Component {
           ],
         })(<Input placeholder="请输入商品名称" />)}
       </Form.Item>,
-      < Form.Item {...this.formLayout} label="单价">
-        {getFieldDecorator('key', {
-          initialValue: "",
+      < Form.Item key="price" {...this.formLayout} label="单价">
+        {getFieldDecorator('price', {
+          initialValue: formVals.price,
           rules: [
             {
               required: true,
@@ -140,7 +122,7 @@ class UpdateForm extends Component {
           ],
         })(<Input type='number' placeholder="请输入单价" />)}
       </Form.Item>,
-      <Form.Item {...this.formLayout} label="付款方式">
+      <Form.Item key="payType" {...this.formLayout} label="付款方式">
         {getFieldDecorator('payType', {
           initialValue: 'alipay',
           rules: [
@@ -156,9 +138,9 @@ class UpdateForm extends Component {
           </Select>
         )}
       </Form.Item>,
-      <Form.Item {...this.formLayout} label="库存数">
+      <Form.Item key="amount" {...this.formLayout} label="库存数">
         {getFieldDecorator('amount', {
-          initialValue: "",
+          initialValue: formVals.callNo,
           rules: [
             {
               required: true,
@@ -167,9 +149,9 @@ class UpdateForm extends Component {
           ],
         })(<Input type='number' placeholder="请输入数量" />)}
       </Form.Item>,
-      <Form.Item {...this.formLayout} label="商品描述">
+      <Form.Item key="describe" {...this.formLayout} label="商品描述">
         {getFieldDecorator('describe', {
-          initialValue: '',
+          initialValue: formVals.desc,
           rules: [
             {
               required: true,
@@ -187,7 +169,7 @@ class UpdateForm extends Component {
       <Button key="cancel" onClick={() => handleUpdateModalVisible(false, values)}>
         取消
       </Button>,
-      <Button key="forward" type="primary" onClick={() => this.handleNext(currentStep)}>
+      <Button key="forward" type="primary" onClick={() => this.handleUpdate()}>
         确认修改
       </Button>,
     ];
