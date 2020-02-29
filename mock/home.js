@@ -73,7 +73,37 @@ export default {
         amount: '7',
         specification: '红色8,蓝色9,黑色10',
         proImg:
-          'https://i.ebayimg.com/thumbs/images/g/ob4AAOSwePpeJTNH/s-l200.jpg'
+          'https://i.ebayimg.com/thumbs/images/g/ob4AAOSwePpeJTNH/s-l200.jpg',
+        imageList: [
+          {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/-IUAAOSwRiNdNn98/s-l300.jpg'
+          },
+          {
+            uid: '-2',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/WdIAAOSws6ldEv4k/s-l64.jpg'
+          },
+          {
+            uid: '-3',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/XOQAAOSwTh1drkkh/s-l225.jpg'
+          },
+          {
+            uid: '-4',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/M0IAAOSwz5peVTbR/s-l225.jpg'
+          }
+        ]
       },
       {
         product:
@@ -81,7 +111,37 @@ export default {
         amount: '7',
         specification: '红色8,蓝色9,黑色10',
         proImg:
-          'https://i.ebayimg.com/thumbs/images/g/ob4AAOSwePpeJTNH/s-l200.jpg'
+          'https://i.ebayimg.com/thumbs/images/g/ob4AAOSwePpeJTNH/s-l200.jpg',
+        imageList: [
+          {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/-IUAAOSwRiNdNn98/s-l300.jpg'
+          },
+          {
+            uid: '-2',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/WdIAAOSws6ldEv4k/s-l64.jpg'
+          },
+          {
+            uid: '-3',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/XOQAAOSwTh1drkkh/s-l225.jpg'
+          },
+          {
+            uid: '-4',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/M0IAAOSwz5peVTbR/s-l225.jpg'
+          }
+        ]
       },
       {
         product:
@@ -89,7 +149,37 @@ export default {
         amount: '57',
         specification: '红色18,蓝色19,黑色20',
         proImg:
-          'https://img.ejiayou.com/uploadPic/Image/2018/05/1526454027877.jpg'
+          'https://img.ejiayou.com/uploadPic/Image/2018/05/1526454027877.jpg',
+        imageList: [
+          {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/-IUAAOSwRiNdNn98/s-l300.jpg'
+          },
+          {
+            uid: '-2',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/WdIAAOSws6ldEv4k/s-l64.jpg'
+          },
+          {
+            uid: '-3',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/XOQAAOSwTh1drkkh/s-l225.jpg'
+          },
+          {
+            uid: '-4',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/M0IAAOSwz5peVTbR/s-l225.jpg'
+          }
+        ]
       },
       {
         product:
@@ -97,7 +187,37 @@ export default {
         amount: '4',
         specification: '红色XL 1,蓝色XXL 2,粉色 L 1',
         proImg:
-          'https://i.ebayimg.com/thumbs/images/g/ob4AAOSwePpeJTNH/s-l200.jpg'
+          'https://i.ebayimg.com/thumbs/images/g/ob4AAOSwePpeJTNH/s-l200.jpg',
+        imageList: [
+          {
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/-IUAAOSwRiNdNn98/s-l300.jpg'
+          },
+          {
+            uid: '-2',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/WdIAAOSws6ldEv4k/s-l64.jpg'
+          },
+          {
+            uid: '-3',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/XOQAAOSwTh1drkkh/s-l225.jpg'
+          },
+          {
+            uid: '-4',
+            name: 'image.png',
+            status: 'done',
+            url:
+              'https://i.ebayimg.com/images/g/M0IAAOSwz5peVTbR/s-l225.jpg'
+          }
+        ]
       }
     ]
   }

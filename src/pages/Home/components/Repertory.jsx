@@ -1,10 +1,10 @@
 import { List, Avatar, Button, Skeleton, Popover } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from "umi";
 import styles from './style.less';
 
-const setColor = (No) => 'status' + No;
-const Repertory = ({ title, list, loading, loadMore }) => {
+const Repertory = ({ title, list, loading, loadMore, setImageList }) => {
+  const [listItem, setListItem] = useState(null);
   const billsMore = (load) => {
     return (
       !load ? (
@@ -20,9 +20,14 @@ const Repertory = ({ title, list, loading, loadMore }) => {
         </div>
       ) : null)
   }
+  const editPic = () => {
+    if (listItem) {
+      setImageList(listItem.imageList)
+    }
+  }
   const content = (
     <div className="tools">
-      <Button size="small" block>管理图片</Button>
+      <Button size="small" block onClick={editPic}>管理图片</Button>
       <Button size="small" block>删除商品</Button>
       <Button size="small" block type="danger">停售商品</Button>
     </div>
@@ -31,7 +36,7 @@ const Repertory = ({ title, list, loading, loadMore }) => {
     <div className={styles.listBox}>
       <div className={styles.head}>
         <h5>{title}</h5>
-        <Link to="/welcome"><Button type="primary">上架商品</Button></Link>
+        <Link to="/commodity"><Button type="primary">上架商品</Button></Link>
       </div>
       <List
         className={[styles.list, 'felx-list']}
@@ -41,7 +46,10 @@ const Repertory = ({ title, list, loading, loadMore }) => {
         dataSource={list}
         renderItem={item => (
           <List.Item
-            actions={[<Popover content={content}><a key="list-loadmore-edit">edit</a></Popover>, <a key="list-loadmore-more">more</a>]}
+            actions={[<Popover content={content} trigger="click"><a key="list-loadmore-edit" onClick={e => {
+              e.preventDefault();
+              setListItem(item);
+            }}>edit</a></Popover>, <a key="list-loadmore-more">more</a>]}
           >
             <Skeleton avatar title={false} loading={item.loading} active>
               <List.Item.Meta

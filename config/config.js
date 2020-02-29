@@ -123,6 +123,12 @@ export default {
               component: './Commodity'
             },
             {
+              name: 'order',
+              icon: 'bars',
+              path: '/order',
+              component: './Order'
+            },
+            {
               path: '/welcome',
               name: 'welcome',
               icon: 'smile',

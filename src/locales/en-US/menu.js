@@ -8,6 +8,7 @@ export default {
   'menu.inventory': 'Inventory',
   'menu.register.result': 'Register Result',
   'menu.commodity': 'Commodity',
+  'menu.order': 'Order',
   'menu.dashboard': 'Dashboard',
   'menu.dashboard.analysis': 'Analysis',
   'menu.dashboard.monitor': 'Monitor',

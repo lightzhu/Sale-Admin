@@ -1,6 +1,6 @@
 import { Button, Divider, Dropdown, Radio, message, Form, Table } from 'antd';
 import React, { useState, useRef } from 'react';
-import { queryTable, updateRule, disableShop, removeRule } from '../service';
+import { updateRule, disableShop, removeProduct } from '../service';
 import styles from '../index.less';
 
 
@@ -49,6 +49,24 @@ const SaTable = (props) => {
     } catch (error) {
       hide();
       message.error('下架失败，请重试');
+      return false;
+    }
+  };
+  const deleSold = async selectedRows => {
+    console.log(selectedRows)
+    const hide = message.loading('正在删除');
+    if (!selectedRows) return true;
+    try {
+      let data = await removeProduct({
+        key: selectedRows.key,
+      });
+      updateRowStatus(data)
+      hide();
+      message.success('删除成功，即将刷新');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('删除失败，请重试');
       return false;
     }
   };
@@ -122,7 +140,11 @@ const SaTable = (props) => {
           <Divider type="vertical" />
           <a onClick={() => {
             unSold(record)
-          }}>下架</a>
+          }}>停售</a>
+          <Divider type="vertical" />
+          <a onClick={() => {
+            deleSold(record)
+          }}>删除商品</a>
         </>
       ),
     },

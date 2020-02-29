@@ -10,11 +10,9 @@ export async function disableShop(params) {
     params
   })
 }
-
-export async function removeRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
-    data: { ...params, method: 'delete' }
+export async function removeProduct(params) {
+  return request('/api/removeProduct', {
+    params
   })
 }
 export async function updateRule(params) {

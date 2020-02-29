@@ -112,8 +112,24 @@ function disableShop(req, res, u, b) {
   }
   return res.json(result)
 }
-
+function removeProduct(req, res, u, b) {
+  let dataSource = tableListDataSource
+  const { key } = req.query
+  dataSource = dataSource.filter(item => {
+    return item.key != key
+  })
+  const result = {
+    data: dataSource,
+    total: dataSource.length,
+    success: true,
+    pagination: {
+      total: dataSource.length
+    }
+  }
+  return res.json(result)
+}
 export default {
   'GET /api/rule': getTableData,
-  'GET /api/disableShop': disableShop
+  'GET /api/disableShop': disableShop,
+  'GET /api/removeProduct': removeProduct
 }

@@ -1,9 +1,10 @@
 // import { Content } from "@ant-design/pro-layout";
 import React, { useState, useEffect } from 'react';
-import { Spin, Row, Col } from 'antd';
+import { Spin, Modal } from 'antd';
 import { connect } from 'dva';
 import BillListCo from './components/BillList';
 import Repertory from './components/Repertory';
+import EditPic from '@/components/EditPic';
 import styles from './index.less';
 
 class Home extends React.Component {
@@ -11,7 +12,8 @@ class Home extends React.Component {
     super(props)
     this.state = {
       homeData: {},
-      billLoading: false
+      billLoading: false,
+      editPicShow: false
     }
   }
   reqRef = 0;
@@ -44,6 +46,30 @@ class Home extends React.Component {
       type: "home/getRepertory"
     });
   }
+  setImageList(data) {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'commodity/saveFileList',
+      payload: data
+    })
+    this.setState({
+      editPicShow: true
+    })
+    console.log(data)
+  }
+  handleOk = e => {
+    const { fileList } = this.props.commodity
+    console.log(fileList)
+    this.setState({
+      editPicShow: false,
+    });
+  };
+
+  handleCancel = e => {
+    this.setState({
+      editPicShow: false,
+    });
+  };
   componentWillUnmount() {
     cancelAnimationFrame(this.reqRef);
     // clearTimeout(this.timeoutId);
@@ -65,7 +91,7 @@ class Home extends React.Component {
   render() {
     const { loading, home, billLoading, productsListLoading } = this.props;
     const { sumMoney, sumBills, BillList, ProductsList } = home
-    console.log(home)
+    // console.log(home)
     return (
       <div className={styles.main}>
         <div className={styles.sumtop}>
@@ -80,14 +106,26 @@ class Home extends React.Component {
           </div>
         </div>
         <BillListCo title="我的订单" loading={billLoading} loadMore={this.loadMoreBills.bind(this)} list={BillList} />
-        <Repertory title="我的库存" loading={productsListLoading} loadMore={this.productsMore.bind(this)} list={ProductsList} />
+        <Repertory title="我的库存" loading={productsListLoading} loadMore={this.productsMore.bind(this)} setImageList={this.setImageList.bind(this)} list={ProductsList} />
         <Spin spinning={loading} size="large"></Spin>
+        <Modal
+          title='编辑商品图片'
+          className={styles.standardListForm}
+          width={660}
+          destroyOnClose
+          visible={this.state.editPicShow}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <EditPic />
+        </Modal>
       </div>
     );
   }
 }
-export default connect(({ home, loading }) => ({
+export default connect(({ home, commodity, loading }) => ({
   home,
+  commodity,
   loading: loading.effects['home/fetch'],
   billLoading: loading.effects['home/getBills'],
   productsListLoading: loading.effects['home/getRepertory']
