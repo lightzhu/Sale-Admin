@@ -34,4 +34,4 @@ jobs:
         # Source directory
         SOURCE: "dist/"
         # Target directory
-        TARGET: /usr/local/nginx/admin
+        TARGET: "/usr/local/nginx/admin/"
