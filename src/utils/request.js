@@ -2,6 +2,9 @@
  * request 网络请求工具
  * 更详细的 api 文档: https://github.com/umijs/umi-request
  */
+
+const base_url = 'https://www.fastmock.site/mock/a63c09f31c2ed788b5a54059058ca453/saleapi';
+// const base_url = '';
 import { extend } from "umi-request";
 import { notification } from "antd";
 const codeMessage = {
@@ -21,6 +24,7 @@ const codeMessage = {
   503: "服务不可用，服务器暂时过载或维护。",
   504: "网关超时。"
 };
+
 /**
  * 异常处理程序
  */
@@ -52,5 +56,14 @@ const request = extend({
   errorHandler,
   // 默认错误处理
   credentials: "include" // 默认请求是否带上cookie
+});
+// request拦截器, 改变url 或 options.
+request.interceptors.request.use((url, options) => {
+  return (
+    {
+      url: `${base_url}${url}`,
+      options: { ...options, interceptors: true },
+    }
+  );
 });
 export default request;

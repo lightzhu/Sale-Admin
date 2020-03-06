@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 export async function queryTable(params) {
-  return request('/api/rule', {
+  return request('/api/inventory', {
     params
   })
 }

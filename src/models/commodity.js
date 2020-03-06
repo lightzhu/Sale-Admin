@@ -8,7 +8,7 @@ const CommodityModel = {
       amount: '500',
       secCategory: '其他',
       firstCategory: '其他',
-      price: '0',
+      price: '220',
       payType: 'PayPal',
       salesReturn: '支持退货',
       imgList: [],

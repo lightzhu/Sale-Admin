@@ -129,7 +129,7 @@ function removeProduct(req, res, u, b) {
   return res.json(result)
 }
 export default {
-  'GET /api/rule': getTableData,
+  'GET /api/inventory': getTableData,
   'GET /api/disableShop': disableShop,
   'GET /api/removeProduct': removeProduct
 }
