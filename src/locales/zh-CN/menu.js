@@ -8,6 +8,7 @@ export default {
   'menu.register': '注册',
   'menu.order': '订单',
   'menu.commodity': '商品',
+  'menu.account': '个人中心',
   'menu.register.result': '注册结果',
   'menu.dashboard': '控制台',
   'menu.dashboard.analysis': '分析页',

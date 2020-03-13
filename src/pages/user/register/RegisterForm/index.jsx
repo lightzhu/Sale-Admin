@@ -103,7 +103,17 @@ class RegisterForm extends React.Component {
       <div className={styles.container}>
         <div id='components-form-demo-validate-static'>
           <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-            <Form.Item label='E-mail'>
+            <Form.Item label='company' hasFeedback>
+              {getFieldDecorator('company', {
+                rules: [
+                  {
+                    required: true,
+                    message: 'Should be a company name'
+                  }
+                ]
+              })(<Input placeholder='Please input company name' />)}
+            </Form.Item>
+            <Form.Item label='E-mail' hasFeedback>
               {getFieldDecorator('email', {
                 rules: [
                   {
@@ -117,8 +127,7 @@ class RegisterForm extends React.Component {
                 ]
               })(<Input placeholder='Please input your email' />)}
             </Form.Item>
-
-            <Form.Item label='UserName'>
+            <Form.Item label='UserName' hasFeedback>
               {getFieldDecorator('username', {
                 rules: [
                   {
@@ -167,14 +176,6 @@ class RegisterForm extends React.Component {
               })(
                 <Input style={{ width: '100%' }} onBlur={this.validPhoneNum} />
               )}
-            </Form.Item>
-
-            <Form.Item label='Success' hasFeedback validateStatus='success'>
-              <DatePicker
-                style={{
-                  width: '100%'
-                }}
-              />
             </Form.Item>
 
             {/* <Form.Item label="Error" hasFeedback validateStatus="error">

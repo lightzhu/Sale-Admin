@@ -1,9 +1,7 @@
-import { Button, Divider, Dropdown, Radio, message, Form, Table } from 'antd';
-import React, { useState, useRef } from 'react';
-import { updateRule, disableShop, removeProduct } from '../service';
-import styles from '../index.less';
-
-
+import { Button, Divider, Dropdown, Radio, message, Form, Table } from 'antd'
+import React, { useState, useRef } from 'react'
+import { updateRule, disableShop, removeProduct } from '../service'
+import styles from '../index.less'
 
 /**
  * 更新节点
@@ -11,117 +9,124 @@ import styles from '../index.less';
  */
 
 const handleUpdate = async fields => {
-  const hide = message.loading('正在配置');
+  const hide = message.loading('正在配置')
 
   try {
     await updateRule({
       name: fields.name,
       desc: fields.desc,
-      key: fields.key,
-    });
-    hide();
-    message.success('配置成功');
-    return true;
+      key: fields.key
+    })
+    hide()
+    message.success('配置成功')
+    return true
   } catch (error) {
-    hide();
-    message.error('配置失败请重试！');
-    return false;
+    hide()
+    message.error('配置失败请重试！')
+    return false
   }
-};
+}
 
-const SaTable = (props) => {
+const SaTable = props => {
   // const [createModalVisible, handleModalVisible] = useState(false);
   // const [updateModalVisible, handleUpdateModalVisible] = useState(false);
-  const { updateModalVisible, setStepFormValues, updateRowStatus } = props;
+  const { updateModalVisible, setStepFormValues, updateRowStatus } = props
   const unSold = async selectedRows => {
     console.log(selectedRows)
-    const hide = message.loading('正在下架');
-    if (!selectedRows) return true;
+    const hide = message.loading('正在下架')
+    if (!selectedRows) return true
     try {
       let data = await disableShop({
-        key: selectedRows.key,
-      });
+        key: selectedRows.key
+      })
       console.log(data)
       updateRowStatus(data)
-      hide();
-      message.success('下架成功，即将刷新');
-      return true;
+      hide()
+      message.success('下架成功，即将刷新')
+      return true
     } catch (error) {
-      hide();
-      message.error('下架失败，请重试');
-      return false;
+      hide()
+      message.error('下架失败，请重试')
+      return false
     }
-  };
+  }
   const deleSold = async selectedRows => {
     console.log(selectedRows)
-    const hide = message.loading('正在删除');
-    if (!selectedRows) return true;
+    const hide = message.loading('正在删除')
+    if (!selectedRows) return true
     try {
       let data = await removeProduct({
-        key: selectedRows.key,
-      });
+        key: selectedRows.key
+      })
       updateRowStatus(data)
-      hide();
-      message.success('删除成功，即将刷新');
-      return true;
+      hide()
+      message.success('删除成功，即将刷新')
+      return true
     } catch (error) {
-      hide();
-      message.error('删除失败，请重试');
-      return false;
+      hide()
+      message.error('删除失败，请重试')
+      return false
     }
-  };
+  }
   const columns = [
     {
       title: '商品名称',
-      dataIndex: 'name',
+      dataIndex: 'name'
     },
     {
       title: '图片',
       dataIndex: 'image',
       render: (_, record) => (
         <>
-          <img src={record.image} style={{
-            width: "40px",
-            height: "26px"
-          }}></img>
+          <img
+            src={record.image}
+            style={{
+              width: '40px',
+              height: '26px'
+            }}></img>
         </>
-      ),
+      )
     },
     {
       title: '可售数量',
-      dataIndex: 'callNo',
-      sorter: true,
+      dataIndex: 'availableNo'
+      // renderText: val => `${val} 万`,
+    },
+    {
+      title: '销量',
+      dataIndex: 'saleNo',
+      sorter: true
       // renderText: val => `${val} 万`,
     },
     {
       title: '上架数量',
-      dataIndex: 'productNo',
+      dataIndex: 'productNo'
       // sorter: true,
     },
     {
       title: '状态',
       dataIndex: 'status',
-      render: (val) => {
-        let text = '';
+      render: val => {
+        let text = ''
         if (val == 0) {
-          text = '不可售';
+          text = '不可售'
         } else if (val == 1) {
-          text = '销售中';
+          text = '销售中'
         } else {
-          text = '缺货';
+          text = '缺货'
         }
-        return text;
+        return text
       }
     },
     {
       title: '更新时间',
       dataIndex: 'updatedAt',
-      valueType: 'dateTime',
+      valueType: 'dateTime'
     },
     {
       title: '价格($)',
       dataIndex: 'price',
-      renderText: val => `${val}p`,
+      renderText: val => `${val}p`
     },
     {
       title: '操作',
@@ -131,23 +136,28 @@ const SaTable = (props) => {
         <>
           <a
             onClick={() => {
-              updateModalVisible(true);
-              setStepFormValues(record);
-            }}
-          >
+              updateModalVisible(true)
+              setStepFormValues(record)
+            }}>
             编辑
           </a>
-          <Divider type="vertical" />
-          <a onClick={() => {
-            unSold(record)
-          }}>停售</a>
-          <Divider type="vertical" />
-          <a onClick={() => {
-            deleSold(record)
-          }}>删除商品</a>
+          <Divider type='vertical' />
+          <a
+            onClick={() => {
+              unSold(record)
+            }}>
+            停售
+          </a>
+          <Divider type='vertical' />
+          <a
+            onClick={() => {
+              deleSold(record)
+            }}>
+            删除商品
+          </a>
         </>
-      ),
-    },
+      )
+    }
   ]
   const { tableData } = props
   // state = {
@@ -163,12 +173,11 @@ const SaTable = (props) => {
         className={styles.mainTable}
         columns={columns}
         dataSource={tableData}
-        size="small"
+        size='small'
         bordered
       />
     </>
-  );
+  )
+}
 
-};
-
-export default SaTable;
+export default SaTable

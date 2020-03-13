@@ -6,6 +6,7 @@ export default {
   'menu.login': 'Login',
   'menu.register': 'Register',
   'menu.inventory': 'Inventory',
+  'menu.account': 'Account',
   'menu.register.result': 'Register Result',
   'menu.commodity': 'Commodity',
   'menu.order': 'Order',

@@ -1,13 +1,12 @@
-import defaultSettings from './defaultSettings' // https://umijs.org/config/
+import defaultSettings from './defaultSettings'; // https://umijs.org/config/
 
-import slash from 'slash2'
-import themePluginConfig from './themePluginConfig'
-const { pwa } = defaultSettings // preview.pro.ant.design only do not use in your production ;
+import slash from 'slash2';
+import themePluginConfig from './themePluginConfig';
+const { pwa } = defaultSettings; // preview.pro.ant.design only do not use in your production ;
 // preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
 
-const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env
-const isAntDesignProPreview =
-  ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site'
+const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
+const isAntDesignProPreview = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site';
 const plugins = [
   ['umi-plugin-antd-icon-config', {}],
   [
@@ -15,7 +14,7 @@ const plugins = [
     {
       antd: true,
       dva: {
-        hmr: true
+        hmr: true,
       },
       locale: {
         // default false
@@ -23,27 +22,27 @@ const plugins = [
         // default zh-CN
         default: 'zh-CN',
         // default true, when it is true, will use `navigator.language` overwrite default
-        baseNavigator: true
+        baseNavigator: true,
       },
       dynamicImport: {
         loadingComponent: './components/PageLoading/index',
         webpackChunkName: true,
-        level: 3
+        level: 3,
       },
       pwa: pwa
         ? {
           workboxPluginMode: 'InjectManifest',
           workboxOptions: {
-            importWorkboxFrom: 'local'
-          }
+            importWorkboxFrom: 'local',
+          },
         }
-        : false // default close dll, because issue https://github.com/ant-design/ant-design-pro/issues/4665
+        : false, // default close dll, because issue https://github.com/ant-design/ant-design-pro/issues/4665
       // dll features https://webpack.js.org/plugins/dll-plugin/
       // dll: {
       //   include: ['dva', 'dva/router', 'dva/saga', 'dva/fetch'],
       //   exclude: ['@babel/runtime', 'netlify-lambda'],
       // },
-    }
+    },
   ],
   [
     'umi-plugin-pro-block',
@@ -51,27 +50,27 @@ const plugins = [
       moveMock: false,
       moveService: false,
       modifyRequest: true,
-      autoAddMenu: true
-    }
-  ]
-]
+      autoAddMenu: true,
+    },
+  ],
+];
 
 if (isAntDesignProPreview) {
   // 针对 preview.pro.ant.design 的 GA 统计代码
   plugins.push([
     'umi-plugin-ga',
     {
-      code: 'UA-72788897-6'
-    }
-  ])
-  plugins.push(['umi-plugin-antd-theme', themePluginConfig])
+      code: 'UA-72788897-6',
+    },
+  ]);
+  plugins.push(['umi-plugin-antd-theme', themePluginConfig]);
 }
 
 export default {
   plugins,
   hash: true,
   targets: {
-    ie: 11
+    ie: 11,
   },
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: [
@@ -82,14 +81,14 @@ export default {
         {
           name: 'login',
           path: '/user/login',
-          component: './user/login'
+          component: './user/login',
         },
         {
           name: 'register',
           path: '/user/register',
-          component: './user/register'
-        }
-      ]
+          component: './user/register',
+        },
+      ],
     },
     {
       path: '/',
@@ -102,64 +101,71 @@ export default {
           routes: [
             {
               path: '/',
-              redirect: '/home'
+              redirect: '/home',
             },
             {
               name: 'home',
               icon: 'home',
               path: '/home',
-              component: './Home'
+              component: './Home',
             },
             {
               name: 'inventory',
               icon: 'table',
               path: '/inventory',
-              component: './Inventory'
+              component: './Inventory',
             },
             {
               name: 'order',
               icon: 'bars',
               path: '/order',
-              component: './Order'
+              component: './Order',
             },
             {
               name: 'commodity',
               icon: 'file-done',
               path: '/commodity',
-              component: './Commodity'
+              component: './Commodity',
+            },
+            {
+              name: 'account',
+              icon: 'user',
+              path: '/account',
+              component: './Account',
             },
             {
               path: '/welcome',
               name: 'welcome',
               icon: 'smile',
-              component: './Welcome'
+              component: './Welcome',
+              authority: ['admin'],
             },
             {
               path: '/admin',
               name: 'admin',
               icon: 'crown',
               component: './Admin',
-              authority: ['admin']
+              authority: ['admin'],
             },
             {
               name: 'dashboard',
               icon: 'desktop',
               path: '/dashboard',
-              component: './Dashboard'
+              component: './Dashboard',
             },
             {
-              component: './404'
-            }
-          ]
+              component: './404',
+            },
+          ],
         },
         {
-          component: './404'
-        }
-      ]
+          component: './404',
+        },
+      ],
     },
     {
-      component: './404'
-    }
+      component: './404',
+    },
   ],
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
@@ -167,11 +173,11 @@ export default {
   },
   define: {
     ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:
-      ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION || '' // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
+      ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION || '', // preview.pro.ant.design only do not use in your production ; preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
   },
   ignoreMomentLocale: true,
   lessLoaderOptions: {
-    javascriptEnabled: true
+    javascriptEnabled: true,
   },
   disableRedirectHoist: true,
   cssLoaderOptions: {
@@ -182,25 +188,25 @@ export default {
         context.resourcePath.includes('ant.design.pro.less') ||
         context.resourcePath.includes('global.less')
       ) {
-        return localName
+        return localName;
       }
 
-      const match = context.resourcePath.match(/src(.*)/)
+      const match = context.resourcePath.match(/src(.*)/);
 
       if (match && match[1]) {
-        const antdProPath = match[1].replace('.less', '')
+        const antdProPath = match[1].replace('.less', '');
         const arr = slash(antdProPath)
           .split('/')
           .map(a => a.replace(/([A-Z])/g, '-$1'))
-          .map(a => a.toLowerCase())
-        return `antd-pro${arr.join('-')}-${localName}`.replace(/--/g, '-')
+          .map(a => a.toLowerCase());
+        return `antd-pro${arr.join('-')}-${localName}`.replace(/--/g, '-');
       }
 
-      return localName
-    }
+      return localName;
+    },
   },
   manifest: {
-    basePath: '/' // chainWebpack: webpackPlugin,
+    basePath: '/', // chainWebpack: webpackPlugin,
     // proxy: {
     //   '/server/api/': {
     //     target: 'https://preview.pro.ant.design/',
@@ -208,5 +214,5 @@ export default {
     //     pathRewrite: { '^/server': '' },
     //   },
     // },
-  }
-}
+  },
+};

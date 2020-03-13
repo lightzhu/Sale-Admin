@@ -1,31 +1,54 @@
-import { queryCurrent, query as queryUsers } from "@/services/user";
+import { queryCurrent, query as queryUsers, queryNotices, queryCity, queryProvince } from "@/services/user";
 const UserModel = {
   namespace: "user",
   state: {
-    currentUser: {}
+    currentUser: {},
+    province: [],
+    city: [],
+    isLoading: false,
   },
   effects: {
     *fetch(_, { call, put }) {
       const response = yield call(queryUsers);
+      console.log(response);
       yield put({
         type: "save",
         payload: response
       });
     },
-
     *fetchCurrent(_, { call, put }) {
-      const response = yield call(queryCurrent);
+      const current = yield call(queryCurrent);
+      console.log(current);
       yield put({
         type: "saveCurrentUser",
-        payload: response
+        payload: current
       });
-    }
+    },
+    *fetchProvince(_, { call, put }) {
+      yield put({
+        type: 'changeLoading',
+        payload: true,
+      });
+      const province = yield call(queryProvince);
+      console.log(province);
+      yield put({
+        type: 'setProvince',
+        payload: province,
+      });
+    },
+
+    *fetchCity({ payload }, { call, put }) {
+      const response = yield call(queryCity, payload);
+      yield put({
+        type: 'setCity',
+        payload: response,
+      });
+    },
   },
   reducers: {
     saveCurrentUser(state, action) {
       return { ...state, currentUser: action.payload || {} };
     },
-
     changeNotifyCount(
       state = {
         currentUser: {}
@@ -40,7 +63,18 @@ const UserModel = {
           unreadCount: action.payload.unreadCount
         }
       };
-    }
+    },
+    setProvince(state, action) {
+      return { ...state, province: action.payload };
+    },
+
+    setCity(state, action) {
+      return { ...state, city: action.payload };
+    },
+
+    changeLoading(state, action) {
+      return { ...state, isLoading: action.payload };
+    },
   }
 };
 export default UserModel;

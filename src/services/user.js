@@ -8,3 +8,9 @@ export async function queryCurrent() {
 export async function queryNotices() {
   return request("/api/notices");
 }
+export async function queryProvince() {
+  return request("/api/province");
+}
+export async function queryCity(province) {
+  return request(`/api/city/${province}`);
+}
