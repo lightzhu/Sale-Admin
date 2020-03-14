@@ -3,14 +3,19 @@ const CommodityModel = {
   namespace: 'commodity',
   state: {
     current: 'info',
-    step: {
+    product: {
       name: 'Alex',
       amount: '500',
-      secCategory: '其他',
+      subTitle: '',
       firstCategory: '其他',
+      secCategory: '其他',
       price: '220',
       payType: 'PayPal',
       salesReturn: '支持退货',
+      size: 'XXL',
+      color: 'blue',
+      otherOne: '秋季',
+      otherTwo: '青少年',
       imgList: [],
       describe:
         '全新带盒: A brand-new, unused, and unworn item (including handmade items) in the original packaging (such as the original box or bag) and/or with the original tags attached.'
