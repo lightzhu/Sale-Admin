@@ -1,5 +1,6 @@
 import city from './geographic/city.json';
 import province from './geographic/province.json';
+import Mock from 'mockjs';
 function getFakeCaptcha(req, res) {
   return res.json('captcha-xxx')
 } // 代码中会兼容本地 service mock 以及部署站点的静态数据
@@ -46,26 +47,21 @@ export default {
     })
   },
   // GET POST 可省略
-  'GET /api/users': [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park'
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park'
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park'
-    }
-  ],
+  'GET /api/users': Mock.mock({
+    'data|100': [
+      {
+        key: '@guid(100)',
+        id: '@id(10000)',
+        title: '@sentence(1, 4)',
+        company: '@name',
+        email: '@email',
+        name: '@name',
+        phone_number: '@natural(10000000000, 19999999999)',
+        address: '@county(true)',
+        reigster_time: '@datetime'
+      }
+    ]
+  }),
   'POST /api/login/account': (req, res) => {
     const { password, username, type } = req.body
     console.log(password, username, type + '>>0')

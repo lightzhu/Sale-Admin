@@ -1,9 +1,11 @@
-import { addFakeList, queryOrderList, removeFakeList, updateFakeList } from './service'
+import { addFakeList, queryOrderList, removeFakeList, updateFakeList, queryRefundList, queryRefundCondition } from './service'
 
 const Model = {
   namespace: 'order',
   state: {
-    list: []
+    list: [],
+    refund: [],
+    totalSize: 0
   },
   effects: {
     *fetch({ payload }, { call, put }) {
@@ -37,7 +39,21 @@ const Model = {
         type: 'queryList',
         payload: response
       })
-    }
+    },
+    *fetchRefundList({ payload }, { call, put }) {
+      const response = yield call(queryRefundList, payload)
+      yield put({
+        type: 'updateRefundList',
+        payload: response
+      })
+    },
+    *fetchRefundCondition({ payload }, { call, put }) {
+      const response = yield call(queryRefundCondition, payload)
+      yield put({
+        type: 'updateRefundList',
+        payload: response
+      })
+    },
   },
   reducers: {
     queryList(state, action) {
@@ -46,6 +62,12 @@ const Model = {
 
     appendList(state = { list: [] }, action) {
       return { ...state, list: state.list.concat(action.payload) }
+    },
+    updateRefundList(state = { refund: [] }, action) {
+      action.payload.data.forEach((item) => {
+        item['description'] = `${item['description']};卖家地址:${item.address}。`
+      })
+      return { ...state, totalSize: action.payload.total, refund: action.payload.data }
     }
   }
 }

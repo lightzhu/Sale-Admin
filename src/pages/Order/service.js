@@ -33,3 +33,15 @@ export async function updateFakeList(params) {
     data: { ...restParams, method: 'update' }
   })
 }
+export async function queryRefundList(params) {
+  return request('/api/refund_list', {
+    method: 'POST',
+    params: params
+  })
+}
+export async function queryRefundCondition(params) {
+  return request('/api/refund_list_condition', {
+    method: 'POST',
+    params: params
+  })
+}

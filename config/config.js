@@ -110,35 +110,71 @@ export default {
               component: './Home',
             },
             {
-              name: 'inventory',
-              icon: 'table',
-              path: '/inventory',
-              component: './Inventory',
-            },
-            {
               name: 'order',
               icon: 'bars',
               path: '/order',
-              component: './Order',
+              // component: './Order',
+              routes: [
+                {
+                  name: 'order_list',
+                  icon: 'user',
+                  path: '/order/order_list',
+                  component: './Order'
+                },
+                {
+                  name: 'refund_list',
+                  icon: 'solution',
+                  path: '/order/refund_list',
+                  component: './Order/refund'
+                },
+              ],
             },
             {
               name: 'commodity',
-              icon: 'file-done',
+              icon: 'shop',
               path: '/commodity',
-              component: './Commodity',
+              // component: './Commodity',
+              // redirect: '/commodity/inventory',
+              routes: [
+                {
+                  name: 'inventory',
+                  icon: 'table',
+                  path: '/commodity/inventory',
+                  component: './Inventory'
+                },
+                {
+                  path: '/commodity/commodity_add',
+                  name: 'commodity_add',
+                  icon: 'file-done',
+                  component: './Commodity'
+                },
+              ],
             },
             {
               name: 'account',
-              icon: 'user',
+              icon: 'team',
               path: '/account',
-              component: './Account',
+              // component: './Account',
+              routes: [
+                {
+                  name: 'mine',
+                  icon: 'user',
+                  path: '/account/mine',
+                  component: './Account'
+                },
+                {
+                  name: 'user_list',
+                  icon: 'solution',
+                  path: '/account/user_list',
+                  component: './Account/user'
+                },
+              ],
             },
             {
               path: '/welcome',
               name: 'welcome',
               icon: 'smile',
               component: './Welcome',
-              authority: ['admin'],
             },
             {
               path: '/admin',

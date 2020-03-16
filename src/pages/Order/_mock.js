@@ -1,3 +1,4 @@
+import Mock from 'mockjs';
 const titles = [
   '华为 mate 30 Pro 5g 麒麟 990 智能手机 6.53" 双 SIM 4 真正的相机',
   'ZOSI Wireless CCTV 1080P NVR Kit HD WiFi IP Camera Home Security System Outdoor',
@@ -124,8 +125,55 @@ function postFakeList(req, res) {
 
   return res.json(result)
 }
-
+const fakeRefundList = Mock.mock({
+  'data|10': [
+    {
+      id: '@id',
+      key: '@guid(1000)',
+      ptitle: '@sentence(10, 20)',
+      pcode: '@natural(10000000)',
+      puser: '@name',
+      pconnect: '@email',
+      "preason|1": [
+        "不想要了",
+        "买多了",
+        "无法使用"
+      ],
+      pmoney: '@integer(1, 1000)',
+      phone_number: '@natural(10000)',
+      address: '@county(true)',
+      ptime: '@datetime',
+      description: `买家留言:${'@word(5,20)'}`
+    }
+  ],
+  total: 100
+})
+const fakeRefundCondition = Mock.mock({
+  'data|5': [
+    {
+      id: '@id',
+      key: '@guid(1000)',
+      ptitle: '@sentence(10, 20)',
+      pcode: '@natural(10000000)',
+      puser: '@name',
+      pconnect: '@email',
+      "preason|1": [
+        "不想要了",
+        "买多了",
+        "无法使用"
+      ],
+      pmoney: '@integer(1, 1000)',
+      phone_number: '@natural(10000)',
+      address: '@county(true)',
+      ptime: '@datetime',
+      description: `买家留言:${'@word(5,20)'}`
+    }
+  ],
+  total: 5
+})
 export default {
   'GET  /api/order_list': getOrderList,
-  'POST  /api/fake_list': postFakeList
+  'POST  /api/fake_list': postFakeList,
+  'POST  /api/refund_list': fakeRefundList,
+  'POST  /api/refund_list_condition': fakeRefundCondition
 }
