@@ -1,13 +1,15 @@
 @import '~antd/es/style/themes/default.less';
 
 .stepForm {
-  max-width: 600px;
+  max-width: 800px;
   margin: 40px auto 0;
 }
 
 .stepFormText {
   margin-bottom: 24px;
+
   :global {
+
     .ant-form-item-label,
     .ant-form-item-control {
       line-height: 22px;
@@ -24,18 +26,21 @@
 .desc {
   padding: 0 56px;
   color: @text-color-secondary;
+
   h3 {
     margin: 0 0 12px 0;
     color: @text-color-secondary;
     font-size: 16px;
     line-height: 32px;
   }
+
   h4 {
     margin: 0 0 4px 0;
     color: @text-color-secondary;
     font-size: 14px;
     line-height: 22px;
   }
+
   p {
     margin-top: 0;
     margin-bottom: 12px;
@@ -51,15 +56,18 @@
 
 .information {
   line-height: 22px;
+
   :global {
     .ant-row:not(:last-child) {
       margin-bottom: 24px;
     }
   }
+
   .label {
     padding-right: 8px;
     color: @heading-color;
     text-align: right;
+
     @media screen and (max-width: @screen-sm) {
       text-align: left;
     }
@@ -75,4 +83,29 @@
 
 .uppercase {
   font-size: 12px;
+}
+
+// 变体样式
+.container {
+  :global {
+    .editable-cell {
+      position: relative;
+    }
+
+    .editable-cell-value-wrap {
+      padding: 5px 12px;
+      cursor: pointer;
+    }
+
+    .editable-row:hover .editable-cell-value-wrap {
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+      padding: 4px 11px;
+    }
+
+    .ant-table-footer {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
 }

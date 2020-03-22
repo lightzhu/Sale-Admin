@@ -12,6 +12,7 @@ import {
 import React, { useState } from 'react'
 import { connect } from 'dva'
 import request from '@/utils/request'
+import Variantion from './Variantion'
 import styles from './index.less'
 const formItemLayout = {
   labelCol: {
@@ -137,38 +138,7 @@ const Advanced = props => {
           margin: '24px 0'
         }}
       />
-      <Form.Item {...formItemLayout} label='size'>
-        {getFieldDecorator('size', {
-          initialValue: product.size
-        })(<Input />)}
-      </Form.Item>
-      <Form.Item {...formItemLayout} label='color'>
-        {getFieldDecorator('color', {
-          initialValue: product.color
-        })(<Input />)}
-      </Form.Item>
-      <Form.Item {...formItemLayout} label='Other One'>
-        {getFieldDecorator('otherOne', {
-          initialValue: product.otherTwo
-        })(<Input />)}
-      </Form.Item>
-      <Form.Item {...formItemLayout} label='Other Two'>
-        {getFieldDecorator('otherTwo', {
-          initialValue: product.otherTwo
-        })(<Input />)}
-      </Form.Item>
-      <Form.Item {...formItemLayout} label='Price'>
-        {getFieldDecorator('price', {
-          initialValue: product.price,
-          rules: [
-            {
-              required: true,
-              message: 'Please input price!'
-            }
-          ]
-        })(<Input prefix='$' type='number' />)}
-      </Form.Item>
-
+      <Variantion></Variantion>
       <Form.Item
         style={{
           marginBottom: 8
@@ -176,11 +146,7 @@ const Advanced = props => {
         wrapperCol={{
           xs: {
             span: 24,
-            offset: 0
-          },
-          sm: {
-            span: formItemLayout.wrapperCol.span,
-            offset: formItemLayout.labelCol.span
+            offset: 8
           }
         }}
         label=''>
