@@ -6,29 +6,30 @@ import styles from './index.less'
 const { Option } = Select
 const formItemLayout = {
   labelCol: {
-    span: 5
+    span: 5,
   },
   wrapperCol: {
-    span: 19
-  }
+    span: 19,
+  },
 }
 
-const BasicInfo = props => {
-  const { form, dispatch, data, category } = props
+const BasicInfo = (props) => {
+  const { form, dispatch, data, category, shopInfo, shopsList } = props
+  console.log(shopsList)
   const secondCate = Object.values(category)[0]
-  console.log(secondCate)
   const firstCate = Object.keys(category)
-  console.log(data)
-
-  // if (!data) {
-  //   return null;
-  // }
-
-  const creatCategory = options => {
+  // console.log(data)
+  if (dispatch && !shopsList.length) {
+    dispatch({
+      type: 'shop/fetchShops',
+      payload: { id: window.localStorage.getItem('id') },
+    })
+  }
+  const creatCategory = (options) => {
     return options.map((item, index) => {
       return (
-        <Option value={item} key={index}>
-          {item}
+        <Option value={item.val} key={index}>
+          {item.name}
         </Option>
       )
     })
@@ -39,29 +40,48 @@ const BasicInfo = props => {
     validateFields((err, values) => {
       if (!err && dispatch) {
         dispatch({
-          type: 'commodity/saveStepFormData',
-          payload: values
+          type: 'commodity/saveBasicInfo',
+          payload: values,
         })
-        dispatch({
-          type: 'commodity/saveCurrentStep',
-          payload: 'confirm'
-        })
+        // dispatch({
+        //   type: 'commodity/saveCurrentStep',
+        //   payload: 'confirm',
+        // })
       }
     })
   }
-
+  const creatShopList = () => {
+    return shopsList.map((item, index) => {
+      return (
+        <Option value={item.id} key={index}>
+          {item.name}
+        </Option>
+      )
+    })
+  }
   return (
     <Fragment>
       <Form layout='horizontal' className={styles.stepForm}>
+        <Form.Item {...formItemLayout} label='店铺编号'>
+          {getFieldDecorator('shopId', {
+            initialValue: data.shopId,
+            rules: [
+              {
+                required: true,
+                message: '请输入店铺编号',
+              },
+            ],
+          })(<Select placeholder='付款方式'>{creatShopList()}</Select>)}
+        </Form.Item>
         <Form.Item {...formItemLayout} label='商品名称'>
           {getFieldDecorator('name', {
             initialValue: data.name,
             rules: [
               {
                 required: true,
-                message: '请输入商品名称'
-              }
-            ]
+                message: '请输入商品名称',
+              },
+            ],
           })(<Input placeholder='请输入商品名称' />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label='副标题'>
@@ -70,9 +90,9 @@ const BasicInfo = props => {
             rules: [
               {
                 required: true,
-                message: '请输入副标题'
-              }
-            ]
+                message: '请输入副标题',
+              },
+            ],
           })(<Input placeholder='请输入副标题' />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label='选择类目'>
@@ -81,9 +101,9 @@ const BasicInfo = props => {
             rules: [
               {
                 required: true,
-                message: '请选择商品类目'
-              }
-            ]
+                message: '请选择商品类目',
+              },
+            ],
           })(
             <Select placeholder='选择商品主类目'>
               {creatCategory(firstCate)}
@@ -91,14 +111,14 @@ const BasicInfo = props => {
           )}
         </Form.Item>
         <Form.Item {...formItemLayout} label='二级目录'>
-          {getFieldDecorator('secCategory', {
-            initialValue: data.secCategory,
+          {getFieldDecorator('typeId', {
+            initialValue: data.typeId,
             rules: [
               {
                 required: true,
-                message: '请选择二级目录'
-              }
-            ]
+                message: '请选择二级目录',
+              },
+            ],
           })(
             <Select placeholder='二级目录'>{creatCategory(secondCate)}</Select>
           )}
@@ -109,63 +129,59 @@ const BasicInfo = props => {
             rules: [
               {
                 required: true,
-                message: '请输入库存'
-              }
-            ]
+                message: '请输入库存',
+              },
+            ],
           })(<Input type='number' placeholder='请输入库存' />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label='付款方式'>
-          {getFieldDecorator('payType', {
-            initialValue: data.payType,
+          {getFieldDecorator('payWay', {
+            initialValue: data.payWay,
             rules: [
               {
                 required: true,
-                message: '请选择付款方式'
-              }
-            ]
+                message: '请选择付款方式',
+              },
+            ],
           })(
             <Select placeholder='付款方式'>
-              <Option value='alipay'>支付宝</Option>
-              <Option value='bank'>银行账户</Option>
+              <Option value='1'>支付宝</Option>
+              <Option value='2'>银行账户</Option>
             </Select>
           )}
         </Form.Item>
         <Form.Item {...formItemLayout} label='商品描述'>
-          {getFieldDecorator('describe', {
-            initialValue: data.describe,
+          {getFieldDecorator('productDesc', {
+            initialValue: data.productDesc,
             rules: [
               {
                 required: true,
-                message: '请输入商品信息'
-              }
-            ]
+                message: '请输入商品信息',
+              },
+            ],
           })(<Input.TextArea rows={4} placeholder='请输入商品信息' />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label='退货说明'>
-          {getFieldDecorator('salesReturn', {
-            initialValue: data.salesReturn,
+          {getFieldDecorator('returnDesc', {
+            initialValue: data.returnDesc,
             rules: [
               {
                 required: true,
-                message: '请输入退货说明'
-              }
-              // {
-              //   pattern: /^(\d+)((?:\.\d+)?)$/,
-              //   message: '请输入合法金额数字',
-              // },
-            ]
+                message: '请输入退货说明',
+              },
+            ],
           })(<Input placeholder='退货说明' />)}
         </Form.Item>
         <Form.Item
           wrapperCol={{
             xs: {
               span: 24,
-              offset: 0
+              offset: 0,
             },
             sm: {
               span: formItemLayout.wrapperCol.span,
-              offset: formItemLayout.labelCol.span
-            }
+              offset: formItemLayout.labelCol.span,
+            },
           }}
           label=''>
           <Button type='primary' onClick={onValidateForm}>
@@ -175,7 +191,7 @@ const BasicInfo = props => {
       </Form>
       <Divider
         style={{
-          margin: '40px 0 24px'
+          margin: '40px 0 24px',
         }}
       />
       <div className={styles.desc}>
@@ -188,6 +204,8 @@ const BasicInfo = props => {
   )
 }
 
-export default connect(({ commodity }) => ({
-  data: commodity.product
+export default connect(({ commodity, shop }) => ({
+  data: commodity.product,
+  shopInfo: shop.shopInfo,
+  shopsList: shop.shopsList,
 }))(Form.create()(BasicInfo))

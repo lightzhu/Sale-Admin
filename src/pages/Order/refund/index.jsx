@@ -9,28 +9,34 @@ class Refund extends Component {
     this.columns = [
       { title: '退货用户', dataIndex: 'puser', key: 'puser', align: 'center' },
       { title: '订单编号', dataIndex: 'pcode', key: 'pcode', align: 'center' },
-      { title: 'Product', dataIndex: 'ptitle', key: 'ptitle', align: 'center' },
+      {
+        title: 'Product',
+        dataIndex: 'ptitle',
+        key: 'ptitle',
+        align: 'center',
+        width: 350,
+      },
       {
         title: '退款金额',
         dataIndex: 'pmoney',
         key: 'pmoney',
         align: 'center',
-        width: 120,
-        render: text => <span>$ {text}</span>
+        width: 100,
+        render: (text) => <span>$ {text}</span>,
       },
       {
         title: '联系方式',
         dataIndex: 'pconnect',
         key: 'pconnect',
         width: 220,
-        align: 'center'
+        align: 'center',
       },
       {
         title: '退货原因',
         dataIndex: 'preason',
         key: 'preason',
-        width: 120,
-        align: 'center'
+        width: 100,
+        align: 'center',
       },
       {
         title: 'Action',
@@ -48,20 +54,20 @@ class Refund extends Component {
               <a className='ant-dropdown-link'>delete</a>
             </span>
           )
-        }
-      }
+        },
+      },
     ]
   }
   handleTableChange = (pagination, filters, sorter) => {
     const pager_current = pagination.current
-    console.log(pager_current)
+    // console.log(pager_current)
     const { dispatch } = this.props
     dispatch({
       type: 'order/fetchRefundList',
       payload: {
         pageSize: 20,
-        pageNum: pager_current
-      }
+        pageNum: pager_current,
+      },
     })
   }
   search(value) {
@@ -69,7 +75,7 @@ class Refund extends Component {
     const { dispatch } = this.props
     dispatch({
       type: 'order/fetchRefundCondition',
-      payload: value
+      payload: value,
     })
   }
   componentDidMount() {
@@ -78,8 +84,8 @@ class Refund extends Component {
       type: 'order/fetchRefundList',
       payload: {
         pageSize: 20,
-        pageNum: 1
-      }
+        pageNum: 1,
+      },
     })
   }
   render() {
@@ -94,9 +100,9 @@ class Refund extends Component {
           loading={loading}
           bordered
           pagination={{
-            total: totalSize
+            total: totalSize,
           }}
-          expandedRowRender={record => (
+          expandedRowRender={(record) => (
             <p style={{ margin: 0 }}>{record.description}</p>
           )}
           dataSource={refund}
@@ -109,5 +115,5 @@ class Refund extends Component {
 export default connect(({ order, loading }) => ({
   refund: order.refund,
   totalSize: order.totalSize,
-  loading: loading.models.order
+  loading: loading.models.order,
 }))(Refund)

@@ -2,8 +2,13 @@
 
 .main {
   width: 100%;
+
   // background: @component-background;
+  .spin {
+    text-align: center;
+  }
 }
+
 .sumtop {
   h5 {
     line-height: 50px;
@@ -11,31 +16,38 @@
     font-weight: 600;
     margin: 0;
   }
+
   .sumcontent {
     display: flex;
     justify-content: space-between;
-    > div {
+
+    >div {
       width: 49%;
     }
   }
+
   .topleft,
   .topright {
     background: @component-background;
-    > ul {
+
+    >ul {
       padding: 10px 0;
       display: flex;
       flex-direction: row;
       justify-content: space-around;
       align-items: center;
+
       li {
         flex-grow: 1;
         text-align: center;
         font-size: 16px;
+
         span {
           margin: 0 5px;
           font-size: 14px;
           color: #5d5adc;
         }
+
         p:first-child {
           line-height: 30px;
           font-weight: 600;

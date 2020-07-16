@@ -1,60 +1,52 @@
 import React from 'react'
-import {
-  Form,
-  Input,
-  DatePicker,
-  TimePicker,
-  Select,
-  Button,
-  InputNumber
-} from 'antd'
+import { Form, Input, Select, Button } from 'antd'
 import styles from './index.less'
-import { valid } from 'mockjs'
 
-const { Option } = Select
 const formItemLayout = {
   labelCol: {
     xs: {
-      span: 24
+      span: 24,
     },
     sm: {
-      span: 5
-    }
+      span: 5,
+    },
   },
   wrapperCol: {
     xs: {
-      span: 24
+      span: 24,
     },
     sm: {
-      span: 12
-    }
-  }
+      span: 12,
+    },
+  },
 }
 const tailFormItemLayout = {
   wrapperCol: {
     xs: {
       span: 12,
-      offset: 4
+      offset: 4,
     },
     sm: {
       span: 12,
-      offset: 4
-    }
-  }
+      offset: 4,
+    },
+  },
 }
 class RegisterForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       isPhoneNum: '',
-      confirmDirty: false
+      confirmDirty: false,
     }
   }
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault()
+    const submit = this.props.submit
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
+        submit(values)
       } else {
         console.log(values)
       }
@@ -79,21 +71,20 @@ class RegisterForm extends React.Component {
       callback()
     }
   }
-  handleConfirmBlur = e => {
+  handleConfirmBlur = (e) => {
     const { value } = e.target
     this.setState({ confirmDirty: this.state.confirmDirty || !!value })
   }
-  validPhoneNum = e => {
+  validPhoneNum = (e) => {
     const { isMobile } = this.props
     const { value } = e.target
-    console.log(0)
-    if (isMobile(value)) {
+    if (value.toString().trim().length == 0 || isMobile(value)) {
       this.setState({
-        isPhoneNum: 'success'
+        isPhoneNum: 'success',
       })
     } else {
       this.setState({
-        isPhoneNum: 'error'
+        isPhoneNum: 'error',
       })
     }
   }
@@ -103,38 +94,38 @@ class RegisterForm extends React.Component {
       <div className={styles.container}>
         <div id='components-form-demo-validate-static'>
           <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-            <Form.Item label='company' hasFeedback>
-              {getFieldDecorator('company', {
+            <Form.Item label='nickname' hasFeedback>
+              {getFieldDecorator('nickname', {
                 rules: [
                   {
                     required: true,
-                    message: 'Should be a company name'
-                  }
-                ]
-              })(<Input placeholder='Please input company name' />)}
+                    message: 'Should be a nick name',
+                  },
+                ],
+              })(<Input placeholder='Please input nick name' />)}
             </Form.Item>
             <Form.Item label='E-mail' hasFeedback>
               {getFieldDecorator('email', {
                 rules: [
                   {
                     type: 'email',
-                    message: 'The input is not valid E-mail!'
+                    message: 'The input is not valid E-mail!',
                   },
                   {
                     required: true,
-                    message: 'Please input your E-mail!'
-                  }
-                ]
+                    message: 'Please input your E-mail!',
+                  },
+                ],
               })(<Input placeholder='Please input your email' />)}
             </Form.Item>
             <Form.Item label='UserName' hasFeedback>
-              {getFieldDecorator('username', {
+              {getFieldDecorator('name', {
                 rules: [
                   {
                     required: true,
-                    message: 'Should be only alphabets'
-                  }
-                ]
+                    message: 'Should be only alphabets',
+                  },
+                ],
               })(<Input placeholder='Please input name' maxLength={20} />)}
             </Form.Item>
             <Form.Item label='Password' hasFeedback>
@@ -142,12 +133,12 @@ class RegisterForm extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: 'Please input your password!'
+                    message: 'Please input your password!',
                   },
                   {
-                    validator: this.validateToNextPassword
-                  }
-                ]
+                    validator: this.validateToNextPassword,
+                  },
+                ],
               })(<Input.Password />)}
             </Form.Item>
             <Form.Item label='Confirm Password' hasFeedback>
@@ -155,12 +146,12 @@ class RegisterForm extends React.Component {
                 rules: [
                   {
                     required: true,
-                    message: 'Please confirm your password!'
+                    message: 'Please confirm your password!',
                   },
                   {
-                    validator: this.compareToFirstPassword
-                  }
-                ]
+                    validator: this.compareToFirstPassword,
+                  },
+                ],
               })(<Input.Password onBlur={this.handleConfirmBlur} />)}
             </Form.Item>
             <Form.Item
@@ -170,9 +161,9 @@ class RegisterForm extends React.Component {
                 rules: [
                   {
                     required: false,
-                    message: 'Please input your phone number!'
-                  }
-                ]
+                    message: 'Please input your phone number!',
+                  },
+                ],
               })(
                 <Input style={{ width: '100%' }} onBlur={this.validPhoneNum} />
               )}

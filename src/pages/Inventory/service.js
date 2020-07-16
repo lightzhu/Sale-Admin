@@ -1,22 +1,23 @@
 import request from '@/utils/request'
 
 export async function queryTable(params) {
-  return request('/api/inventory', {
-    params
+  return request('/product/inventory', {
+    method: 'POST',
+    data: { ...params }
   })
 }
 export async function disableShop(params) {
-  return request('/api/disableShop', {
+  return request('/product/disableProduct', {
     params
   })
 }
 export async function removeProduct(params) {
-  return request('/api/removeProduct', {
+  return request('/product/removeProduct', {
     params
   })
 }
 export async function updateRule(params) {
-  return request('/api/rule', {
+  return request('/product/rule', {
     method: 'POST',
     data: { ...params, method: 'update' }
   })

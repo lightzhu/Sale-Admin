@@ -1,3 +1,5 @@
+@import '~antd/es/style/themes/default.less';
+
 .listBox {
   h5 {
     line-height: 50px;
@@ -5,25 +7,31 @@
     font-weight: 600;
     margin: 0;
   }
+
   .list {
     background: #fff;
     padding: 15px;
   }
+
   .content {
     width: 200px;
+
     span {
       margin: 0 5px;
     }
   }
+
   .amount {
     font-weight: 600;
   }
+
   .head {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 }
+
 :global {
   .felx-list {
     .ant-list-item-meta-content {
@@ -32,28 +40,95 @@
       justify-content: center;
       align-self: center;
     }
+
     .ant-list-item-meta-title {
       margin: 0;
     }
   }
+
   .tools {
     display: flex;
     flex-direction: column;
     width: 100px;
+
     button {
       margin-top: 5px;
     }
   }
+
   .status1 {
     color: #faad14;
   }
+
   .status2 {
     color: #0c8e9c;
   }
+
   .status3 {
     color: #1890ff;
   }
+
   .status {
     color: red;
+  }
+}
+
+.newButton {
+  width: 100%;
+  height: 188px;
+  color: @text-color-secondary;
+  background-color: @component-background;
+  border-color: @border-color-base;
+  border-radius: 4px;
+}
+
+.cardList {
+  margin-bottom: -24px;
+  margin-top: 40px;
+
+  :global {
+    .ant-col {
+      margin-bottom: 20px;
+    }
+
+    .ant-card-meta-title {
+      margin-bottom: 12px;
+
+      &>a {
+        display: inline-block;
+        max-width: 100%;
+        color: @heading-color;
+      }
+    }
+
+    .ant-card-body:hover {
+      .ant-card-meta-title>a {
+        color: @primary-color;
+      }
+    }
+  }
+
+  .shopBill {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+
+    li {
+      span {
+        &:first-child {
+          font-size: 16px;
+        }
+
+        text-align: center;
+        display: block;
+        line-height:40px;
+      }
+    }
+  }
+
+  :global {
+    .ant-list .ant-list-item-content-single {
+      max-width: 100%;
+    }
   }
 }

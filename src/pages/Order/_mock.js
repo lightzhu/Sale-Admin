@@ -45,7 +45,7 @@ function orderList(count) {
       orderNo: '2393450201934095',
       status: ['待发货', '进行中', '已完成'][i % 3],
       percent: Math.ceil(Math.random() * 50) + 50,
-      href: 'https://www.ebay.com/',
+      href: 'https://web.2048888.xyz/',
       updatedAt: new Date(
         new Date().getTime() - 1000 * 60 * 60 * 2 * i
       ).getTime(),
@@ -85,7 +85,11 @@ function getOrderList(req, res) {
   const count = params.count * 1 || 20
   const result = orderList(count)
   sourceData = result
-  return res.json(result)
+  return res.json({
+    status: '200',
+    message: "OK",
+    data: result
+  })
 }
 
 function postFakeList(req, res) {
@@ -95,7 +99,6 @@ function postFakeList(req, res) {
   } = req // const params = getUrlParams(url);
 
   const { method, id } = body // const count = (params.count * 1) || 20;
-
   let result = sourceData || []
 
   switch (method) {
@@ -126,6 +129,9 @@ function postFakeList(req, res) {
   return res.json(result)
 }
 const fakeRefundList = Mock.mock({
+  total: 100,
+  msg: "OK",
+  status: 200,
   'data|10': [
     {
       id: '@id',
@@ -145,10 +151,11 @@ const fakeRefundList = Mock.mock({
       ptime: '@datetime',
       description: `买家留言:${'@word(5,20)'}`
     }
-  ],
-  total: 100
+  ]
 })
 const fakeRefundCondition = Mock.mock({
+  msg: "OK",
+  status: 200,
   'data|5': [
     {
       id: '@id',
@@ -172,8 +179,20 @@ const fakeRefundCondition = Mock.mock({
   total: 5
 })
 export default {
-  'GET  /api/order_list': getOrderList,
-  'POST  /api/fake_list': postFakeList,
-  'POST  /api/refund_list': fakeRefundList,
-  'POST  /api/refund_list_condition': fakeRefundCondition
+  'GET /order/order_list': getOrderList,
+  'POST /order/dele_order': (req, res) => {
+    res.send({
+      status: '200',
+      message: "OK"
+    })
+  },
+  'POST  /order/set_express': (req, res) => {
+    res.send({
+      status: '200',
+      message: "OK"
+    })
+  },
+  'POST  /order/fake_list': postFakeList,
+  'POST  /order/refund_list': fakeRefundList,
+  'POST  /order/refund_list_condition': fakeRefundCondition
 }

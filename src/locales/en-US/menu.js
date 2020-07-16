@@ -5,6 +5,7 @@ export default {
   'menu.admin': 'admin',
   'menu.login': 'Login',
   'menu.register': 'Register',
+  'menu.regresult': 'regresult',
   'menu.inventory': 'Inventory',
   'menu.order': 'Order',
   'menu.order.order_list': 'order_list',

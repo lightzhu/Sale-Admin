@@ -88,6 +88,11 @@ export default {
           path: '/user/register',
           component: './user/register',
         },
+        {
+          name: 'regresult',
+          path: '/user/regresult',
+          component: './user/RegResult',
+        },
       ],
     },
     {
@@ -110,6 +115,12 @@ export default {
               component: './Home',
             },
             {
+              name: 'dashboard',
+              icon: 'desktop',
+              path: '/dashboard',
+              component: './Dashboard',
+            },
+            {
               name: 'order',
               icon: 'bars',
               path: '/order',
@@ -119,13 +130,13 @@ export default {
                   name: 'order_list',
                   icon: 'user',
                   path: '/order/order_list',
-                  component: './Order'
+                  component: './Order',
                 },
                 {
                   name: 'refund_list',
                   icon: 'solution',
                   path: '/order/refund_list',
-                  component: './Order/refund'
+                  component: './Order/refund',
                 },
               ],
             },
@@ -140,13 +151,13 @@ export default {
                   name: 'inventory',
                   icon: 'table',
                   path: '/commodity/inventory',
-                  component: './Inventory'
+                  component: './Inventory',
                 },
                 {
                   path: '/commodity/commodity_add',
                   name: 'commodity_add',
                   icon: 'file-done',
-                  component: './Commodity'
+                  component: './Commodity',
                 },
               ],
             },
@@ -154,19 +165,18 @@ export default {
               name: 'account',
               icon: 'team',
               path: '/account',
-              // component: './Account',
               routes: [
                 {
                   name: 'mine',
                   icon: 'user',
                   path: '/account/mine',
-                  component: './Account'
+                  component: './Account',
                 },
                 {
                   name: 'user_list',
                   icon: 'solution',
                   path: '/account/user_list',
-                  component: './Account/user'
+                  component: './Account/user',
                 },
               ],
             },
@@ -175,6 +185,7 @@ export default {
               name: 'welcome',
               icon: 'smile',
               component: './Welcome',
+              authority: ['admin']
             },
             {
               path: '/admin',
@@ -182,12 +193,6 @@ export default {
               icon: 'crown',
               component: './Admin',
               authority: ['admin'],
-            },
-            {
-              name: 'dashboard',
-              icon: 'desktop',
-              path: '/dashboard',
-              component: './Dashboard',
             },
             {
               component: './404',
@@ -243,12 +248,14 @@ export default {
   },
   manifest: {
     basePath: '/', // chainWebpack: webpackPlugin,
-    // proxy: {
-    //   '/server/api/': {
-    //     target: 'https://preview.pro.ant.design/',
-    //     changeOrigin: true,
-    //     pathRewrite: { '^/server': '' },
+  },
+  proxy: {
+    // '/api': {
+    //   target: 'http://118.190.105.213:8090',
+    //   changeOrigin: true,
+    //   pathRewrite: {
+    //     '^/api': '',
     //   },
     // },
-  },
+  }
 };

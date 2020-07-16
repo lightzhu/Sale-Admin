@@ -4,6 +4,7 @@ import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale'
 import React, { Component } from 'react'
 import { connect } from 'dva'
 import GeographicView from './GeographicView'
+import { messageShow } from '@/utils/utils'
 import PhoneView from './PhoneView'
 import styles from './BaseView.less'
 
@@ -55,7 +56,7 @@ class BaseAcount extends Component {
       modText: '',
       modTitle: '',
       modKey: '',
-      modVisible: false
+      modVisible: false,
     }
   }
   getAvatarURL() {
@@ -71,15 +72,24 @@ class BaseAcount extends Component {
     return ''
   }
 
-  getViewDom = ref => {
+  getViewDom = (ref) => {
     this.view = ref
   }
   setOptions = () => {
-    let countrys = ['China', '美国', '英国']
-    return countrys.map(item => {
+    let countrys = [
+      {
+        name: '中国',
+        value: 0,
+      },
+      {
+        name: '美国',
+        value: 1,
+      },
+    ]
+    return countrys.map((item) => {
       return (
-        <Option value={item} key={item}>
-          {item}
+        <Option value={item.value} key={item}>
+          {item.name}
         </Option>
       )
     })
@@ -87,7 +97,7 @@ class BaseAcount extends Component {
   handleFinish = () => {
     message.success(
       formatMessage({
-        id: 'account.basic.update.success'
+        id: 'account.basic.update.success',
       })
     )
   }
@@ -98,36 +108,36 @@ class BaseAcount extends Component {
       modText: currentUser[key],
       modTitle: `修改${key}`,
       modVisible: true,
-      modKey: key
+      modKey: key,
     })
   }
-  handleOk = e => {
+  handleOk = (e) => {
     // console.log(this.props.request)
     const { modKey, modText } = this.state
+    let param = { id: window.localStorage.getItem('id') || '' }
+    param[modKey] = modText
     this.props
-      .request('/api/modCurrentUser', {
+      .request('/v1/user/updateMerchant', {
         method: 'POST',
-        data: { modKey: modText }
+        data: param,
       })
-      .then(res => {
-        console.log(res)
-        message.success(res.msg)
+      .then((res) => {
+        messageShow(res)
       })
-
     this.setState({
-      modVisible: false
+      modVisible: false,
     })
   }
 
-  handleCancel = e => {
+  handleCancel = (e) => {
     this.setState({
-      modVisible: false
+      modVisible: false,
     })
   }
   onChange(e) {
     const { value } = e.target
     this.setState({
-      modText: value
+      modText: value,
     })
   }
   render() {
@@ -147,9 +157,9 @@ class BaseAcount extends Component {
                 rules: [
                   {
                     required: true,
-                    message: 'email is required'
-                  }
-                ]
+                    message: 'email is required',
+                  },
+                ],
               })(
                 <Input
                   placeholder='email is required'
@@ -162,15 +172,15 @@ class BaseAcount extends Component {
                 />
               )}
             </Form.Item>
-            <Form.Item name='name' label='nickname'>
+            <Form.Item name='name' label='name'>
               {getFieldDecorator('name', {
                 initialValue: currentUser.name,
                 rules: [
                   {
                     required: true,
-                    message: 'name is required'
-                  }
-                ]
+                    message: 'name is required',
+                  },
+                ],
               })(
                 <Input
                   placeholder='name is required'
@@ -183,8 +193,29 @@ class BaseAcount extends Component {
                 />
               )}
             </Form.Item>
-            <Form.Item name='country' label='country'>
-              <Select value={currentUser.country}>{this.setOptions()}</Select>
+            <Form.Item name='nickname' label='nickname'>
+              {getFieldDecorator('nickname', {
+                initialValue: currentUser.nickname,
+                rules: [
+                  {
+                    required: true,
+                    message: 'nickname is required',
+                  },
+                ],
+              })(
+                <Input
+                  placeholder='nickname is required'
+                  disabled
+                  addonAfter={
+                    <FormOutlined
+                      onClick={this.handleModinfo.bind(this, 'nickname')}
+                    />
+                  }
+                />
+              )}
+            </Form.Item>
+            <Form.Item name='countryId' label='country'>
+              <Select value={currentUser.countryId}>{this.setOptions()}</Select>
             </Form.Item>
             {/* <Form.Item
               name='geographic'
@@ -210,10 +241,10 @@ class BaseAcount extends Component {
             <Form.Item
               name='address'
               label={formatMessage({
-                id: 'account.basic.address'
+                id: 'account.basic.address',
               })}>
               {getFieldDecorator('address', {
-                initialValue: currentUser.address
+                initialValue: currentUser.address,
               })(
                 <Input
                   placeholder='input your address'
@@ -229,21 +260,21 @@ class BaseAcount extends Component {
             <Form.Item
               name='phone'
               label={formatMessage({
-                id: 'account.basic.phone'
+                id: 'account.basic.phone',
               })}
               rules={[
                 {
                   required: true,
                   message: formatMessage(
                     {
-                      id: 'account.basic.phone-message'
+                      id: 'account.basic.phone-message',
                     },
                     {}
-                  )
+                  ),
                 },
                 {
-                  validator: validatorPhone
-                }
+                  validator: validatorPhone,
+                },
               ]}>
               <PhoneView value={currentUser.phone} />
             </Form.Item>
@@ -253,9 +284,9 @@ class BaseAcount extends Component {
                 rules: [
                   {
                     required: true,
-                    message: 'input your profile'
-                  }
-                ]
+                    message: 'input your profile',
+                  },
+                ],
               })(
                 <Input.TextArea
                   placeholder='account.basic.profile-placeholder'
@@ -294,5 +325,5 @@ class BaseAcount extends Component {
 }
 const BaseView = Form.create({ name: 'currentUser' })(BaseAcount)
 export default connect(({ user }) => ({
-  currentUser: user.currentUser
+  currentUser: user.currentUser,
 }))(BaseView)

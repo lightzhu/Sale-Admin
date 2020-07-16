@@ -4,6 +4,7 @@ import { GridContent } from '@ant-design/pro-layout'
 import { Menu } from 'antd'
 import { connect } from 'dva'
 import request from '@/utils/request'
+import { isEmptyObj } from '@/utils/utils'
 import BaseView from './components/BaseView'
 // import BindingView from './components/binding'
 import SecurityView from './components/Security'
@@ -26,7 +27,7 @@ class Account extends Component {
           id='account.menuMap.security'
           defaultMessage='Security Settings'
         />
-      )
+      ),
       // binding: (
       //   <FormattedMessage
       //     id='account.menuMap.binding'
@@ -37,15 +38,18 @@ class Account extends Component {
     this.state = {
       mode: 'inline',
       menuMap,
-      selectKey: 'base'
+      selectKey: 'base',
     }
   }
 
   componentDidMount() {
-    const { dispatch } = this.props
-    dispatch({
-      type: 'user/fetchCurrent'
-    })
+    const { dispatch, currentUser } = this.props
+    if (isEmptyObj(currentUser)) {
+      dispatch({
+        type: 'user/fetchCurrent',
+        payload: { id: window.localStorage.getItem('id') },
+      })
+    }
     window.addEventListener('resize', this.resize)
     this.resize()
   }
@@ -56,7 +60,7 @@ class Account extends Component {
 
   getMenu = () => {
     const { menuMap } = this.state
-    return Object.keys(menuMap).map(item => (
+    return Object.keys(menuMap).map((item) => (
       <Item key={item}>{menuMap[item]}</Item>
     ))
   }
@@ -66,9 +70,9 @@ class Account extends Component {
     return menuMap[selectKey]
   }
 
-  selectKey = key => {
+  selectKey = (key) => {
     this.setState({
-      selectKey: key
+      selectKey: key,
     })
   }
 
@@ -89,7 +93,7 @@ class Account extends Component {
         mode = 'horizontal'
       }
       this.setState({
-        mode
+        mode,
       })
     })
   }
@@ -112,7 +116,7 @@ class Account extends Component {
   render() {
     const { currentUser } = this.props
     // console.log(currentUser)
-    if (!currentUser.userid) {
+    if (!currentUser.id) {
       return ''
     }
     const { mode, selectKey } = this.state
@@ -120,7 +124,7 @@ class Account extends Component {
       <GridContent>
         <div
           className={styles.main}
-          ref={ref => {
+          ref={(ref) => {
             if (ref) {
               this.main = ref
             }
@@ -144,5 +148,5 @@ class Account extends Component {
 }
 
 export default connect(({ user }) => ({
-  currentUser: user.currentUser
+  currentUser: user.currentUser,
 }))(Account)

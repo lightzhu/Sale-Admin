@@ -14,13 +14,13 @@ for (let i = 0; i < 10; i += 1) {
     name: `TradeCode ${i}`,
     title: `一个商品名称 ${i}`,
     owner: '曲丽丽',
-    desc: '这是一段商品描述',
+    productDesc: '这是一段商品描述',
     availableNo: Math.floor(Math.random() * 200),
     saleNo: Math.floor(Math.random() * 100),
     productNo: Math.floor(Math.random() * 1000),
     status: Math.floor(Math.random() * 10) % 4,
     price: 112,
-    updatedAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
+    gmtModify: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
     createdAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
     progress: Math.ceil(Math.random() * 100)
   })
@@ -70,18 +70,18 @@ function getTableData(req, res, u) {
   }
 
   let pageSize = 10
-
   if (params.pageSize) {
     pageSize = parseInt(`${params.pageSize}`, 0)
   }
-
   const result = {
     data: dataSource,
     total: dataSource.length,
-    success: true,
+    msg: "true",
+    status: 200,
     pageSize,
     current: parseInt(`${params.currentPage}`, 10) || 1
   }
+  debugger
   return res.json(result)
 }
 
@@ -106,10 +106,7 @@ function disableShop(req, res, u, b) {
   const result = {
     data: dataSource,
     total: dataSource.length,
-    success: true,
-    pagination: {
-      total: dataSource.length
-    }
+    success: true
   }
   return res.json(result)
 }
@@ -130,7 +127,7 @@ function removeProduct(req, res, u, b) {
   return res.json(result)
 }
 export default {
-  'GET /api/inventory': getTableData,
-  'GET /api/disableShop': disableShop,
-  'GET /api/removeProduct': removeProduct
+  'POST /product/inventory': getTableData,
+  'GET /product/disableProduct': disableShop,
+  'GET /product/removeProduct': removeProduct
 }

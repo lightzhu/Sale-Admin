@@ -1,5 +1,6 @@
 import React from 'react'
 import { Table, Input, Button, Popconfirm, Form } from 'antd'
+import { connect } from 'dva'
 import styles from './index.less'
 
 const EditableContext = React.createContext()
@@ -14,13 +15,13 @@ const EditableFormRow = Form.create()(EditableRow)
 
 class EditableCell extends React.Component {
   state = {
-    editing: true
+    editing: true,
   }
   toggleEdit = () => {
     const editing = !this.state.editing
     this.setState(
       {
-        editing
+        editing,
       },
       () => {
         if (editing) {
@@ -30,7 +31,7 @@ class EditableCell extends React.Component {
     )
   }
 
-  save = e => {
+  save = (e) => {
     const { record, handleSave } = this.props
     console.log(e.currentTarget.name)
     this.form.validateFields([e.currentTarget.name], (error, values) => {
@@ -42,26 +43,26 @@ class EditableCell extends React.Component {
     })
   }
 
-  renderCell = form => {
+  renderCell = (form) => {
     this.form = form
     const { children, dataIndex, record, title } = this.props
     const { editing } = this.state
     return editing ? (
       <Form.Item
         style={{
-          margin: 0
+          margin: 0,
         }}>
         {form.getFieldDecorator(dataIndex, {
           rules: [
             {
               required: true,
-              message: `${title} is required.`
-            }
+              message: `${title} is required.`,
+            },
           ],
-          initialValue: record[dataIndex]
+          initialValue: record[dataIndex],
         })(
           <Input
-            ref={node => (this.input = node)}
+            ref={(node) => (this.input = node)}
             name={dataIndex}
             onPressEnter={this.save}
             onBlur={this.save}
@@ -72,7 +73,7 @@ class EditableCell extends React.Component {
       <div
         className='editable-cell-value-wrap'
         style={{
-          paddingRight: 24
+          paddingRight: 24,
         }}
         onClick={this.toggleEdit}>
         {children}
@@ -111,17 +112,17 @@ class Variantion extends React.Component {
         title: '规格名称',
         dataIndex: 'variantName',
         width: '30%',
-        editable: true
+        editable: true,
       },
       {
         title: 'price',
         dataIndex: 'price',
-        editable: true
+        editable: true,
       },
       {
         title: 'count',
         dataIndex: 'count',
-        editable: true
+        editable: true,
       },
       {
         title: 'operation',
@@ -133,8 +134,8 @@ class Variantion extends React.Component {
               onConfirm={() => this.handleDelete(record.key)}>
               <a>Delete</a>
             </Popconfirm>
-          ) : null
-      }
+          ) : null,
+      },
     ]
     this.state = {
       dataSource: [
@@ -142,17 +143,17 @@ class Variantion extends React.Component {
           key: '0',
           variantName: '16G 玫瑰金',
           price: '3200',
-          count: '10'
-        }
+          count: '10',
+        },
       ],
-      count: 1
+      count: 1,
     }
   }
 
-  handleDelete = key => {
+  handleDelete = (key) => {
     const dataSource = [...this.state.dataSource]
     this.setState({
-      dataSource: dataSource.filter(item => item.key !== key)
+      dataSource: dataSource.filter((item) => item.key !== key),
     })
   }
 
@@ -162,25 +163,30 @@ class Variantion extends React.Component {
       key: count,
       variantName: ``,
       price: '',
-      count: ''
+      count: '',
     }
     this.setState({
       dataSource: [...dataSource, newData],
-      count: count + 1
+      count: count + 1,
     })
   }
 
-  handleSave = row => {
+  handleSave = (row) => {
     const newData = [...this.state.dataSource]
-    const index = newData.findIndex(item => row.key === item.key)
+    const index = newData.findIndex((item) => row.key === item.key)
     const item = newData[index]
     newData.splice(index, 1, { ...item, ...row })
     this.setState({
-      dataSource: newData
+      dataSource: newData,
     })
   }
   handleConfirm = () => {
-    console.log(this.state.dataSource)
+    const { dispatch } = this.props
+    dispatch({
+      type: 'commodity/saveVariantion',
+      payload: this.state.dataSource,
+    })
+    // console.log(this.state.dataSource)
   }
   footer() {
     return (
@@ -190,7 +196,7 @@ class Variantion extends React.Component {
           type='primary'
           style={{
             marginBottom: 16,
-            margin: 0
+            margin: 0,
           }}>
           Add New
         </Button>
@@ -199,7 +205,7 @@ class Variantion extends React.Component {
           type='primary'
           style={{
             marginBottom: 16,
-            margin: 0
+            margin: 0,
           }}>
           Confirm
         </Button>
@@ -211,22 +217,22 @@ class Variantion extends React.Component {
     const components = {
       body: {
         row: EditableFormRow,
-        cell: EditableCell
-      }
+        cell: EditableCell,
+      },
     }
-    const columns = this.columns.map(col => {
+    const columns = this.columns.map((col) => {
       if (!col.editable) {
         return col
       }
       return {
         ...col,
-        onCell: record => ({
+        onCell: (record) => ({
           record,
           editable: col.editable,
           dataIndex: col.dataIndex,
           title: col.title,
-          handleSave: this.handleSave
-        })
+          handleSave: this.handleSave,
+        }),
       }
     })
     return (
@@ -244,4 +250,6 @@ class Variantion extends React.Component {
     )
   }
 }
-export default Variantion
+export default connect(({ commodity }) => ({
+  product: commodity.variantion,
+}))(Variantion)

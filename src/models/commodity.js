@@ -1,24 +1,26 @@
-import { fakeSubmitForm } from '@/services'
+import { submitAdvanceInfo, submitBasicInfo } from '@/services'
+import { message } from "antd";
 const CommodityModel = {
   namespace: 'commodity',
   state: {
     current: 'info',
+    variantion: [],// 变体
     product: {
-      name: 'Alex',
-      amount: '500',
+      shopId: '',
+      name: '',
+      amount: '',
       subTitle: '',
       firstCategory: '其他',
-      secCategory: '其他',
-      price: '220',
-      payType: 'PayPal',
-      salesReturn: '支持退货',
-      size: 'XXL',
-      color: 'blue',
-      otherOne: '秋季',
-      otherTwo: '青少年',
+      typeId: '其他',
+      price: '',
+      payWay: '',
+      size: '',
+      color: '',
+      otherOne: '',
+      otherTwo: '',
       imgList: [],
-      describe:
-        '全新带盒: A brand-new, unused, and unworn item (including handmade items) in the original packaging (such as the original box or bag) and/or with the original tags attached.'
+      returnDesc: '',
+      productDesc: ''
     },
     fileList: [
       {
@@ -52,28 +54,46 @@ const CommodityModel = {
     ]
   },
   effects: {
-    *submitStepForm({ payload }, { call, put }) {
-      yield call(fakeSubmitForm, payload)
-      yield put({
-        type: 'saveStepFormData',
-        payload
-      })
-      yield put({
-        type: 'saveCurrentStep',
-        payload: 'result'
-      })
+    *saveBasicInfo({ payload }, { call, put }) {
+      const response = yield call(submitBasicInfo, payload)
+      // yield put({
+      //   type: 'saveStepFormData',
+      //   payload
+      // })
+      if (response.status == 200) {
+        yield put({
+          type: 'saveCurrentStep',
+          payload: 'advance'
+        })
+      } else {
+        console.log(response)
+        message.warn(response.msg)
+      }
+    },
+    *submitAdvanceInfo({ payload }, { call, put }) {
+      const response = yield call(submitAdvanceInfo, payload)
+      if (response.status == 200) {
+        yield put({
+          type: 'saveCurrentStep',
+          payload: 'result'
+        })
+      } else {
+        message.warn(response.msg)
+      }
     }
   },
   reducers: {
     saveCurrentStep(state, { payload }) {
       return { ...state, current: payload }
     },
-
     saveStepFormData(state, { payload }) {
       return { ...state, ...payload }
     },
     saveFileList(state, { payload }) {
       return { ...state, fileList: [...payload] }
+    },
+    saveVariantion(state, { payload }) {
+      return { ...state, variantion: [...payload] }
     }
   }
 }

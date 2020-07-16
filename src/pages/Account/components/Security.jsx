@@ -1,6 +1,7 @@
 import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale'
 import React, { Component } from 'react'
 import { connect } from 'dva'
+import { messageShow } from '@/utils/utils'
 import { List, Modal, Input, message } from 'antd'
 
 class SecurityView extends Component {
@@ -10,7 +11,7 @@ class SecurityView extends Component {
       modText: '',
       modTitle: '',
       modKey: '',
-      modVisible: false
+      modVisible: false,
     }
   }
   handleModinfo(key) {
@@ -20,36 +21,80 @@ class SecurityView extends Component {
       modText: currentUser[key],
       modTitle: `修改${key}`,
       modVisible: true,
-      modKey: key
+      modKey: key,
+      newPassword: '',
+      password: '',
     })
   }
-  handleOk = e => {
-    const { modKey, modText } = this.state
-    this.props
-      .request('/api/modCurrentUser', {
-        method: 'POST',
-        data: { modKey: modText }
-      })
-      .then(res => {
-        console.log(res)
-        message.success(res.msg)
-      })
+  handleOk = (e) => {
+    const { modKey, modText, password, newPassword } = this.state
+    let param = { id: window.localStorage.getItem('id') || '' }
+    param[modKey] = modText
+    if (modKey == 'password') {
+      param['oldPassword'] = password
+      param[modKey] = newPassword
+      this.props
+        .request('/v1/user/updatePassword', {
+          method: 'POST',
+          data: param,
+        })
+        .then((res) => {
+          messageShow(res)
+          if (res.status == 200) {
+            const { dispatch } = this.props
+            setTimeout(() => {
+              if (dispatch) {
+                dispatch({
+                  type: 'login/logout',
+                })
+              }
+            }, 1000)
+          }
+        })
+    } else {
+      this.props
+        .request('/v1/user/updateMerchant', {
+          method: 'POST',
+          data: param,
+        })
+        .then((res) => {
+          messageShow(res)
+        })
+    }
 
     this.setState({
-      modVisible: false
+      modVisible: false,
     })
   }
 
-  handleCancel = e => {
+  handleCancel = (e) => {
     this.setState({
-      modVisible: false
+      modVisible: false,
     })
   }
   onChange(e) {
+    const { modKey } = this.state
     const { value } = e.target
+    if (modKey == 'password') {
+      this.setState({
+        password: value,
+      })
+    } else {
+      this.setState({
+        modText: value,
+      })
+    }
+  }
+  reInput(e) {
     this.setState({
-      modText: value
+      newPassword: e.target.value,
     })
+  }
+  checkPassword() {
+    const { password, rePassword } = this.state
+    if (password != rePassword) {
+      message.error('两次输入密码不一样')
+    }
   }
   getData = () => {
     const { password, company } = this.props.currentUser
@@ -57,7 +102,7 @@ class SecurityView extends Component {
       {
         title: formatMessage(
           {
-            id: 'account.security.password'
+            id: 'account.security.password',
           },
           {}
         ),
@@ -68,8 +113,8 @@ class SecurityView extends Component {
               id='account.security.modify'
               defaultMessage='Modify'
             />
-          </a>
-        ]
+          </a>,
+        ],
       },
       {
         title: 'Bank Account',
@@ -77,8 +122,8 @@ class SecurityView extends Component {
         actions: [
           <a key='Set' onClick={this.handleModinfo.bind(this, 'account')}>
             <FormattedMessage id='account.security.set' defaultMessage='Set' />
-          </a>
-        ]
+          </a>,
+        ],
       },
       {
         title: 'Company Name',
@@ -89,9 +134,9 @@ class SecurityView extends Component {
               id='account.security.modify'
               defaultMessage='Modify'
             />
-          </a>
-        ]
-      }
+          </a>,
+        ],
+      },
     ]
   }
 
@@ -102,7 +147,7 @@ class SecurityView extends Component {
         <List
           itemLayout='horizontal'
           dataSource={data}
-          renderItem={item => (
+          renderItem={(item) => (
             <List.Item actions={item.actions}>
               <List.Item.Meta
                 title={item.title}
@@ -117,9 +162,26 @@ class SecurityView extends Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}>
           <Input
-            value={this.state.modText}
-            placeholder='请输入'
+            value={
+              this.state.modKey == 'password'
+                ? this.state.password
+                : this.state.modText
+            }
+            placeholder={
+              this.state.modKey == 'password' ? '请输入老密码' : '请输入'
+            }
             onChange={this.onChange.bind(this)}
+          />
+          <Input
+            value={this.state.newPassword}
+            type='password'
+            placeholder='请输入新密码'
+            style={{
+              marginTop: '20px',
+              display: this.state.modKey == 'password' ? 'block' : 'none',
+            }}
+            onChange={this.reInput.bind(this)}
+            // onBlur={this.checkPassword.bind(this)}
           />
         </Modal>
       </>
@@ -127,5 +189,5 @@ class SecurityView extends Component {
   }
 }
 export default connect(({ user }) => ({
-  currentUser: user.currentUser
+  currentUser: user.currentUser,
 }))(SecurityView)

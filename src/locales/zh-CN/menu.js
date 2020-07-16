@@ -6,6 +6,7 @@ export default {
   'menu.login': '登录',
   'menu.inventory': '库存',
   'menu.register': '注册',
+  'menu.regresult': '注册结果',
   'menu.order': '订单',
   'menu.order.order_list': '我的订单',
   'menu.order.refund_list': '退货管理',

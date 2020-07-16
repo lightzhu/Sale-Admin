@@ -3,10 +3,18 @@
  * 更详细的 api 文档: https://github.com/umijs/umi-request
  */
 
-const base_url = 'https://www.fastmock.site/mock/a63c09f31c2ed788b5a54059058ca453/saleapi';
-// const base_url = '';
+// const base_url = 'https://www.fastmock.site/mock/a63c09f31c2ed788b5a54059058ca453/saleapi/api';
+// let base_url = 'http://118.190.105.213:8090';
+let base_url = '';
+if (process.env.NODE_ENV === 'development') {
+  console.log('development')
+  // base_url = '/api';
+} else {
+  console.log('deploy')
+}
+const website = `//${window.location.host}/8000/`
 import { extend } from "umi-request";
-import { notification } from "antd";
+import { notification, message } from "antd";
 const codeMessage = {
   200: "服务器成功返回请求的数据。",
   201: "新建或修改数据成功。",
@@ -31,7 +39,6 @@ const codeMessage = {
 
 const errorHandler = error => {
   const { response } = error;
-
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
@@ -45,7 +52,6 @@ const errorHandler = error => {
       message: "网络异常"
     });
   }
-
   return response;
 };
 /**
@@ -54,16 +60,39 @@ const errorHandler = error => {
 
 const request = extend({
   errorHandler,
+  timeout: 3000,
+  // params: {
+  //   getResponse: true
+  // }
   // 默认错误处理
-  credentials: "include" // 默认请求是否带上cookie
+  credentials: "omit" // 默认请求是否带上cookie
 });
 // request拦截器, 改变url 或 options.
 request.interceptors.request.use((url, options) => {
+  console.log(options)
+  if (url.indexOf('signIn') == -1) {
+    options.headers = {
+      'Authorization': window.localStorage.getItem('token')
+    }
+  }
   return (
     {
       url: `${base_url}${url}`,
       options: { ...options, interceptors: true },
     }
   );
+});
+request.interceptors.response.use((response) => {
+  // message.error(codeMaps[response.status]);
+  if (response.status == '201') {
+    window.location.pathname = '/user/login'
+  }
+  // if (response.status == '200') {
+  //   message.success(response.statusText);
+  // } else {
+  //   message.warning(response.statusText);
+  // }
+  console.log(response)
+  return response;
 });
 export default request;

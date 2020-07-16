@@ -1,4 +1,4 @@
-# Ant Design Pro
+# 基于 Ant Design 和 umi 的 react 电商后台管理平台
 
 This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
 
@@ -54,6 +54,10 @@ npm test
 
 ## More
 
-dva 的 connect 方法中使用到了 dva-loading，会自动在 reducers 中的 state 新增了 loading 对象请求前，global 为 false，effects 和 models 为空对象 laoding: { effects: {} global: false models: {} } 请求中： global 为 true； effects 的 key 为 dispatch 的 type 值，value 为 true； models 的 key 为 namespace 值，value 为 true； loading： { effects: {users/user/fetch: true} global: true models: {users: true} } 请求完成： global 为 false； effects 的 key 为 dispatch 的 type 值，value 为 false； models 的 key 为 namespace 值，value 为 false；
+- dva 的 connect 方法中使用到了 dva-loading，会自动在 reducers 中的 state 新增了 loading 对象，
+- 请求前：global 为 false，effects 和 models 为空对象 laoding: { effects: {} global: false models: {} }
+- 请求中： global 为 true； effects 的 key 为 dispatch 的 type 值，value 为 true； models 的 key 为 namespace 值，value 为 true
+- loading： { effects: {users/user/fetch: true} global: true models: {users: true} }
+- 请求完成： global 为 false； effects 的 key 为 dispatch 的 type 值，value 为 false； models 的 key 为 namespace 值，value false；
 
-loading： { effects: {users/user/fetch: false} global: false models: {users: false} }
+- loading： { effects: {users/user/fetch: false} global: false models: {users: false} }

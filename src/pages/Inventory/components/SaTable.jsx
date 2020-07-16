@@ -8,14 +8,14 @@ import styles from '../index.less'
  * @param fields
  */
 
-const handleUpdate = async fields => {
+const handleUpdate = async (fields) => {
   const hide = message.loading('正在配置')
 
   try {
     await updateRule({
       name: fields.name,
       desc: fields.desc,
-      key: fields.key
+      key: fields.key,
     })
     hide()
     message.success('配置成功')
@@ -27,17 +27,17 @@ const handleUpdate = async fields => {
   }
 }
 
-const SaTable = props => {
+const SaTable = (props) => {
   // const [createModalVisible, handleModalVisible] = useState(false);
   // const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const { updateModalVisible, setStepFormValues, updateRowStatus } = props
-  const unSold = async selectedRows => {
+  const unSold = async (selectedRows) => {
     console.log(selectedRows)
     const hide = message.loading('正在下架')
     if (!selectedRows) return true
     try {
       let data = await disableShop({
-        key: selectedRows.key
+        key: selectedRows.key,
       })
       console.log(data)
       updateRowStatus(data)
@@ -50,13 +50,13 @@ const SaTable = props => {
       return false
     }
   }
-  const deleSold = async selectedRows => {
+  const deleSold = async (selectedRows) => {
     console.log(selectedRows)
     const hide = message.loading('正在删除')
     if (!selectedRows) return true
     try {
       let data = await removeProduct({
-        key: selectedRows.key
+        key: selectedRows.key,
       })
       updateRowStatus(data)
       hide()
@@ -71,7 +71,7 @@ const SaTable = props => {
   const columns = [
     {
       title: '商品名称',
-      dataIndex: 'name'
+      dataIndex: 'name',
     },
     {
       title: '图片',
@@ -82,31 +82,38 @@ const SaTable = props => {
             src={record.image}
             style={{
               width: '40px',
-              height: '26px'
+              height: '26px',
             }}></img>
         </>
-      )
+      ),
+    },
+    {
+      title: '商品规格',
+      dataIndex: 'variant',
+      render: (_, record) => {
+        return record.variant ? record.variant : '暂无'
+      },
     },
     {
       title: '可售数量',
-      dataIndex: 'availableNo'
+      dataIndex: 'availableNo',
       // renderText: val => `${val} 万`,
     },
     {
       title: '销量',
       dataIndex: 'saleNo',
-      sorter: true
+      sorter: true,
       // renderText: val => `${val} 万`,
     },
     {
       title: '上架数量',
-      dataIndex: 'productNo'
+      dataIndex: 'productNo',
       // sorter: true,
     },
     {
       title: '状态',
       dataIndex: 'status',
-      render: val => {
+      render: (val) => {
         let text = ''
         if (val == 0) {
           text = '不可售'
@@ -116,17 +123,17 @@ const SaTable = props => {
           text = '缺货'
         }
         return text
-      }
+      },
     },
     {
       title: '更新时间',
-      dataIndex: 'updatedAt',
-      valueType: 'dateTime'
+      dataIndex: 'gmtModify',
+      valueType: 'dateTime',
     },
     {
       title: '价格($)',
       dataIndex: 'price',
-      renderText: val => `${val}p`
+      renderText: (val) => `${val}p`,
     },
     {
       title: '操作',
@@ -156,8 +163,8 @@ const SaTable = props => {
             删除商品
           </a>
         </>
-      )
-    }
+      ),
+    },
   ]
   const { tableData } = props
   // state = {

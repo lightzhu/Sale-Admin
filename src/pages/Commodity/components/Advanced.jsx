@@ -7,36 +7,28 @@ import {
   Upload,
   Input,
   Modal,
-  message
+  message,
 } from 'antd'
 import React, { useState } from 'react'
 import { connect } from 'dva'
 import request from '@/utils/request'
 import Variantion from './Variantion'
 import styles from './index.less'
-const formItemLayout = {
-  labelCol: {
-    span: 5
-  },
-  wrapperCol: {
-    span: 19
-  }
-}
 
-const Advanced = props => {
-  const { form, product, fileList, dispatch, submitting } = props
+const Advanced = (props) => {
+  const { form, product, variantion, fileList, dispatch, submitting } = props
   const [previewVisible, setpreviewVisible] = useState(false)
   const [previewImage, setpreviewImage] = useState('')
   // const [checkedList, setcheckedList] = useState(['Apple'])
 
   const { getFieldDecorator, validateFields, getFieldsValue } = form
 
-  const getBase64 = file => {
+  const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader()
       reader.readAsDataURL(file)
       reader.onload = () => resolve(reader.result)
-      reader.onerror = error => reject(error)
+      reader.onerror = (error) => reject(error)
     })
   }
 
@@ -48,26 +40,33 @@ const Advanced = props => {
       // });
       dispatch({
         type: 'commodity/saveCurrentStep',
-        payload: 'info'
+        payload: 'info',
       })
     }
   }
 
-  const onValidateForm = e => {
+  const onAdvanceSubmit = (e) => {
+    if (!variantion.length) return
     // 表单提交，获取表单数据进行更新
-    console.log(getFieldsValue())
+    console.log(variantion)
+    const formData = new FormData()
+    fileList.forEach((file) => {
+      formData.append('files[]', file)
+    })
+    formData.append('variantion', variantion)
+    console.log(formData)
     //执行上传图片操作
-    handleUpload(fileList)
-    e.preventDefault()
+    handleUpload(formData)
+    // e.preventDefault()
     if (dispatch) {
       dispatch({
-        type: 'commodity/submitStepForm',
-        payload: { current: 'confirm' }
+        type: 'commodity/submitAdvanceInfo',
+        payload: formData,
       })
     }
   }
   const handleCancel = () => setpreviewVisible(false)
-  const handlePreview = async file => {
+  const handlePreview = async (file) => {
     console.log(file)
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj)
@@ -76,24 +75,24 @@ const Advanced = props => {
     setpreviewImage(file.url || file.preview)
   }
   // 上传图片
-  const handleUpload = async fileList => {
+  const handleUpload = async (fileList) => {
     // 图片列表
     console.log(fileList)
-    const formData = new FormData()
-    fileList.forEach(file => {
-      formData.append('files[]', file)
-    })
-    request('https://www.mocky.io/v2/5cc8019d300000980a055e76', {
-      method: 'POST',
-      data: formData
-    })
-      .then(res => {
-        console.log(res)
-        message.success('upload successfully.')
-      })
-      .catch(function(error) {
-        console.log(error)
-      })
+    // const formData = new FormData()
+    // fileList.forEach((file) => {
+    //   formData.append('files[]', file)
+    // })
+    // request('https://www.mocky.io/v2/5cc8019d300000980a055e76', {
+    //   method: 'POST',
+    //   data: fileList,
+    // })
+    //   .then((res) => {
+    //     console.log(res)
+    //     message.success('upload successfully.')
+    //   })
+    //   .catch(function(error) {
+    //     console.log(error)
+    //   })
   }
   const uploadButton = (
     <div>
@@ -101,12 +100,11 @@ const Advanced = props => {
       <div className='ant-upload-text'>Upload</div>
     </div>
   )
-  const handleChange = obj => {
-    console.log(obj)
+  const handleChange = (obj) => {
     if (dispatch) {
       dispatch({
         type: 'commodity/saveFileList',
-        payload: obj.fileList
+        payload: obj.fileList,
       })
     }
   }
@@ -117,7 +115,7 @@ const Advanced = props => {
         showIcon
         message='最多只能上传5张照片,包括产品主图、尺寸图及规格图。'
         style={{
-          marginBottom: 24
+          marginBottom: 24,
         }}
       />
       <div className='clearfix'>
@@ -135,30 +133,36 @@ const Advanced = props => {
       </div>
       <Divider
         style={{
-          margin: '24px 0'
+          margin: '24px 0',
         }}
       />
-      <Variantion></Variantion>
+      <Variantion fileList={fileList}></Variantion>
       <Form.Item
         style={{
-          marginBottom: 8
+          marginBottom: 8,
+          marginTop: 15,
         }}
         wrapperCol={{
           xs: {
             span: 24,
-            offset: 8
-          }
+            offset: 8,
+          },
         }}
         label=''>
-        <Button type='primary' onClick={onValidateForm} loading={submitting}>
-          提交
-        </Button>
         <Button
           onClick={onPrev}
           style={{
-            marginLeft: 8
+            marginRight: 20,
+            width: 100,
           }}>
           上一步
+        </Button>
+        <Button
+          type='primary'
+          style={{ width: 100 }}
+          onClick={onAdvanceSubmit}
+          loading={submitting}>
+          提交
         </Button>
       </Form.Item>
     </Form>
@@ -168,5 +172,6 @@ const Advanced = props => {
 export default connect(({ commodity, loading }) => ({
   submitting: loading.effects['commodity/submitStepForm'],
   fileList: commodity.fileList,
-  product: commodity.product
+  product: commodity.product,
+  variantion: commodity.variantion,
 }))(Form.create()(Advanced))

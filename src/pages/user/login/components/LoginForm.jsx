@@ -1,26 +1,26 @@
-import { Alert, Checkbox, Form, Input, Icon } from "antd";
-import React, { Component } from "react";
-import { connect } from "dva";
-import styles from "./index.less";
-import Submit from "./LoginSubmit";
+import { Alert, Checkbox, Form, Input, Icon } from 'antd'
+import React, { Component } from 'react'
+import { connect } from 'dva'
+import styles from './index.less'
+import Submit from './LoginSubmit'
 
 const LoginMessage = ({ content }) => (
   <Alert
     style={{
-      marginBottom: 24
+      marginBottom: 24,
     }}
     message={content}
-    type="error"
+    type='error'
     showIcon
   />
-);
+)
 @connect(({ loading }) => ({ loading }))
 class LoginForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
       autoLogin: true,
-      type: "account"
+      // type: 'account'
     }
   }
 
@@ -33,61 +33,67 @@ class LoginForm extends Component {
         return
       }
       dispatch({
-        type: "login/login",
-        payload: { ...values, type: this.state.type }
+        type: 'login/login',
+        payload: { ...values },
       })
     })
-  };
+  }
 
   render() {
-    const { getFieldDecorator } = this.props.form;
-    const { autoLogin, type } = this.state
-    const { userLogin = {}, submitting } = this.props;
-    const { status, type: loginType } = userLogin;
+    const { getFieldDecorator } = this.props.form
+    const { autoLogin } = this.state
+    const { userLogin = {}, submitting } = this.props
+    const { status, message, type: loginType } = userLogin
+    // debugger
     return (
       <>
         <Form onSubmit={this.handleSubmit}>
           <div>
-            {status === "error" && loginType === "account" && !submitting && (
-              <LoginMessage content="账户或密码错误（admin/ant.design）" />
+            {status !== 200 && !submitting && (
+              <LoginMessage content={message} />
             )}
             <Form.Item>
               {getFieldDecorator('username', {
-                rules: [{ required: true, message: 'Please input your username!' }],
+                rules: [
+                  { required: true, message: 'Please input your username!' },
+                ],
               })(
                 <Input
-                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="用户名: admin or user"
-                />,
+                  prefix={
+                    <Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                  placeholder='用户名: username@qq.com'
+                />
               )}
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('password', {
-                rules: [{ required: true, message: 'Please input your Password!' }],
+                rules: [
+                  { required: true, message: 'Please input your Password!' },
+                ],
               })(
                 <Input
-                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  type="password"
-                  placeholder="密码: ant.design"
-                />,
+                  prefix={
+                    <Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />
+                  }
+                  type='password'
+                  placeholder='密码: 123456'
+                />
               )}
             </Form.Item>
           </div>
           <div>
-            <Checkbox
+            {/* <Checkbox
               checked={autoLogin}
-              onChange={e => setAutoLogin(e.target.checked)}
-            >
+              onChange={e => setAutoLogin(e.target.checked)}>
               自动登录
-          </Checkbox>
-            <a style={{ float: "right" }}>忘记密码</a>
+            </Checkbox> */}
           </div>
           <Submit loading={submitting}>登录</Submit>
         </Form>
       </>
-    );
+    )
   }
 }
-const NormalLoginForm = Form.create({ name: 'normal_login' })(LoginForm);
-export default NormalLoginForm;
-
+const NormalLoginForm = Form.create({ name: 'normal_login' })(LoginForm)
+export default NormalLoginForm

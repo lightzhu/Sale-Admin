@@ -12,7 +12,7 @@ const Model = {
       const response = yield call(queryOrderList, payload)
       yield put({
         type: 'queryList',
-        payload: Array.isArray(response) ? response : []
+        payload: response
       })
     },
 
@@ -32,9 +32,7 @@ const Model = {
       } else {
         callback = addFakeList
       }
-
       const response = yield call(callback, payload) // post
-
       yield put({
         type: 'queryList',
         payload: response
@@ -57,9 +55,8 @@ const Model = {
   },
   reducers: {
     queryList(state, action) {
-      return { ...state, list: action.payload }
+      return { ...state, list: action.payload.data }
     },
-
     appendList(state = { list: [] }, action) {
       return { ...state, list: state.list.concat(action.payload) }
     },

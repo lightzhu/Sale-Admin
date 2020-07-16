@@ -1,11 +1,18 @@
 import request from '@/utils/request'
-export async function fakeAccountLogin(params) {
-  console.log(params)
-  return request('/api/login/account', {
+import { clearStorage } from '@/utils/utils'
+export async function accountLogin(params) {
+  await clearStorage()
+  return request('/login/signIn', {
+    method: 'POST',
+    data: params
+  })
+}
+export async function register(params) {
+  return request('/login/register', {
     method: 'POST',
     data: params
   })
 }
 export async function getFakeCaptcha(mobile) {
-  return request(`/api/login/captcha?mobile=${mobile}`)
+  return request(`/login/captcha?mobile=${mobile}`)
 }

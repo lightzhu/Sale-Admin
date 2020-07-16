@@ -1,5 +1,6 @@
 import { parse } from 'querystring'
 import pathRegexp from 'path-to-regexp'
+import { message } from "antd";
 
 /* eslint no-useless-escape:0 import/prefer-default-export:0 */
 const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+(?::\d+)?|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/
@@ -64,4 +65,34 @@ export function isMail(str) {
 // 是否为手机号码
 export function isMobile(str) {
   return /^1(2|3|4|5|6|7|8|9)\d{9}$/.test(str)
+}
+
+// 判断对象是否为空({})
+export function isEmptyObj(obj) {
+  for (var key in obj) {
+    return false // 返回false，不为空对象
+  }
+  return true // 返回true，为空对象
+}
+// 清理localStorage 和 sessionStorage 缓存
+export function clearStorage() {
+  return new Promise(function (reslove, reject) {
+    try {
+      setTimeout(() => {
+        window.localStorage.clear()
+        window.sessionStorage.clear()
+        reslove()
+      }, 100)
+    } catch (e) {
+      reject(e)
+    }
+  })
+}
+// 统一message
+export function messageShow(resp) {
+  if (resp.status == '200') {
+    message.success(resp.message);
+  } else {
+    message.warning(resp.message);
+  }
 }

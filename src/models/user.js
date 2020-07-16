@@ -13,15 +13,15 @@ const UserModel = {
       console.log(response);
       yield put({
         type: "save",
-        payload: response
+        payload: response.data
       });
     },
-    *fetchCurrent(_, { call, put }) {
-      const current = yield call(queryCurrent);
+    *fetchCurrent({ payload }, { call, put }) {
+      const current = yield call(queryCurrent, payload);
       console.log(current);
       yield put({
         type: "saveCurrentUser",
-        payload: current
+        payload: current.data
       });
     },
     *fetchProvince(_, { call, put }) {
@@ -67,7 +67,6 @@ const UserModel = {
     setProvince(state, action) {
       return { ...state, province: action.payload };
     },
-
     setCity(state, action) {
       return { ...state, city: action.payload };
     },

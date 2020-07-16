@@ -30,10 +30,10 @@ class EditableCell extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: `Please Input ${title}!`
-                }
+                  message: `Please Input ${title}!`,
+                },
               ],
-              initialValue: record[dataIndex]
+              initialValue: record[dataIndex],
             })(this.getInput())}
           </Form.Item>
         ) : (
@@ -57,27 +57,27 @@ class List extends React.Component {
       {
         title: 'name',
         dataIndex: 'name',
-        editable: true
+        editable: true,
       },
       {
         title: 'company',
         dataIndex: 'company',
-        editable: true
+        editable: true,
       },
       {
         title: 'email',
         dataIndex: 'email',
-        editable: true
+        editable: true,
       },
       {
         title: 'address',
         dataIndex: 'address',
-        editable: true
+        editable: true,
       },
       {
         title: 'reigster_time',
         dataIndex: 'reigster_time',
-        editable: true
+        editable: true,
       },
       {
         title: 'operation',
@@ -88,7 +88,7 @@ class List extends React.Component {
           return editable ? (
             <span>
               <EditableContext.Consumer>
-                {form => (
+                {(form) => (
                   <a
                     onClick={() => this.save(form, record.key)}
                     style={{ marginRight: 8 }}>
@@ -109,12 +109,12 @@ class List extends React.Component {
               Edit
             </a>
           )
-        }
-      }
+        },
+      },
     ]
   }
 
-  isEditing = record => record.key === this.state.editingKey
+  isEditing = (record) => record.key === this.state.editingKey
 
   cancel = () => {
     this.setState({ editingKey: '' })
@@ -126,12 +126,12 @@ class List extends React.Component {
         return
       }
       const newData = [...this.state.data]
-      const index = newData.findIndex(item => key === item.key)
+      const index = newData.findIndex((item) => key === item.key)
       if (index > -1) {
         const item = newData[index]
         newData.splice(index, 1, {
           ...item,
-          ...row
+          ...row,
         })
         this.setState({ data: newData, editingKey: '' })
       } else {
@@ -145,32 +145,32 @@ class List extends React.Component {
     this.setState({ editingKey: key })
   }
   componentDidMount() {
-    queryUsers().then(users => {
+    queryUsers().then((users) => {
       console.log(users)
       this.setState({
-        data: users.data
+        data: users.data,
       })
     })
   }
   render() {
     const components = {
       body: {
-        cell: EditableCell
-      }
+        cell: EditableCell,
+      },
     }
-    const columns = this.columns.map(col => {
+    const columns = this.columns.map((col) => {
       if (!col.editable) {
         return col
       }
       return {
         ...col,
-        onCell: record => ({
+        onCell: (record) => ({
           record,
           inputType: col.dataIndex === 'age' ? 'number' : 'text',
           dataIndex: col.dataIndex,
           title: col.title,
-          editing: this.isEditing(record)
-        })
+          editing: this.isEditing(record),
+        }),
       }
     })
 
@@ -183,7 +183,7 @@ class List extends React.Component {
           columns={columns}
           rowClassName='editable-row'
           pagination={{
-            onChange: this.cancel
+            onChange: this.cancel,
           }}
         />
       </EditableContext.Provider>
