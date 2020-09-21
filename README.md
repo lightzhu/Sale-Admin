@@ -16,18 +16,18 @@ This project is initialized with [Ant Design Pro](https://pro.ant.design). Follo
 ## 前端展示
 
 <div align="center">
-<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7/image/react/sale-mall1.png" height="320" width="568" >
-<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7/image/react/sale-mall2.png" height="320" width="568" >
+<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7.0/image/react/sale-mall1.png" height="320" width="568" >
+<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7.0/image/react/sale-mall2.png" height="320" width="568" >
 </div>
 
 <div align="center">
-<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7/image/react/sale-mall3.png" height="320" width="568" >
-<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7/image/react/sale-mall4.png" height="320" width="568" >
+<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7.0/image/react/sale-mall3.png" height="320" width="568" >
+<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7.0/image/react/sale-mall4.png" height="320" width="568" >
 </div>
 
 <div align="center">
-<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7/image/react/sale-mall5.png" height="320" width="568" >
-<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7/image/react/sale-mall6.png" height="320" width="568" >
+<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7.0/image/react/sale-mall5.png" height="320" width="568" >
+<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7.0/image/react/sale-mall6.png" height="320" width="568" >
 </div>
 
 ## Environment Prepare
