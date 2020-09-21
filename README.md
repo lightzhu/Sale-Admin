@@ -17,7 +17,7 @@ This project is initialized with [Ant Design Pro](https://pro.ant.design).
 
 ## 前端展示
 
-[特卖商城后台管理] http://www.2048888.xyz/Sale-Admin/
+[特卖商城后台管理] http://www.2048888.xyz/sale-admin/ <hr/> [国内资源加速] https://lightzhu.gitee.io/sale-admin
 
 <div align="center">
 <img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7.0/image/react/sale-mall1.png" height="320" width="568" >
