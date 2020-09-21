@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 
 export async function queryFakeList(params) {
-  return request('/api/fake_list', {
+  return request('/order/fake_list', {
     params,
   });
 }

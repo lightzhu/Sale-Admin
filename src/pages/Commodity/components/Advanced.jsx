@@ -19,9 +19,6 @@ const Advanced = (props) => {
   const { form, product, variantion, fileList, dispatch, submitting } = props
   const [previewVisible, setpreviewVisible] = useState(false)
   const [previewImage, setpreviewImage] = useState('')
-  // const [checkedList, setcheckedList] = useState(['Apple'])
-
-  const { getFieldDecorator, validateFields, getFieldsValue } = form
 
   const getBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -46,7 +43,9 @@ const Advanced = (props) => {
   }
 
   const onAdvanceSubmit = (e) => {
-    if (!variantion.length) return
+    if (!variantion.length) {
+      return message.warning('请先确认上方商品规格再提交！')
+    }
     // 表单提交，获取表单数据进行更新
     console.log(variantion)
     const formData = new FormData()
@@ -56,7 +55,7 @@ const Advanced = (props) => {
     formData.append('variantion', variantion)
     console.log(formData)
     //执行上传图片操作
-    handleUpload(formData)
+    // handleUpload(formData)
     // e.preventDefault()
     if (dispatch) {
       dispatch({
@@ -74,26 +73,7 @@ const Advanced = (props) => {
     setpreviewVisible(true)
     setpreviewImage(file.url || file.preview)
   }
-  // 上传图片
-  const handleUpload = async (fileList) => {
-    // 图片列表
-    console.log(fileList)
-    // const formData = new FormData()
-    // fileList.forEach((file) => {
-    //   formData.append('files[]', file)
-    // })
-    // request('https://www.mocky.io/v2/5cc8019d300000980a055e76', {
-    //   method: 'POST',
-    //   data: fileList,
-    // })
-    //   .then((res) => {
-    //     console.log(res)
-    //     message.success('upload successfully.')
-    //   })
-    //   .catch(function(error) {
-    //     console.log(error)
-    //   })
-  }
+
   const uploadButton = (
     <div>
       <Icon type='plus' />

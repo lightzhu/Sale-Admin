@@ -1,12 +1,7 @@
-import { Button, DatePicker, Input, Modal, Radio, Select, Form } from 'antd'
+import { Button, Input, Modal, Radio, Select, Form } from 'antd'
 import React, { Component } from 'react'
 import { connect } from 'dva'
-import { updateBasicInfo } from '@/services'
 import { creatShop, updateShopInfo } from '@/services/shop'
-const FormItem = Form.Item
-const { TextArea } = Input
-const { Option } = Select
-const RadioGroup = Radio.Group
 
 class CreatShop extends Component {
   static defaultProps = {
@@ -41,14 +36,14 @@ class CreatShop extends Component {
       if (isShopEdit) {
         creatShop(params).then((info) => {
           console.log(info)
-          if (info.message == 'OK') {
-            updateShops()
+          if (info.message == 'ok') {
+            // updateShops()
             handleCreatVisible(false)
           }
         })
       } else {
         updateShopInfo(formVals).then((res) => {
-          if (res.message == 'OK') {
+          if (res.message == 'ok') {
             updateShops()
             handleCreatVisible(false)
           }

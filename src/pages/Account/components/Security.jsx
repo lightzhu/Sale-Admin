@@ -34,7 +34,7 @@ class SecurityView extends Component {
       param['oldPassword'] = password
       param[modKey] = newPassword
       this.props
-        .request('/v1/user/updatePassword', {
+        .request('/user/updatePassword', {
           method: 'POST',
           data: param,
         })
@@ -53,7 +53,7 @@ class SecurityView extends Component {
         })
     } else {
       this.props
-        .request('/v1/user/updateMerchant', {
+        .request('/user/updateMerchant', {
           method: 'POST',
           data: param,
         })

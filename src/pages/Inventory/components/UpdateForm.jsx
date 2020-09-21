@@ -39,7 +39,7 @@ class UpdateForm extends Component {
       let params = Object.assign(this.state.formVals, formVals)
       updateBasicInfo(params).then((info) => {
         console.log(info)
-        if (info.message == 'OK') {
+        if (info.status == '200') {
           onSubmit()
         }
       })
@@ -49,47 +49,7 @@ class UpdateForm extends Component {
     const { form } = this.props
     const { getFieldDecorator } = form
     console.log(formVals)
-    // 编辑商品图片
-    if (currentStep === 1) {
-      return [
-        <FormItem key='target' {...this.formLayout} label='监控对象'>
-          {form.getFieldDecorator('target', {
-            initialValue: formVals.target,
-          })(
-            <Select
-              style={{
-                width: '100%',
-              }}>
-              <Option value='0'>表一</Option>
-              <Option value='1'>表二</Option>
-            </Select>
-          )}
-        </FormItem>,
-        <FormItem key='template' {...this.formLayout} label='规则模板'>
-          {form.getFieldDecorator('template', {
-            initialValue: formVals.template,
-          })(
-            <Select
-              style={{
-                width: '100%',
-              }}>
-              <Option value='0'>规则模板一</Option>
-              <Option value='1'>规则模板二</Option>
-            </Select>
-          )}
-        </FormItem>,
-        <FormItem key='type' {...this.formLayout} label='规则类型'>
-          {form.getFieldDecorator('type', {
-            initialValue: formVals.type,
-          })(
-            <RadioGroup>
-              <Radio value='0'>强</Radio>
-              <Radio value='1'>弱</Radio>
-            </RadioGroup>
-          )}
-        </FormItem>,
-      ]
-    }
+
     // 基本信息的模版
     return [
       <Form.Item key='name' {...this.formLayout} label='商品名称'>

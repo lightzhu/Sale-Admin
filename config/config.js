@@ -129,13 +129,13 @@ export default {
                 {
                   name: 'order_list',
                   icon: 'user',
-                  path: '/order/order_list',
+                  path: '/order/orderList',
                   component: './Order',
                 },
                 {
                   name: 'refund_list',
                   icon: 'solution',
-                  path: '/order/refund_list',
+                  path: '/order/refundList',
                   component: './Order/refund',
                 },
               ],
@@ -154,7 +154,7 @@ export default {
                   component: './Inventory',
                 },
                 {
-                  path: '/commodity/commodity_add',
+                  path: '/commodity/commodityAdd',
                   name: 'commodity_add',
                   icon: 'file-done',
                   component: './Commodity',
@@ -175,7 +175,7 @@ export default {
                 {
                   name: 'user_list',
                   icon: 'solution',
-                  path: '/account/user_list',
+                  path: '/account/userList',
                   component: './Account/user',
                 },
               ],

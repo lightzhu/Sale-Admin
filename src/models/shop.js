@@ -1,4 +1,4 @@
-import { getShopById, getShopList } from '@/services/shop'
+import { getShopById, getShopList, creatShop } from '@/services/shop'
 const ShopModel = {
   namespace: "shop",
   state: {
@@ -22,15 +22,15 @@ const ShopModel = {
   effects: {
     *fetch({ payload }, { call, put }) {
       const response = yield call(getShopById, payload);
-      console.log(response);
       yield put({
         type: "save",
         payload: response.data
       });
     },
-    *clean({ payload }, { call, put }) {
+    *creat({ payload }, { call, put }) {
+      const response = yield call(creatShop, payload);
       yield put({
-        type: "clean",
+        type: "creat",
         payload: { merchantId: window.localStorage.getItem('id') }
       });
     },
@@ -47,7 +47,7 @@ const ShopModel = {
     save(state, action) {
       return { ...state, shopInfo: action.payload || {} };
     },
-    clean(state, action) {
+    creat(state, action) {
       return { ...state, shopInfo: action.payload || {} };
     },
     saveShops(state, action) {

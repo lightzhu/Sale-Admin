@@ -32,7 +32,7 @@ const Model = {
       } else {
         callback = addFakeList
       }
-      const response = yield call(callback, payload) // post
+      const response = yield call(callback, payload)
       yield put({
         type: 'queryList',
         payload: response

@@ -1,6 +1,6 @@
 export default {
   // 支持值为 Object 和 Array
-  'GET /api/homeSum': {
+  'GET /home/homeSum': {
     code: '200',
     sumMoney: [
       { name: 'today', val: 90 },
@@ -15,7 +15,7 @@ export default {
       { name: 'month', val: 390 }
     ]
   },
-  'GET /api/homeBills': {
+  'GET /home/homeBills': {
     code: '200',
     BillList: [
       {
@@ -64,7 +64,7 @@ export default {
       }
     ]
   },
-  'GET /api/getRepertory': {
+  'GET /home/getRepertory': {
     code: '200',
     ProductList: [
       {

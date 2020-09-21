@@ -167,13 +167,6 @@ const SaTable = (props) => {
     },
   ]
   const { tableData } = props
-  // state = {
-  //   updateModalVisible: false,
-  //   stepFormValues: {},
-  //   tableData: [],
-  //   checkValue: 0, // 0:全部  1:在售  2:不可售
-  // }
-
   return (
     <>
       <Table
@@ -181,6 +174,7 @@ const SaTable = (props) => {
         columns={columns}
         dataSource={tableData}
         size='small'
+        rowKey={() => Math.random(100)}
         bordered
       />
     </>

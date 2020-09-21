@@ -10,7 +10,7 @@ const UserModel = {
   effects: {
     *fetch(_, { call, put }) {
       const response = yield call(queryUsers);
-      console.log(response);
+      // console.log(response);
       yield put({
         type: "save",
         payload: response.data
@@ -18,7 +18,6 @@ const UserModel = {
     },
     *fetchCurrent({ payload }, { call, put }) {
       const current = yield call(queryCurrent, payload);
-      console.log(current);
       yield put({
         type: "saveCurrentUser",
         payload: current.data

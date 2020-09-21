@@ -15,7 +15,6 @@ const formItemLayout = {
 
 const BasicInfo = (props) => {
   const { form, dispatch, data, category, shopInfo, shopsList } = props
-  console.log(shopsList)
   const secondCate = Object.values(category)[0]
   const firstCate = Object.keys(category)
   // console.log(data)

@@ -97,7 +97,7 @@
 
 ## 获取当前用户信息： /user/currentUser
 
-### Method: GET
+### Method: POST
 
 ### Request
 
@@ -131,7 +131,7 @@
 | 密码         | password | String | 是       |                        |
 | 加密的密码   | signpwd  | String | 是       |                        |
 
-## 提交商品基础信息： /v1/product/basicInfo
+## 提交商品基础信息： /product/basicInfo
 
 ### Method: POST
 
@@ -157,7 +157,7 @@
 | 返回数据 | data      | Object  |          |      |
 | 错误代码 | errorCode | int     |          |      |
 
-## 提交更多商品信息： /v1/product/advanceInfo
+## 提交更多商品信息： /product/advanceInfo
 
 ### Method: POST
 
@@ -182,9 +182,9 @@
 | 返回数据 | data      | Object  |          |      |
 | 错误代码 | errorCode | int     |          |      |
 
-## 获取库存列表： /v1/product/inventory
+## 获取库存列表： /product/inventory
 
-### Method: GET
+### Method: POST
 
 ### Request
 
@@ -218,7 +218,7 @@
 | 价格 | price | int | 是 |  |
 | 是否下架 | disabled | boolean | 是 |  |
 
-## 停售商品： /v1/product/disableProduct
+## 停售商品： /product/disableProduct
 
 ### Method: GET
 
@@ -236,7 +236,7 @@
 | 返回信息 | message   | String  |          |      |
 | 错误代码 | errorCode | int     |          |      |
 
-## 删除商品： /v1/product/removeProduct
+## 删除商品： /product/removeProduct
 
 ### Method: GET
 
@@ -254,7 +254,7 @@
 | 返回信息 | message   | String  |          |      |
 | 错误代码 | errorCode | int     |          |      |
 
-## 获取库存列表： /v1/order/orderList
+## 获取库存列表： /order/order_list
 
 ### Method: GET
 
@@ -290,7 +290,7 @@
 | 订单状态 | statusCode | String | 是       | 0，1，2 |
 | 快递单号 | express    | String | 是       |         |
 
-## 删除订单： /v1/order/deleOrder
+## 删除订单： /order/deleOrder
 
 ### Method: POST
 
@@ -309,7 +309,7 @@
 | 返回数据 | data      | List    |          |      |
 | 错误代码 | errorCode | int     |          |      |
 
-## 填写发货快递单号： /v1/order/setExpress
+## 填写发货快递单号： /order/setExpress
 
 ### Method: POST
 
@@ -329,7 +329,7 @@
 | 返回数据 | data      | List    |          |      |
 | 错误代码 | errorCode | int     |          |      |
 
-## 获取退款订单列表： /v1/order/refundList
+## 获取退款订单列表： /order/refundList
 
 ### Method: GET
 
@@ -367,7 +367,7 @@
 | 买家地址    | address     | String | 是       |      |
 | 买家留言    | description | String | 是       |      |
 
-## 同意退款： /v1/order/agreeRefund
+## 同意退款： /order/agreeRefund
 
 ### Method: POST
 
@@ -386,9 +386,9 @@
 | 返回数据 | data      | Object  |          |      |
 | 错误代码 | errorCode | int     |          |      |
 
-## 拒绝退款： /v1/order/refuseRefund
+## 拒绝退款： /order/refuseRefund
 
-### Method: POST
+### Method: GET
 
 ### Request
 

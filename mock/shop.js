@@ -2,7 +2,7 @@ import Mock from 'mockjs';
 
 export default {
   'POST /shop/getShopById': (req, res) => {
-    console.log(req)
+    // console.log(req)
     res.send({
       status: 200,
       data: {
@@ -11,14 +11,13 @@ export default {
         name: "测试店铺",
         shopDesc: "一家专门做特卖的店铺"
       },
-      message: "OK"
+      message: "ok"
     })
   },
   'POST /shop/getShopListById': (req, res) => {
-    console.log(req)
     res.send({
       status: 200,
-      message: "OK",
+      message: "ok",
       data: [
         {
           id: 5,
@@ -45,27 +44,18 @@ export default {
       ]
     })
   },
-  // GET POST 可省略
-  'GET /user/users': Mock.mock({
-    'data|100': [
-      {
-        key: '@guid(100)',
-        id: '@id(10000)',
-        title: '@sentence(1, 4)',
-        company: '@name',
-        email: '@email',
-        name: '@name',
-        phone_number: '@natural(10000000000, 19999999999)',
-        address: '@county(true)',
-        reigster_time: '@datetime'
-      }
-    ]
-  }),
-  'POST /v1/shop/setShop': (req, res) => {
-    console.log(req)
+  'POST /shop/setShop': (req, res) => {
     res.send({
       status: 200,
       isRegister: true
+    })
+  },
+  'POST /shop/creatShop': (req, res) => {
+    let body = req.body
+    res.send({
+      status: 200,
+      new: { ...body },
+      message: 'ok'
     })
   }
 }

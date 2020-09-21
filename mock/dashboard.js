@@ -177,5 +177,5 @@ const getFakeChartData = {
   radarData
 }
 export default {
-  'GET  /api/fake_chart_data': getFakeChartData
+  'GET  /fake_chart_data': getFakeChartData
 }

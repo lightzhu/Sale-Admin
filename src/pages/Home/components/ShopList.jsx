@@ -18,7 +18,6 @@ const ShopList = ({ shopsList, creatShop, updateShop, dispatch }) => {
             type='dashed'
             className={styles.newButton}
             onClick={() => {
-              // dispatch({ type: 'shop/clean' })
               creatShop(true)
             }}>
             <PlusOutlined /> 新增店铺

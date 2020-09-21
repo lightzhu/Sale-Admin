@@ -16,7 +16,7 @@ function getCity(req, res) {
 export default {
   // 支持值为 Object 和 Array
   'POST /user/currentUser': {
-    msg: 'OK',
+    message: 'ok',
     status: 200,
     data: {
       id: 47,
@@ -45,7 +45,7 @@ export default {
   'POST /user/updateMerchant': (req, res) => {
     res.send({
       status: '200',
-      msg: 'mod is ok'
+      message: 'ok'
     })
   },
   // GET POST 可省略
@@ -75,7 +75,7 @@ export default {
           token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0aW1lU3RhbXAiO",
           id: 1
         },
-        message: "OK"
+        message: "ok"
       })
     } else {
       return res.send({
@@ -85,19 +85,14 @@ export default {
           token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0aW1lU3RhbXAiO",
           id: 1
         },
-        message: "OK"
+        message: "ok"
       })
     }
-    res.send({
-      status: 'error',
-      code: '203',
-      message: "登陆失败"
-    })
   },
   'POST /login/register': (req, res) => {
     res.send({
       status: '200',
-      msg: 'OK',
+      message: 'ok',
       isRegister: true
     })
   },

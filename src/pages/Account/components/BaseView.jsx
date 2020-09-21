@@ -117,7 +117,7 @@ class BaseAcount extends Component {
     let param = { id: window.localStorage.getItem('id') || '' }
     param[modKey] = modText
     this.props
-      .request('/v1/user/updateMerchant', {
+      .request('/user/updateMerchant', {
         method: 'POST',
         data: param,
       })

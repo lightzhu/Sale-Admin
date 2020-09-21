@@ -66,7 +66,7 @@ const CommodityModel = {
           payload: 'advance'
         })
       } else {
-        console.log(response)
+        // console.log(response)
         message.warn(response.msg)
       }
     },

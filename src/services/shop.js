@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 // 获取店铺id
 export async function getShopById(params) {
-  return request('/v1/shop/getShopById', {
+  return request('/shop/getShopById', {
     method: 'POST',
     data: params
   })
@@ -15,7 +15,7 @@ export async function getShopList(params) {
 }
 // 创建新的门店
 export async function creatShop(params) {
-  return request('/v1/shop/createShop', {
+  return request('/shop/creatShop', {
     method: 'POST',
     data: params
   })
@@ -23,14 +23,8 @@ export async function creatShop(params) {
 
 // 修改门店信息
 export async function updateShopInfo(params) {
-  return request('/v1/shop/updateShop', {
+  return request('/shop/updateShop', {
     method: 'POST',
     data: params
   })
 }
-// export async function submitAdvanceInfo(params) {
-//   return request('/v1/product/advanceInfo', {
-//     method: 'POST',
-//     data: params
-//   })
-// }

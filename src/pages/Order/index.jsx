@@ -401,7 +401,10 @@ class Order extends Component {
           visible={expressVisible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}>
-          <Input placeholder='输入快递单号' onChange={this.onChange} />
+          <Input
+            placeholder='输入快递单号'
+            onChange={this.onChange.bind(this)}
+          />
         </Modal>
       </>
     )

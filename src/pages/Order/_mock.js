@@ -87,7 +87,7 @@ function getOrderList(req, res) {
   sourceData = result
   return res.json({
     status: '200',
-    message: "OK",
+    message: "ok",
     data: result
   })
 }
@@ -100,12 +100,11 @@ function postFakeList(req, res) {
 
   const { method, id } = body // const count = (params.count * 1) || 20;
   let result = sourceData || []
-
+  debugger
   switch (method) {
     case 'delete':
       result = result.filter(item => item.id !== id)
       break
-
     case 'update':
       result.forEach((item, i) => {
         if (item.id === id) {
@@ -113,7 +112,6 @@ function postFakeList(req, res) {
         }
       })
       break
-
     case 'post':
       result.unshift({
         ...body,
@@ -121,16 +119,18 @@ function postFakeList(req, res) {
         createdAt: new Date().getTime()
       })
       break
-
     default:
       break
   }
-
-  return res.json(result)
+  return res.json({
+    status: '200',
+    message: "ok",
+    data: result
+  })
 }
 const fakeRefundList = Mock.mock({
   total: 100,
-  msg: "OK",
+  message: "ok",
   status: 200,
   'data|10': [
     {
@@ -154,7 +154,7 @@ const fakeRefundList = Mock.mock({
   ]
 })
 const fakeRefundCondition = Mock.mock({
-  msg: "OK",
+  message: "ok",
   status: 200,
   'data|5': [
     {
@@ -183,16 +183,16 @@ export default {
   'POST /order/dele_order': (req, res) => {
     res.send({
       status: '200',
-      message: "OK"
+      message: "ok"
     })
   },
   'POST  /order/set_express': (req, res) => {
     res.send({
       status: '200',
-      message: "OK"
+      message: "ok"
     })
   },
   'POST  /order/fake_list': postFakeList,
-  'POST  /order/refund_list': fakeRefundList,
-  'POST  /order/refund_list_condition': fakeRefundCondition
+  'GET  /order/refund_list': fakeRefundList,
+  'GET  /order/refund_list_condition': fakeRefundCondition
 }

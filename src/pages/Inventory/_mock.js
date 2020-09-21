@@ -76,7 +76,7 @@ function getTableData(req, res, u) {
   const result = {
     data: dataSource,
     total: dataSource.length,
-    msg: "true",
+    message: "true",
     status: 200,
     pageSize,
     current: parseInt(`${params.currentPage}`, 10) || 1
@@ -129,5 +129,6 @@ function removeProduct(req, res, u, b) {
 export default {
   'POST /product/inventory': getTableData,
   'GET /product/disableProduct': disableShop,
-  'GET /product/removeProduct': removeProduct
+  'GET /product/removeProduct': removeProduct,
+  'POST /product/updateInfo': getTableData
 }

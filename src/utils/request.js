@@ -2,17 +2,18 @@
  * request 网络请求工具
  * 更详细的 api 文档: https://github.com/umijs/umi-request
  */
-
-// const base_url = 'https://www.fastmock.site/mock/a63c09f31c2ed788b5a54059058ca453/saleapi/api';
+// mock 线上地址
+let base_url = 'https://www.fastmock.site/mock/a63c09f31c2ed788b5a54059058ca453/saleapi';
 // let base_url = 'http://118.190.105.213:8090';
-let base_url = '';
 if (process.env.NODE_ENV === 'development') {
   console.log('development')
-  // base_url = '/api';
+  base_url = '' // 开放环境走mock数据
+  // base_url = 'https://www.fastmock.site/mock/a63c09f31c2ed788b5a54059058ca453/saleapi';
 } else {
   console.log('deploy')
+  base_url = 'https://www.fastmock.site/mock/a63c09f31c2ed788b5a54059058ca453/saleapi/api';
 }
-const website = `//${window.location.host}/8000/`
+
 import { extend } from "umi-request";
 import { notification, message } from "antd";
 const codeMessage = {
@@ -69,7 +70,7 @@ const request = extend({
 });
 // request拦截器, 改变url 或 options.
 request.interceptors.request.use((url, options) => {
-  console.log(options)
+  // console.log(options)
   if (url.indexOf('signIn') == -1) {
     options.headers = {
       'Authorization': window.localStorage.getItem('token')
@@ -92,7 +93,6 @@ request.interceptors.response.use((response) => {
   // } else {
   //   message.warning(response.statusText);
   // }
-  console.log(response)
   return response;
 });
 export default request;

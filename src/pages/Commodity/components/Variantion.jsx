@@ -198,7 +198,7 @@ class Variantion extends React.Component {
             marginBottom: 16,
             margin: 0,
           }}>
-          Add New
+          新增
         </Button>
         <Button
           onClick={this.handleConfirm}
@@ -207,7 +207,7 @@ class Variantion extends React.Component {
             marginBottom: 16,
             margin: 0,
           }}>
-          Confirm
+          确认
         </Button>
       </>
     )

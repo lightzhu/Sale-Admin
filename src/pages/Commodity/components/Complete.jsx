@@ -4,7 +4,7 @@ import { connect } from 'dva'
 import { Link } from 'umi'
 import styles from './index.less'
 
-const Complete = props => {
+const Complete = (props) => {
   const { data, dispatch } = props
 
   if (!data) {
@@ -17,7 +17,7 @@ const Complete = props => {
     if (dispatch) {
       dispatch({
         type: 'commodity/saveCurrentStep',
-        payload: 'info'
+        payload: 'info',
       })
     }
   }
@@ -39,7 +39,7 @@ const Complete = props => {
       <Button type='primary' onClick={onFinish}>
         新增一条
       </Button>
-      <Link to='/inventory'>
+      <Link to='/commodity/inventory'>
         <Button>查看库存</Button>
       </Link>
     </>
@@ -57,5 +57,5 @@ const Complete = props => {
 }
 
 export default connect(({ commodity }) => ({
-  data: commodity.product
+  data: commodity.product,
 }))(Complete)

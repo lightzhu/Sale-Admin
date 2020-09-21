@@ -1,13 +1,13 @@
 export default {
-  'POST  /product/basicInfo': (_, res) => {
+  'POST /product/basicInfo': (_, res) => {
     res.send({
       status: '200',
-      message: 'Ok'
+      message: 'ok'
     })
   },
-  'POST  /product/advanceInfo': (_, res) => {
+  'POST /product/advanceInfo': (_, res) => {
     res.send({
-      message: 'Ok',
+      message: 'ok',
       status: '200',
     })
   }

@@ -1,11 +1,11 @@
 import request from '@/utils/request'
 export async function getSummary() {
-  return request('/api/homeSum')
+  return request('/home/homeSum')
 }
 export async function getHomeBills() {
-  return request('/api/homeBills')
+  return request('/home/homeBills')
 }
 export async function getRepertory() {
-  return request('/api/getRepertory')
+  return request('/home/getRepertory')
 }
 
