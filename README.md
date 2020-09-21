@@ -1,6 +1,8 @@
 # 基于 Ant Design 和 umi 的 react 电商后台管理平台
 
-This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
+This project is initialized with [Ant Design Pro](https://pro.ant.design).
+
+一个简单的电商商品管理后台。
 
 ## 发不到 github page
 
@@ -14,6 +16,8 @@ This project is initialized with [Ant Design Pro](https://pro.ant.design). Follo
 ```
 
 ## 前端展示
+
+[特卖商城后台管理] http://www.2048888.xyz/Sale-Admin/
 
 <div align="center">
 <img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7.0/image/react/sale-mall1.png" height="320" width="568" >
