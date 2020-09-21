@@ -46,9 +46,9 @@ const defaultFooterDom = (
     copyright='2019 蚂蚁金服体验技术部出品'
     links={[
       {
-        key: 'Ant Design Pro',
-        title: '后台管理',
-        href: 'https://pro.ant.design',
+        key: 'My blog',
+        title: '我的主页',
+        href: 'https://www.2048888.xyz/',
         blankTarget: true,
       },
       {

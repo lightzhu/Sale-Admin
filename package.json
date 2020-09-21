@@ -2,7 +2,8 @@
   "name": "sale-admin",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://lightzhu.github.io/mall_admin",
+  "homepage1": "https://lightzhu.github.io/Sale-Admin",
+  "homepage": "./",
   "description": "An Sale-Web-Admin",
   "scripts": {
     "analyze": "cross-env ANALYZE=1 umi build",

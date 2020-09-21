@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'development') {
   // base_url = 'https://www.fastmock.site/mock/a63c09f31c2ed788b5a54059058ca453/saleapi';
 } else {
   console.log('deploy')
-  base_url = 'https://www.fastmock.site/mock/a63c09f31c2ed788b5a54059058ca453/saleapi/api';
+  base_url = 'https://www.fastmock.site/mock/a63c09f31c2ed788b5a54059058ca453/saleapi';
 }
 
 import { extend } from "umi-request";

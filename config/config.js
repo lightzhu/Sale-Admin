@@ -72,6 +72,9 @@ export default {
   targets: {
     ie: 11,
   },
+  history: { type: 'hash' },
+  base: '/Sale-Admin/',
+  publicPath: '/Sale-Admin/',
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: [
     {

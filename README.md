@@ -2,6 +2,34 @@
 
 This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
 
+## 发不到 github page
+
+修改 config,添加
+
+```
+  history: { type: 'hash' }, // 使用hash模式，默认是browser
+  base: '/Sale-Admin/', // 指定跟路径
+  publicPath: '/Sale-Admin/', // 指定公共静态资源目录
+  // 参考更多：https://pro.ant.design/docs/deploy-cn
+```
+
+## 前端展示
+
+<div align="center">
+<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7/image/react/sale-mall1.png" height="320" width="568" >
+<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7/image/react/sale-mall2.png" height="320" width="568" >
+</div>
+
+<div align="center">
+<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7/image/react/sale-mall3.png" height="320" width="568" >
+<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7/image/react/sale-mall4.png" height="320" width="568" >
+</div>
+
+<div align="center">
+<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7/image/react/sale-mall5.png" height="320" width="568" >
+<img src="https://cdn.jsdelivr.net/gh/lightzhu/public_cdn@0.7/image/react/sale-mall6.png" height="320" width="568" >
+</div>
+
 ## Environment Prepare
 
 Install `node_modules`:
