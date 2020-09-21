@@ -9,7 +9,7 @@ This project is initialized with [Ant Design Pro](https://pro.ant.design).
 修改 config,添加
 
 ```
-  history: { type: 'hash' }, // 使用hash模式，默认是browser
+  history: 'hash', // 使用hash模式，默认是browser
   base: '/Sale-Admin/', // 指定跟路径
   publicPath: '/Sale-Admin/', // 指定公共静态资源目录
   // 参考更多：https://pro.ant.design/docs/deploy-cn
