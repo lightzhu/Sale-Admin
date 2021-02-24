@@ -9,6 +9,7 @@ const HomeModel = {
   },
   effects: {
     *fetch(_, { call, put }) {
+      console.log(_)
       const response = yield call(getSummary)
       yield put({
         type: 'save',
