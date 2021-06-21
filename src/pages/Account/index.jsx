@@ -47,7 +47,7 @@ class Account extends Component {
     if (isEmptyObj(currentUser)) {
       dispatch({
         type: 'user/fetchCurrent',
-        payload: { id: window.localStorage.getItem('id') },
+        payload: { id: window.sessionStorage.getItem('id') },
       })
     }
     window.addEventListener('resize', this.resize)

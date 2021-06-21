@@ -1,6 +1,6 @@
 import { stringify } from 'querystring'
 import { router } from 'umi'
-import { accountLogin, register } from '@/services/login'
+import { accountLogin, register, signOut } from '@/services/login'
 import { setAuthority } from '@/utils/authority'
 import { getPageQuery, clearStorage } from '@/utils/utils'
 import { message } from "antd";
@@ -15,7 +15,7 @@ const Model = {
     email: ''
   },
   effects: {
-    *login({ payload }, { call, put }) {
+    *login ({ payload }, { call, put }) {
       const response = yield call(accountLogin, payload)
       // console.log(response)
       yield put({
@@ -25,6 +25,7 @@ const Model = {
       if (response.status === 200) {
         const urlParams = new URL(window.location.href)
         const params = getPageQuery()
+        console.log(params)
         let { redirect } = params
         if (redirect) {
           const redirectUrlParams = new URL(redirect)
@@ -43,22 +44,25 @@ const Model = {
         message.error(response.message)
       }
     },
-    *register({ payload }, { call, put }) {
+    *register ({ payload }, { call, put }) {
       const response = yield call(register, payload)
       if (response.status == 200) {
         yield put({
           type: 'changeRegisterStatus',
           payload: { data: response.data, email: payload.email }
         })
-        window.location.href = '/user/regresult'
+        router.push('/user/regresult')
       } else {
         message.error(response.message)
       }
     },
 
-    async logout() {
+    async logout () {
       await clearStorage()
       const { redirect } = getPageQuery() // Note: There may be security issues, please note
+      const resp = await signOut()
+      console.log(resp)
+      console.log(window.location.pathname)
       if (window.location.pathname !== '/user/login' && !redirect) {
         router.replace({
           pathname: '/user/login',
@@ -70,16 +74,16 @@ const Model = {
     }
   },
   reducers: {
-    changeLoginStatus(state, { payload }) {
-      const { id, token, currentAuthority } = payload.data
-      setAuthority(currentAuthority)
-      window.localStorage.setItem('id', id)
-      window.localStorage.setItem('shopId', id)
-      window.localStorage.setItem('token', token)
+    changeLoginStatus (state, { payload }) {
+      const { id, _id, role } = payload.data
+      setAuthority(role)
+      window.sessionStorage.setItem('id', id)
+      // window.sessionStorage.setItem('shopId', id)
+      window.sessionStorage.setItem('token', _id)
       return { ...state, status: payload.status, message: payload.message, ...payload.data }
     },
-    changeRegisterStatus(state, { payload }) {
-      window.localStorage.setItem('email', payload.email)
+    changeRegisterStatus (state, { payload }) {
+      window.sessionStorage.setItem('email', payload.email)
       return { ...state, isRegister: payload.data, email: payload.email }
     },
   }

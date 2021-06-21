@@ -10,7 +10,7 @@ import { Link } from 'umi'
 import { connect } from 'dva'
 import { GithubOutlined } from '@ant-design/icons'
 import { Result, Button } from 'antd'
-import Authorized from '@/utils/Authorized'
+import {Authorized} from "@/utils/authority"
 import RightContent from '@/components/GlobalHeader/RightContent'
 import { isAntDesignPro, getAuthorityFromRouter } from '@/utils/utils'
 import logo from '../assets/logo.svg'
@@ -115,7 +115,7 @@ const Layout = (props) => {
         payload,
       })
     }
-  } // get children authority
+  }
 
   const authorized = getAuthorityFromRouter(
     props.route.routes,

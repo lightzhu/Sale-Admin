@@ -8,7 +8,7 @@ const UserModel = {
     isLoading: false,
   },
   effects: {
-    *fetch(_, { call, put }) {
+    *fetch (_, { call, put }) {
       const response = yield call(queryUsers);
       // console.log(response);
       yield put({
@@ -16,14 +16,20 @@ const UserModel = {
         payload: response.data
       });
     },
-    *fetchCurrent({ payload }, { call, put }) {
+    *queryCurrent ({ payload }, { call, put }) {
       const current = yield call(queryCurrent, payload);
       yield put({
         type: "saveCurrentUser",
         payload: current.data
       });
     },
-    *fetchProvince(_, { call, put }) {
+    *setCurrent ({ payload }, { call, put }) {
+      yield put({
+        type: "saveCurrentUser",
+        payload
+      });
+    },
+    *fetchProvince (_, { call, put }) {
       yield put({
         type: 'changeLoading',
         payload: true,
@@ -36,7 +42,7 @@ const UserModel = {
       });
     },
 
-    *fetchCity({ payload }, { call, put }) {
+    *fetchCity ({ payload }, { call, put }) {
       const response = yield call(queryCity, payload);
       yield put({
         type: 'setCity',
@@ -45,10 +51,10 @@ const UserModel = {
     },
   },
   reducers: {
-    saveCurrentUser(state, action) {
+    saveCurrentUser (state, action) {
       return { ...state, currentUser: action.payload || {} };
     },
-    changeNotifyCount(
+    changeNotifyCount (
       state = {
         currentUser: {}
       },
@@ -63,14 +69,14 @@ const UserModel = {
         }
       };
     },
-    setProvince(state, action) {
+    setProvince (state, action) {
       return { ...state, province: action.payload };
     },
-    setCity(state, action) {
+    setCity (state, action) {
       return { ...state, city: action.payload };
     },
 
-    changeLoading(state, action) {
+    changeLoading (state, action) {
       return { ...state, isLoading: action.payload };
     },
   }

@@ -1,8 +1,4 @@
-import {
-  LogoutOutlined,
-  SettingOutlined,
-  UserOutlined,
-} from '@ant-design/icons'
+import {LogoutOutlined,SettingOutlined,UserOutlined} from '@ant-design/icons'
 import { Avatar, Menu, Spin } from 'antd'
 import React from 'react'
 import { connect } from 'dva'
@@ -62,7 +58,7 @@ class AvatarDropdown extends React.Component {
         </Menu.Item>
       </Menu>
     )
-    return currentUser && currentUser.name ? (
+    return currentUser && currentUser.user_name ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
           <Avatar
@@ -71,7 +67,7 @@ class AvatarDropdown extends React.Component {
             src={currentUser.avatar}
             alt='avatar'
           />
-          <span className={styles.name}>{currentUser.name}</span>
+          <span className={styles.name}>{currentUser.user_name}</span>
         </span>
       </HeaderDropdown>
     ) : (

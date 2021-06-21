@@ -1,15 +1,15 @@
 import city from './geographic/city.json';
 import province from './geographic/province.json';
 import Mock from 'mockjs';
-function getFakeCaptcha(req, res) {
+function getFakeCaptcha (req, res) {
   return res.json('captcha-xxx')
 } // 代码中会兼容本地 service mock 以及部署站点的静态数据
-function getProvince(req, res) {
+function getProvince (req, res) {
   console.log(0)
   return res.json(province);
 }
 
-function getCity(req, res) {
+function getCity (req, res) {
   return res.json(city[req.params.province]);
 } // 代码中会兼容本地 service mock 以及部署站点的静态数据
 
@@ -64,14 +64,14 @@ export default {
       }
     ]
   }),
-  'POST /login/signIn': (req, res) => {
+  'POST /admin/login': (req, res) => {
     const { password, username } = req.body
     console.log(password, username)
     if (password && username == 'admin') {
       return res.send({
         status: 200,
         data: {
-          currentAuthority: 'admin',
+          role: 'admin',
           token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0aW1lU3RhbXAiO",
           id: 1
         },
@@ -81,7 +81,7 @@ export default {
       return res.send({
         status: 200,
         data: {
-          currentAuthority: 'user',
+          role: 'user',
           token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0aW1lU3RhbXAiO",
           id: 1
         },

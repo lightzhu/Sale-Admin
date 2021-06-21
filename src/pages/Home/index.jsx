@@ -50,7 +50,7 @@ class Home extends React.Component {
     if (dispatch) {
       dispatch({
         type: 'shop/fetchShops',
-        payload: { id: window.localStorage.getItem('id') },
+        payload: { id: window.sessionStorage.getItem('id') },
       })
     }
   }

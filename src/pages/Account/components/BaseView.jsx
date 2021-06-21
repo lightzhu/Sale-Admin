@@ -114,7 +114,7 @@ class BaseAcount extends Component {
   handleOk = (e) => {
     // console.log(this.props.request)
     const { modKey, modText } = this.state
-    let param = { id: window.localStorage.getItem('id') || '' }
+    let param = { id: window.sessionStorage.getItem('id') || '' }
     param[modKey] = modText
     this.props
       .request('/user/updateMerchant', {

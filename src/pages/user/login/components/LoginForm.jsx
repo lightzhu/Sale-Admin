@@ -62,7 +62,7 @@ class LoginForm extends Component {
                   prefix={
                     <Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />
                   }
-                  placeholder='用户名: username@qq.com'
+                  placeholder='用户名: admin'
                 />
               )}
             </Form.Item>

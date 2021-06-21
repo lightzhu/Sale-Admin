@@ -48,6 +48,12 @@ or
 yarn
 ```
 
+解决一些安装报错
+
+```bash
+npm install --no-optional
+```
+
 ## Provided Scripts
 
 Ant Design Pro provides some useful script to help you quick start and build with web project, code style check and test.

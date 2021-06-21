@@ -33,7 +33,7 @@
 
 <span id="signIn">
 
-## 登录接口： /login/signIn
+## 登录接口： /admin/login
 
 ### Method: POST
 
@@ -204,19 +204,19 @@
 
 <span id="inventory">
 
-| 参数名 | 变量名 | 类型 | 是否必须 | 备注 |
-| --- | --- | --- | --- | --- |
-| 商品主键 | key | String | 是 |  |
-| 商品链接 | href | String | 是 |  |  |
-| 商品主图 | image | String | 是 |  |
-| 商品名称 | title | String | 是 |  |
-| 描述 | desc | String |  |  |
-| 可售数量 | availableNo | int | 待定 |  |
-| 已售数量 | saleNo | int | 是 |  |
-| 上架数量 | productNo | int | 是 |  |
-| 状态 | status | tring | 是 | 0 = '不可售'，1='销售中',2='不可售' |
-| 价格 | price | int | 是 |  |
-| 是否下架 | disabled | boolean | 是 |  |
+| 参数名   | 变量名      | 类型    | 是否必须 | 备注                                |
+| -------- | ----------- | ------- | -------- | ----------------------------------- |
+| 商品主键 | key         | String  | 是       |                                     |
+| 商品链接 | href        | String  | 是       |                                     |  |
+| 商品主图 | image       | String  | 是       |                                     |
+| 商品名称 | title       | String  | 是       |                                     |
+| 描述     | desc        | String  |          |                                     |
+| 可售数量 | availableNo | int     | 待定     |                                     |
+| 已售数量 | saleNo      | int     | 是       |                                     |
+| 上架数量 | productNo   | int     | 是       |                                     |
+| 状态     | status      | tring   | 是       | 0 = '不可售'，1='销售中',2='不可售' |
+| 价格     | price       | int     | 是       |                                     |
+| 是否下架 | disabled    | boolean | 是       |                                     |
 
 ## 停售商品： /product/disableProduct
 

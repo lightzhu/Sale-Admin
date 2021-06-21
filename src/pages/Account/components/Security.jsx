@@ -28,7 +28,7 @@ class SecurityView extends Component {
   }
   handleOk = (e) => {
     const { modKey, modText, password, newPassword } = this.state
-    let param = { id: window.localStorage.getItem('id') || '' }
+    let param = { id: window.sessionStorage.getItem('id') || '' }
     param[modKey] = modText
     if (modKey == 'password') {
       param['oldPassword'] = password

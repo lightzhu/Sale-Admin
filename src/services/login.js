@@ -1,18 +1,24 @@
 import request from '@/utils/request'
 import { clearStorage } from '@/utils/utils'
-export async function accountLogin(params) {
+export async function accountLogin (params) {
   await clearStorage()
-  return request('/login/signIn', {
+  return request('/admin/login', {
     method: 'POST',
     data: params
   })
 }
-export async function register(params) {
-  return request('/login/register', {
+export async function register (params) {
+  console.log(params)
+  return request('/admin/register', {
     method: 'POST',
     data: params
   })
 }
-export async function getFakeCaptcha(mobile) {
+export async function signOut () {
+  return request('/admin/signout', {
+    method: 'GET'
+  })
+}
+export async function getFakeCaptcha (mobile) {
   return request(`/login/captcha?mobile=${mobile}`)
 }

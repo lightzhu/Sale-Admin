@@ -2,20 +2,21 @@
  * request 网络请求工具
  * 更详细的 api 文档: https://github.com/umijs/umi-request
  */
+
 // mock 线上地址
 let base_url = 'https://www.fastmock.site/mock/a63c09f31c2ed788b5a54059058ca453/saleapi';
 // let base_url = 'http://118.190.105.213:8090';
 if (process.env.NODE_ENV === 'development') {
   console.log('development')
-  base_url = '' // 开放环境走mock数据
-  // base_url = 'https://www.fastmock.site/mock/a63c09f31c2ed788b5a54059058ca453/saleapi';
+  base_url = 'api' // 开放环境走mock数据
 } else {
   console.log('deploy')
   base_url = 'https://www.fastmock.site/mock/a63c09f31c2ed788b5a54059058ca453/saleapi';
 }
-
+import { router } from 'umi'
 import { extend } from "umi-request";
 import { notification, message } from "antd";
+// import Cookies from "js-cookie";
 const codeMessage = {
   200: "服务器成功返回请求的数据。",
   201: "新建或修改数据成功。",
@@ -61,19 +62,20 @@ const errorHandler = error => {
 
 const request = extend({
   errorHandler,
-  timeout: 3000,
+  timeout: 9000,
+  ttl: 1000,
   // params: {
   //   getResponse: true
   // }
   // 默认错误处理
-  credentials: "omit" // 默认请求是否带上cookie
+  credentials: "include" // 默认请求是否带上cookie
 });
 // request拦截器, 改变url 或 options.
 request.interceptors.request.use((url, options) => {
   // console.log(options)
   if (url.indexOf('signIn') == -1) {
     options.headers = {
-      'Authorization': window.localStorage.getItem('token')
+      'Authorization': sessionStorage.getItem('token')
     }
   }
   return (
@@ -85,14 +87,20 @@ request.interceptors.request.use((url, options) => {
 });
 request.interceptors.response.use((response) => {
   // message.error(codeMaps[response.status]);
-  if (response.status == '201') {
-    window.location.pathname = '/user/login'
+  console.log(response)
+  if (response.status == '401') {
+    router.replace({
+      pathname: '/user/login',
+      // search: stringify({
+      //   redirect: window.location.href
+      // })
+    })
   }
-  // if (response.status == '200') {
-  //   message.success(response.statusText);
-  // } else {
-  //   message.warning(response.statusText);
-  // }
+  if (response.status == '200') {
+    // message.success(response.statusText);
+  } else {
+    message.error(response.message);
+  }
   return response;
 });
 export default request;

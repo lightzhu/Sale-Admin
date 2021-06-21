@@ -30,7 +30,7 @@ class CreatShop extends Component {
       if (err) return
       const formVals = { ...fieldsValue }
       let params = Object.assign(fieldsValue, {
-        id: localStorage.getItem('id'),
+        id: sessionStorage.getItem('id'),
       })
       console.log(isShopEdit)
       if (isShopEdit) {

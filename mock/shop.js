@@ -14,7 +14,7 @@ export default {
       message: "ok"
     })
   },
-  'POST /shop/getShopListById': (req, res) => {
+  'POST /shop/getShopsByOwner': (req, res) => {
     res.send({
       status: 200,
       message: "ok",

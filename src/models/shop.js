@@ -20,21 +20,21 @@ const ShopModel = {
     }
   },
   effects: {
-    *fetch({ payload }, { call, put }) {
+    *fetch ({ payload }, { call, put }) {
       const response = yield call(getShopById, payload);
       yield put({
         type: "save",
         payload: response.data
       });
     },
-    *creat({ payload }, { call, put }) {
+    *creat ({ payload }, { call, put }) {
       const response = yield call(creatShop, payload);
       yield put({
         type: "creat",
-        payload: { merchantId: window.localStorage.getItem('id') }
+        payload: { merchantId: window.sessionStorage.getItem('id') }
       });
     },
-    *fetchShops({ payload }, { call, put }) {
+    *fetchShops ({ payload }, { call, put }) {
       const response = yield call(getShopList, payload);
       console.log(response);
       yield put({
@@ -44,13 +44,13 @@ const ShopModel = {
     }
   },
   reducers: {
-    save(state, action) {
+    save (state, action) {
       return { ...state, shopInfo: action.payload || {} };
     },
-    creat(state, action) {
+    creat (state, action) {
       return { ...state, shopInfo: action.payload || {} };
     },
-    saveShops(state, action) {
+    saveShops (state, action) {
       return { ...state, shopsList: action.payload || [] };
     }
   }

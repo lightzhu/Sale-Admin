@@ -37,7 +37,7 @@ const getEamilLocation = (str) => {
 }
 
 const RegisterResult = () => {
-  let email = window.localStorage.getItem('email')
+  let email = window.sessionStorage.getItem('email')
   const actions = (
     <div className={styles.actions}>
       <Button size='large' type='primary' href={getEamilLocation(email)}>

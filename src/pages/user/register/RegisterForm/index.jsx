@@ -94,16 +94,6 @@ class RegisterForm extends React.Component {
       <div className={styles.container}>
         <div id='components-form-demo-validate-static'>
           <Form {...formItemLayout} onSubmit={this.handleSubmit}>
-            <Form.Item label='nickname' hasFeedback>
-              {getFieldDecorator('nickname', {
-                rules: [
-                  {
-                    required: true,
-                    message: 'Should be a nick name',
-                  },
-                ],
-              })(<Input placeholder='Please input nick name' />)}
-            </Form.Item>
             <Form.Item label='E-mail' hasFeedback>
               {getFieldDecorator('email', {
                 rules: [
@@ -119,7 +109,7 @@ class RegisterForm extends React.Component {
               })(<Input placeholder='Please input your email' />)}
             </Form.Item>
             <Form.Item label='UserName' hasFeedback>
-              {getFieldDecorator('name', {
+              {getFieldDecorator('user_name', {
                 rules: [
                   {
                     required: true,

@@ -7,7 +7,7 @@ import { connect } from 'dva'
 import SelectLang from '@/components/SelectLang'
 import logo from '../assets/logo.svg'
 import styles from './UserLayout.less'
-/*  登陆注册模块 */
+/*  登陆注册模块 layout */
 const UserLayout = (props) => {
   const { route = { routes: [] } } = props
   const { routes = [] } = route

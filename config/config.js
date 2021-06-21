@@ -73,8 +73,8 @@ export default {
     ie: 11,
   },
   history: 'hash',
-  base: '/sale-admin/',
-  publicPath: '/sale-admin/',
+  base: '/', //sale-admin/
+  publicPath: '/',//sale-admin/
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: [
     {
@@ -253,12 +253,12 @@ export default {
     basePath: '/', // chainWebpack: webpackPlugin,
   },
   proxy: {
-    // '/api': {
-    //   target: 'http://118.190.105.213:8090',
-    //   changeOrigin: true,
-    //   pathRewrite: {
-    //     '^/api': '',
-    //   },
-    // },
+    '/api': {
+      target: 'http://localhost:8099',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api': '',
+      },
+    },
   }
 };

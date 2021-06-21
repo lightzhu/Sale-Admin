@@ -3,7 +3,7 @@ const RouterConfig = require("../../config/config").default.routes;
 
 const BASE_URL = `http://localhost:${process.env.PORT || 8000}`;
 
-function formatter(routes, parentPath = "") {
+function formatter (routes, parentPath = "") {
   const fixedParentPath = parentPath.replace(/\/{1,}/g, "/");
   let result = [];
   routes.forEach(item => {
@@ -25,7 +25,7 @@ function formatter(routes, parentPath = "") {
 beforeAll(async () => {
   await page.goto(`${BASE_URL}`);
   await page.evaluate(() => {
-    localStorage.setItem("antd-pro-authority", '["admin"]');
+    localStorage.setItem("authority", '["admin"]');
   });
 });
 
