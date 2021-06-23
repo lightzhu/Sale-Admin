@@ -1,4 +1,5 @@
-import { queryCurrent, query as queryUsers, queryNotices, updateAvatar, queryCity, queryProvince } from "@/services/user";
+import { queryCurrent, query as queryUsers, updateAdminInfo, updateAvatar, queryCity, queryProvince } from "@/services/user";
+import { message } from 'antd'
 const UserModel = {
   namespace: "user",
   state: {
@@ -23,11 +24,16 @@ const UserModel = {
         payload: current.data
       });
     },
-    *setCurrent ({ payload }, { call, put }) {
-      yield put({
-        type: "saveCurrentUser",
-        payload
-      });
+    *updateAdminInfo ({ payload }, { call, put }) {
+      const response = yield call(updateAdminInfo, payload);
+      if (response.status == 1) {
+        yield put({
+          type: "saveCurrentUser",
+          payload: response.data
+        })
+      } else {
+        message.error(response.message || '请求错误！');
+      }
     },
     *updateAvatar ({ payload }, { call, put }) {
       const response = yield call(updateAvatar, payload);

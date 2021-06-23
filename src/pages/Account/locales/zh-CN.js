@@ -16,7 +16,7 @@ export default {
   'account.basic.country-message': '请输入您的国家或地区!',
   'account.basic.geographic': '所在省市',
   'account.basic.geographic-message': '请输入您的所在省市!',
-  'account.basic.address': '街道地址',
+  'account.basic.address': '地址',
   'account.basic.address-message': '请输入您的街道地址!',
   'account.basic.phone': '联系电话',
   'account.basic.phone-message': '请输入您的联系电话!',

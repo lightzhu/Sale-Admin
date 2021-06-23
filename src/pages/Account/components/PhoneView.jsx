@@ -5,14 +5,13 @@ import styles from './PhoneView.less'
 
 const PhoneView = props => {
   const { value, onChange } = props
-  let values = ['', '']
-
-  if (value) {
-    values = value.split('-')
-  }
+  // let values = ['', '']
+  // if (value) {
+  //   values = value.value.split('-')
+  // }
   return (
     <>
-      <Input
+      {/* <Input
         className={styles.area_code}
         value={values[0]}
         onChange={e => {
@@ -20,15 +19,15 @@ const PhoneView = props => {
             onChange(`${e.target.value}-${values[1]}`)
           }
         }}
-      />
+      /> */}
       <Input
         className={styles.phone_number}
         onChange={e => {
           if (onChange) {
-            onChange(`${values[0]}-${e.target.value}`)
+            onChange(e.target.value)
           }
         }}
-        value={values[1]}
+        value={value}
       />
     </>
   )
