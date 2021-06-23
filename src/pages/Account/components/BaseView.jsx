@@ -10,12 +10,12 @@ import styles from './BaseView.less'
 
 const { Option } = Select // 头像组件 方便以后独立，增加裁剪之类的功能
 
-const AvatarView = ({ avatar }) => (
+const AvatarView = ({ avatar,onAvatarChange }) => (
   <>
     <div className={styles.avatar}>
       <img src={avatar} alt='avatar' />
     </div>
-    <Upload showUploadList={false}>
+    <Upload showUploadList={false} onChange={onAvatarChange} accept="image/*">
       <div className={styles.button_view}>
         <Button>
           <UploadOutlined />
@@ -57,6 +57,23 @@ class BaseAcount extends Component {
       modTitle: '',
       modKey: '',
       modVisible: false,
+    }
+  }
+  onAvatarChange=(info)=>{
+    const {dispatch}=this.props
+    if (info.file.status === 'done') {
+      console.log(info)
+      const { file } = info;
+      const formData = new FormData();
+      // fileList.forEach(file => {})
+      if(file.size>256*1024){
+          return message.error('头像不能大于256kb！');
+        }
+      formData.append('file', file.originFileObj);
+      dispatch({
+        type: 'user/updateAvatar',
+        payload: formData
+      })
     }
   }
   getAvatarURL() {
@@ -306,7 +323,7 @@ class BaseAcount extends Component {
           </Form>
         </div>
         <div className={styles.right}>
-          <AvatarView avatar={this.getAvatarURL()} />
+          <AvatarView avatar={this.getAvatarURL()} onAvatarChange={this.onAvatarChange}/>
         </div>
         <Modal
           title={this.state.modTitle}

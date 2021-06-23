@@ -64,6 +64,9 @@ const request = extend({
   errorHandler,
   timeout: 9000,
   ttl: 1000,
+  headers: {
+    "Content-Type": "multipart/form-data"
+  },
   // params: {
   //   getResponse: true
   // }
@@ -78,6 +81,9 @@ request.interceptors.request.use((url, options) => {
       'Authorization': sessionStorage.getItem('token')
     }
   }
+  // if (url.indexOf('avatar')) {
+  //   delete options.headers['Content-Type'];
+  // }
   return (
     {
       url: `${base_url}${url}`,
@@ -86,7 +92,6 @@ request.interceptors.request.use((url, options) => {
   );
 });
 request.interceptors.response.use((response) => {
-  // message.error(codeMaps[response.status]);
   console.log(response)
   if (response.status == '401') {
     router.replace({
@@ -99,7 +104,7 @@ request.interceptors.response.use((response) => {
   if (response.status == '200') {
     // message.success(response.statusText);
   } else {
-    message.error(response.message);
+    message.error(response.message || '请求错误！');
   }
   return response;
 });

@@ -1,4 +1,4 @@
-import { queryCurrent, query as queryUsers, queryNotices, queryCity, queryProvince } from "@/services/user";
+import { queryCurrent, query as queryUsers, queryNotices, updateAvatar, queryCity, queryProvince } from "@/services/user";
 const UserModel = {
   namespace: "user",
   state: {
@@ -29,6 +29,13 @@ const UserModel = {
         payload
       });
     },
+    *updateAvatar ({ payload }, { call, put }) {
+      const response = yield call(updateAvatar, payload);
+      yield put({
+        type: "updateUserAvatar",
+        payload: response
+      });
+    },
     *fetchProvince (_, { call, put }) {
       yield put({
         type: 'changeLoading',
@@ -53,6 +60,9 @@ const UserModel = {
   reducers: {
     saveCurrentUser (state, action) {
       return { ...state, currentUser: action.payload || {} };
+    },
+    updateUserAvatar (state, action) {
+      return { ...state, currentUser: { ...state.currentUser, avatar: action.payload.data } };
     },
     changeNotifyCount (
       state = {
