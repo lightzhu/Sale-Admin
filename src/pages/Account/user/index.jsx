@@ -12,16 +12,7 @@ class EditableCell extends React.Component {
   }
 
   renderCell = ({ getFieldDecorator }) => {
-    const {
-      editing,
-      dataIndex,
-      title,
-      inputType,
-      record,
-      index,
-      children,
-      ...restProps
-    } = this.props
+    const { editing, dataIndex, title, inputType, record, index, children, ...restProps } = this.props
     return (
       <td {...restProps}>
         {editing ? (
@@ -30,10 +21,10 @@ class EditableCell extends React.Component {
               rules: [
                 {
                   required: true,
-                  message: `Please Input ${title}!`,
-                },
+                  message: `Please Input ${title}!`
+                }
               ],
-              initialValue: record[dataIndex],
+              initialValue: record[dataIndex]
             })(this.getInput())}
           </Form.Item>
         ) : (
@@ -43,45 +34,44 @@ class EditableCell extends React.Component {
     )
   }
   render() {
-    return (
-      <EditableContext.Consumer>{this.renderCell}</EditableContext.Consumer>
-    )
+    return <EditableContext.Consumer>{this.renderCell}</EditableContext.Consumer>
   }
 }
 
 class List extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { data: [], editingKey: '' }
+    this.state = { data: [], editingKey: '', totalPage: 10, curentPage: 1, pageSize: 20 }
     this.columns = [
       {
-        title: 'name',
-        dataIndex: 'name',
-        editable: true,
+        title: '用户名',
+        dataIndex: 'user_name',
+        editable: true
       },
       {
-        title: 'company',
-        dataIndex: 'company',
-        editable: true,
+        title: '电话',
+        dataIndex: 'phone',
+        editable: true
       },
       {
-        title: 'email',
+        title: '邮箱',
         dataIndex: 'email',
-        editable: true,
+        editable: true
       },
       {
         title: 'address',
         dataIndex: 'address',
-        editable: true,
+        editable: true
       },
       {
         title: 'reigster_time',
-        dataIndex: 'reigster_time',
-        editable: true,
+        dataIndex: 'create_time',
+        editable: false
       },
       {
         title: 'operation',
         dataIndex: 'operation',
+        align: 'center',
         render: (text, record) => {
           const { editingKey } = this.state
           const editable = this.isEditing(record)
@@ -89,35 +79,33 @@ class List extends React.Component {
             <span>
               <EditableContext.Consumer>
                 {(form) => (
-                  <a
-                    onClick={() => this.save(form, record.key)}
-                    style={{ marginRight: 8 }}>
+                  <a onClick={() => this.save(form, record.key)} style={{ marginRight: 8 }}>
                     Save
                   </a>
                 )}
               </EditableContext.Consumer>
-              <Popconfirm
-                title='Sure to cancel?'
-                onConfirm={() => this.cancel(record.key)}>
+              <Popconfirm title="Sure to cancel?" onConfirm={() => this.cancel(record.key)}>
                 <a>Cancel</a>
               </Popconfirm>
             </span>
           ) : (
-            <a
-              disabled={editingKey !== ''}
-              onClick={() => this.edit(record.key)}>
-              Edit
-            </a>
+            <div className={styles.space}>
+              <a disabled={editingKey !== ''} onClick={() => this.edit(record.key)}>
+                Edit
+              </a>
+              <a>删除</a>
+            </div>
           )
-        },
-      },
+        }
+      }
     ]
   }
 
   isEditing = (record) => record.key === this.state.editingKey
 
-  cancel = () => {
-    this.setState({ editingKey: '' })
+  cancel = (pageNumber) => {
+    this.setState({ editingKey: '', curentPage: pageNumber })
+    this.getAdminList(pageNumber)
   }
 
   save(form, key) {
@@ -131,7 +119,7 @@ class List extends React.Component {
         const item = newData[index]
         newData.splice(index, 1, {
           ...item,
-          ...row,
+          ...row
         })
         this.setState({ data: newData, editingKey: '' })
       } else {
@@ -144,19 +132,23 @@ class List extends React.Component {
   edit(key) {
     this.setState({ editingKey: key })
   }
-  componentDidMount() {
-    queryUsers().then((users) => {
+  getAdminList = (pageNum) => {
+    queryUsers({ curentPage: pageNum }).then((users) => {
       console.log(users)
       this.setState({
         data: users.data,
+        total: users.total
       })
     })
+  }
+  componentDidMount() {
+    this.getAdminList(this.state.curentPage)
   }
   render() {
     const components = {
       body: {
-        cell: EditableCell,
-      },
+        cell: EditableCell
+      }
     }
     const columns = this.columns.map((col) => {
       if (!col.editable) {
@@ -169,8 +161,8 @@ class List extends React.Component {
           inputType: col.dataIndex === 'age' ? 'number' : 'text',
           dataIndex: col.dataIndex,
           title: col.title,
-          editing: this.isEditing(record),
-        }),
+          editing: this.isEditing(record)
+        })
       }
     })
 
@@ -179,11 +171,16 @@ class List extends React.Component {
         <Table
           components={components}
           bordered
+          rowKey={(record) => record._id}
           dataSource={this.state.data}
           columns={columns}
-          rowClassName='editable-row'
+          rowClassName="editable-row"
           pagination={{
             onChange: this.cancel,
+            current: this.state.curentPage,
+            defaultCurrent: 1,
+            pageSize: this.state.pageSize,
+            total: this.state.total
           }}
         />
       </EditableContext.Provider>

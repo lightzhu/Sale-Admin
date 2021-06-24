@@ -49,18 +49,18 @@ export default {
     })
   },
   // GET POST 可省略
-  'GET /user/users': Mock.mock({
+  'GET /admin/all': Mock.mock({
     'data|100': [
       {
         key: '@guid(100)',
-        id: '@id(10000)',
+        _id: '@id(10000)',
         title: '@sentence(1, 4)',
         company: '@name',
         email: '@email',
-        name: '@name',
-        phone_number: '@natural(10000000000, 19999999999)',
+        user_name: '@name',
+        phone: '@natural(10000000000, 19999999999)',
         address: '@county(true)',
-        reigster_time: '@datetime'
+        create_time: '@datetime'
       }
     ]
   }),

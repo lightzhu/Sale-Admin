@@ -1,6 +1,9 @@
 import request from "@/utils/request";
-export async function query () {
-  return request("/user/users");
+export async function query (params) {
+  return request("/admin/all", {
+    method: 'GET',
+    params
+  });
 }
 export async function queryCurrent (params) {
   return request("/admin/adminInfo", {

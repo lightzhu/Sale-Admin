@@ -1,10 +1,5 @@
 import { Row, Col, Card, Avatar, Button } from 'antd'
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-  PlusOutlined,
-} from '@ant-design/icons'
+import { EditOutlined, EllipsisOutlined, SettingOutlined, PlusOutlined } from '@ant-design/icons'
 import React from 'react'
 import styles from './style.less'
 const { Meta } = Card
@@ -12,14 +7,15 @@ const { Meta } = Card
 const ShopList = ({ shopsList, creatShop, updateShop, dispatch }) => {
   return (
     <div className={styles.cardList}>
-      <Row type='flex' justify='space-between'>
+      <Row type="flex" justify="space-between">
         <Col span={11}>
           <Button
-            type='dashed'
+            type="dashed"
             className={styles.newButton}
             onClick={() => {
-              creatShop(true)
-            }}>
+              creatShop(false)
+            }}
+          >
             <PlusOutlined /> 新增店铺
           </Button>
         </Col>
@@ -28,23 +24,22 @@ const ShopList = ({ shopsList, creatShop, updateShop, dispatch }) => {
             <Col span={index % 2 ? 11 : 12} key={index}>
               <Card
                 actions={[
-                  <SettingOutlined key='setting' />,
+                  <SettingOutlined key="setting" />,
                   <EditOutlined
-                    key='edit'
+                    key="edit"
                     onClick={() => {
                       dispatch({
                         type: 'shop/fetch',
-                        payload: { id: shop.id },
+                        payload: { id: shop.id }
                       })
-                      updateShop(true, true)
+                      updateShop(true)
                     }}
                   />,
-                  <EllipsisOutlined key='ellipsis' />,
-                ]}>
+                  <EllipsisOutlined key="ellipsis" />
+                ]}
+              >
                 <Meta
-                  avatar={
-                    <Avatar src='https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' />
-                  }
+                  avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
                   title={shop.name}
                   description={shop.shopDesc}
                 />

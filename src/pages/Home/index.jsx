@@ -16,7 +16,7 @@ class Home extends React.Component {
       homeData: {},
       editPicShow: false,
       creatShopVisible: false,
-      isShopEdit: false,
+      isShopEdit: false
     }
   }
   reqRef = 0
@@ -50,7 +50,7 @@ class Home extends React.Component {
     if (dispatch) {
       dispatch({
         type: 'shop/fetchShops',
-        payload: { id: window.sessionStorage.getItem('id') },
+        payload: { id: window.sessionStorage.getItem('id') }
       })
     }
   }
@@ -58,50 +58,50 @@ class Home extends React.Component {
     const { dispatch } = this.props
     if (dispatch) {
       dispatch({
-        type: 'home/fetch',
+        type: 'home/fetch'
       })
     }
   }
   productsMore() {
     const { dispatch } = this.props
     dispatch({
-      type: 'home/getRepertory',
+      type: 'home/getRepertory'
     })
   }
   setImageList(data) {
     const { dispatch } = this.props
     dispatch({
       type: 'commodity/saveFileList',
-      payload: data,
+      payload: data
     })
     this.setState({
-      editPicShow: true,
+      editPicShow: true
     })
   }
   handleOk = (e) => {
     const { fileList } = this.props.commodity
     console.log(fileList)
     this.setState({
-      editPicShow: false,
+      editPicShow: false
     })
   }
 
   handleCancel = (e) => {
     this.setState({
-      editPicShow: false,
+      editPicShow: false
     })
   }
-  handleCreatVisible(visible, isEdit) {
+  handleCreatVisible(isEdit) {
     this.setState({
-      creatShopVisible: visible,
+      creatShopVisible: true
     })
     if (isEdit) {
       this.setState({
-        isShopEdit: false,
+        isShopEdit: true
       })
     } else {
       this.setState({
-        isShopEdit: true,
+        isShopEdit: false
       })
     }
   }
@@ -109,8 +109,7 @@ class Home extends React.Component {
     console.log(value)
   }
   componentWillUnmount() {
-    cancelAnimationFrame(this.reqRef)
-    // clearTimeout(this.timeoutId);
+    // cancelAnimationFrame(this.reqRef)
   }
   creatLeft(data, type, unit) {
     if (data) {
@@ -141,14 +140,7 @@ class Home extends React.Component {
     }
   }
   render() {
-    const {
-      home,
-      shop,
-      shopsListLoading,
-      productsListLoading,
-      ProductsList,
-      dispatch,
-    } = this.props
+    const { home, shop, shopsListLoading, productsListLoading, ProductsList, dispatch } = this.props
     const { sumMoney, sumBills } = home
     const { shopsList } = shop
     return (
@@ -156,25 +148,22 @@ class Home extends React.Component {
         <div className={styles.sumtop}>
           <h5>销售业绩一览</h5>
           <div className={styles.sumcontent}>
-            <div className={styles.topleft}>
-              {this.creatLeft(sumMoney, '1', '$')}
-            </div>
-            <div className={styles.topright}>
-              {this.creatLeft(sumBills, '2', '单')}
-            </div>
+            <div className={styles.topleft}>{this.creatLeft(sumMoney, '1', '$')}</div>
+            <div className={styles.topright}>{this.creatLeft(sumBills, '2', '单')}</div>
           </div>
         </div>
         <div className={styles.spin}>
-          <Spin spinning={shopsListLoading} size='large'></Spin>
+          <Spin spinning={shopsListLoading} size="large"></Spin>
         </div>
         <Modal
-          title='编辑商品图片'
+          title="编辑商品图片"
           className={styles.standardListForm}
           width={660}
           destroyOnClose
           visible={this.state.editPicShow}
           onOk={this.handleOk}
-          onCancel={this.handleCancel}>
+          onCancel={this.handleCancel}
+        >
           <EditPic />
         </Modal>
         <ShopList
@@ -184,7 +173,7 @@ class Home extends React.Component {
           dispatch={dispatch}
         />
         <Repertory
-          title='我的库存'
+          title="我的库存"
           loading={productsListLoading}
           loadMore={this.productsMore.bind(this)}
           setImageList={this.setImageList.bind(this)}
@@ -207,5 +196,5 @@ export default connect(({ home, shop, commodity, loading }) => ({
   shopsListLoading: loading.effects['shop/fetchShops'],
   loading: loading.effects['home/fetch'],
   billLoading: loading.effects['home/getBills'],
-  productsListLoading: loading.effects['home/getRepertory'],
+  productsListLoading: loading.effects['home/getRepertory']
 }))(Home)
