@@ -1,4 +1,4 @@
-export const adress = [
+export const address = [
   {
     value: '浙江',
     label: '浙江',

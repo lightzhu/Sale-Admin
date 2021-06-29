@@ -28,7 +28,7 @@ class Home extends React.Component {
       //   payload: { id: window.localStorage.getItem('shopId') },
       // })
       this.getShopList()
-      this.loadHomeSum()
+      // this.loadHomeSum()
     }
     /* 比较实用的定时任务方法 */
     // this.reqRef = requestAnimationFrame(() => {
@@ -88,25 +88,16 @@ class Home extends React.Component {
 
   handleCancel = (e) => {
     this.setState({
-      editPicShow: false
+      editPicShow: false,
+      creatShopVisible: false
     })
   }
+  // 新增编辑弹框控制
   handleCreatVisible(isEdit) {
     this.setState({
+      isShopEdit: isEdit,
       creatShopVisible: true
     })
-    if (isEdit) {
-      this.setState({
-        isShopEdit: true
-      })
-    } else {
-      this.setState({
-        isShopEdit: false
-      })
-    }
-  }
-  handleCreatShop(value) {
-    console.log(value)
   }
   componentWillUnmount() {
     // cancelAnimationFrame(this.reqRef)
@@ -182,6 +173,7 @@ class Home extends React.Component {
         <CreatShop
           creatShopVisible={this.state.creatShopVisible}
           isShopEdit={this.state.isShopEdit}
+          handleCancel={this.handleCancel}
           handleCreatVisible={this.handleCreatVisible.bind(this)}
           updateShops={this.getShopList.bind(this)}
         />

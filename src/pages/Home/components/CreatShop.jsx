@@ -2,7 +2,7 @@ import { Button, Input, Modal, Radio, Cascader, Select, Row, Col, Form } from 'a
 import React, { Component } from 'react'
 import { connect } from 'dva'
 import { creatShop, updateShopInfo } from '@/services/shop'
-import { adress } from '@/assets/js/adress'
+import { address } from '@/assets/js/address'
 const { Option } = Select
 class CreatShop extends Component {
   static defaultProps = {
@@ -33,7 +33,7 @@ class CreatShop extends Component {
       currentStep: 0,
       addForm: {
         name: '',
-        adress: ['浙江', '杭州', '西湖'],
+        address: ['浙江', '杭州', '西湖'],
         phone: '',
         category: '手机',
         description: ''
@@ -41,25 +41,22 @@ class CreatShop extends Component {
     }
   }
   handleCreat = () => {
-    const { form, updateShops, handleCreatVisible, isShopEdit } = this.props
+    const { form, updateShops, isShopEdit } = this.props
     form.validateFields((err, fieldsValue) => {
-      debugger
       if (err) return
       const formVals = { ...fieldsValue }
       console.log(formVals)
       if (isShopEdit) {
         updateShopInfo(formVals).then((res) => {
-          if (res.message == 'ok') {
+          if (res.status == 1) {
             updateShops()
-            handleCreatVisible(false)
           }
         })
       } else {
-        creatShop(params).then((info) => {
+        creatShop(formVals).then((info) => {
           console.log(info)
-          if (info.message == 'ok') {
-            // updateShops()
-            handleCreatVisible(false)
+          if (info.status == 1) {
+            updateShops()
           }
         })
       }
@@ -114,12 +111,12 @@ class CreatShop extends Component {
           })(<Input type="number" placeholder="请输入手机号" />)}
         </Form.Item>
       </Col>,
-      <Col span={12} key="adress">
+      <Col span={12} key="address">
         <Form.Item {...this.formLayout} label="地址">
-          {getFieldDecorator('adress', {
-            initialValue: formVals.adress,
+          {getFieldDecorator('address', {
+            initialValue: formVals.address,
             rules: [{ type: 'array', required: true, message: '请选择地址!' }]
-          })(<Cascader options={adress} />)}
+          })(<Cascader options={address} />)}
         </Form.Item>
       </Col>,
       <Col span={24} key="description">
@@ -139,20 +136,19 @@ class CreatShop extends Component {
   }
 
   renderFooter = () => {
-    const { isShopEdit } = this.props
-    const { handleCreatVisible, values } = this.props
+    const { isShopEdit, handleCancel } = this.props
     return [
-      <Button key="cancel" onClick={() => handleCreatVisible(false)}>
+      <Button key="cancel" onClick={() => handleCancel(false)}>
         取消
       </Button>,
       <Button key="forward" type="primary" onClick={this.handleCreat}>
-        {isShopEdit ? '确认新增' : '确认修改'}
+        {isShopEdit ? '确认修改' : '确认新增'}
       </Button>
     ]
   }
 
   render() {
-    const { creatShopVisible, handleCreatVisible, isShopEdit } = this.props
+    const { creatShopVisible, handleCancel, isShopEdit } = this.props
     const { shopInfo, admin } = this.props
     const { addForm } = this.state
     return (
@@ -165,7 +161,7 @@ class CreatShop extends Component {
         title={isShopEdit ? '修改店铺' : '新增店铺'}
         visible={creatShopVisible}
         footer={this.renderFooter()}
-        onCancel={() => handleCreatVisible(false)}
+        onCancel={() => handleCancel(false)}
       >
         <Form className="add-shop-form">
           <Row gutter={24}>{this.renderContent(addForm)}</Row>
