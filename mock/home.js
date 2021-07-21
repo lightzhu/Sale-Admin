@@ -1,6 +1,6 @@
 export default {
   // 支持值为 Object 和 Array
-  'GET /home/homeSum': {
+  'GET /shop/saleInfo': {
     code: '200',
     sumMoney: [
       { name: 'today', val: 90 },

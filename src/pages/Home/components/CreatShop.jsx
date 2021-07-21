@@ -2,6 +2,7 @@ import { Button, Input, Modal, Radio, Cascader, Select, Row, Col, Form } from 'a
 import React, { Component } from 'react'
 import { connect } from 'dva'
 import { creatShop, updateShopInfo } from '@/services/shop'
+import { getGoodCategory } from '@/services/category'
 import { address } from '@/assets/js/address'
 const { Option } = Select
 class CreatShop extends Component {
@@ -31,11 +32,12 @@ class CreatShop extends Component {
     super(props)
     this.state = {
       currentStep: 0,
+      categoryList: [],
       addForm: {
         name: '',
         address: ['浙江', '杭州', '西湖'],
         phone: '',
-        category: '手机',
+        category: 5,
         description: ''
       }
     }
@@ -63,7 +65,7 @@ class CreatShop extends Component {
     })
   }
   handleCategoryChange = () => {}
-  renderContent = (formVals, admin) => {
+  renderContent = (formVals, categoryList) => {
     const { form } = this.props
     const { getFieldDecorator } = form
     // 基本信息的模版
@@ -88,12 +90,15 @@ class CreatShop extends Component {
             initialValue: formVals.category
           })(
             <Select placeholder="请选择类别" onChange={this.handleCategoryChange}>
-              <Option value="1">居家</Option>
-              <Option value="2">百货</Option>
-              <Option value="3">日用</Option>
-              <Option value="4">手机</Option>
-              <Option value="5">电脑</Option>
-              <Option value="6">服饰</Option>
+              {categoryList.length
+                ? categoryList.map((item, index) => {
+                    return (
+                      <Option key={item.id} value={item.id}>
+                        {item.name}
+                      </Option>
+                    )
+                  })
+                : null}
             </Select>
           )}
         </Form.Item>
@@ -146,11 +151,21 @@ class CreatShop extends Component {
       </Button>
     ]
   }
-
+  componentDidMount() {
+    // 获取商店类别
+    getGoodCategory({ id: 0 }).then((list) => {
+      if (list.length) {
+        this.setState({ categoryList: list })
+      }
+    })
+    this.setState({
+      addForm: { ...this.props.shopInfo }
+    })
+  }
   render() {
     const { creatShopVisible, handleCancel, isShopEdit } = this.props
-    const { shopInfo, admin } = this.props
-    const { addForm } = this.state
+    // const { shopInfo, admin } = this.props
+    const { addForm, categoryList } = this.state
     return (
       <Modal
         width={660}
@@ -164,7 +179,7 @@ class CreatShop extends Component {
         onCancel={() => handleCancel(false)}
       >
         <Form className="add-shop-form">
-          <Row gutter={24}>{this.renderContent(addForm)}</Row>
+          <Row gutter={24}>{this.renderContent(addForm, categoryList)}</Row>
         </Form>
       </Modal>
     )

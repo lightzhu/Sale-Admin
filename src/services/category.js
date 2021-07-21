@@ -1,14 +1,14 @@
 import request from '@/utils/request'
 // 获取店铺id
-export async function getShopById (params) {
-  return request('/shop/getShopById', {
+export async function getGoodCategory (params) {
+  return request('/goods/category/sublist', {
     method: 'GET',
     params
   })
 }
 // 获取门店列表
-export async function getShopList (params) {
-  return request('/shop/getShopsByOwner', {
+export async function getCategoryist (params) {
+  return request('/goods/category/list', {
     method: 'GET',
     params
   })

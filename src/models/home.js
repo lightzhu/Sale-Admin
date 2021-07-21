@@ -1,4 +1,4 @@
-import { getSummary, getRepertory, getHomeBills } from '@/services/home'
+import { getSaleInfo, getRepertory, getHomeBills } from '@/services/home'
 const HomeModel = {
   namespace: 'home',
   state: {
@@ -8,22 +8,21 @@ const HomeModel = {
     ProductsList: []
   },
   effects: {
-    *fetch(_, { call, put }) {
-      console.log(_)
-      const response = yield call(getSummary)
+    *fetch (_, { call, put }) {
+      const response = yield call(getSaleInfo)
       yield put({
         type: 'save',
-        payload: response
+        payload: response.data
       })
     },
-    *getBills({ payload }, { call, put }) {
+    *getBills ({ payload }, { call, put }) {
       const billList = yield call(getHomeBills)
       yield put({
         type: 'updataBillList',
         payload: billList.BillList
       })
     },
-    *getRepertory({ payload }, { call, put }) {
+    *getRepertory ({ payload }, { call, put }) {
       const productList = yield call(getRepertory)
       yield put({
         type: 'updataRepertory',
@@ -32,20 +31,20 @@ const HomeModel = {
     }
   },
   reducers: {
-    save(state, { payload }) {
+    save (state, { payload }) {
       return {
         ...state,
         sumMoney: payload.sumMoney,
         sumBills: payload.sumBills
       }
     },
-    updataBillList(state, { payload }) {
+    updataBillList (state, { payload }) {
       return {
         ...state,
         BillList: [...state.BillList, ...payload]
       }
     },
-    updataRepertory(state, { payload }) {
+    updataRepertory (state, { payload }) {
       return {
         ...state,
         ProductsList: [...state.ProductsList, ...payload]

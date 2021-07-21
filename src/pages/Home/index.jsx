@@ -28,7 +28,7 @@ class Home extends React.Component {
       //   payload: { id: window.localStorage.getItem('shopId') },
       // })
       this.getShopList()
-      // this.loadHomeSum()
+      this.loadHomeSum()
     }
     /* 比较实用的定时任务方法 */
     // this.reqRef = requestAnimationFrame(() => {
@@ -53,6 +53,7 @@ class Home extends React.Component {
         payload: { id: window.sessionStorage.getItem('id') }
       })
     }
+    this.handleCancel()
   }
   loadHomeSum() {
     const { dispatch } = this.props
@@ -133,6 +134,7 @@ class Home extends React.Component {
   render() {
     const { home, shop, shopsListLoading, productsListLoading, ProductsList, dispatch } = this.props
     const { sumMoney, sumBills } = home
+    
     const { shopsList } = shop
     return (
       <div className={styles.main}>
