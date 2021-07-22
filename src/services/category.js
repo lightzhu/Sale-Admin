@@ -1,12 +1,12 @@
 import request from '@/utils/request'
-// 获取店铺id
+// 获取一级类目
 export async function getGoodCategory (params) {
   return request('/goods/category/sublist', {
     method: 'GET',
     params
   })
 }
-// 获取门店列表
+// 获取所有分类列表
 export async function getCategoryist (params) {
   return request('/goods/category/list', {
     method: 'GET',
@@ -26,5 +26,12 @@ export async function updateShopInfo (params) {
   return request('/shop/updateShop', {
     method: 'POST',
     data: params
+  })
+}
+// 根据店铺一级类目id 获取二级类目
+export async function getProductCategory (params) {
+  return request('/goods/productCategory', {
+    method: 'GET',
+    params
   })
 }

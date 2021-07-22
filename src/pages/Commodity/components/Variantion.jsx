@@ -10,18 +10,16 @@ const EditableRow = ({ form, index, ...props }) => (
     <tr {...props} />
   </EditableContext.Provider>
 )
-
 const EditableFormRow = Form.create()(EditableRow)
-
 class EditableCell extends React.Component {
   state = {
-    editing: true,
+    editing: true
   }
   toggleEdit = () => {
     const editing = !this.state.editing
     this.setState(
       {
-        editing,
+        editing
       },
       () => {
         if (editing) {
@@ -30,7 +28,6 @@ class EditableCell extends React.Component {
       }
     )
   }
-
   save = (e) => {
     const { record, handleSave } = this.props
     console.log(e.currentTarget.name)
@@ -50,57 +47,35 @@ class EditableCell extends React.Component {
     return editing ? (
       <Form.Item
         style={{
-          margin: 0,
-        }}>
+          margin: 0
+        }}
+      >
         {form.getFieldDecorator(dataIndex, {
           rules: [
             {
               required: true,
-              message: `${title} is required.`,
-            },
+              message: `${title} is required.`
+            }
           ],
-          initialValue: record[dataIndex],
-        })(
-          <Input
-            ref={(node) => (this.input = node)}
-            name={dataIndex}
-            onPressEnter={this.save}
-            onBlur={this.save}
-          />
-        )}
+          initialValue: record[dataIndex]
+        })(<Input ref={(node) => (this.input = node)} name={dataIndex} onPressEnter={this.save} onBlur={this.save} />)}
       </Form.Item>
     ) : (
       <div
-        className='editable-cell-value-wrap'
+        className="editable-cell-value-wrap"
         style={{
-          paddingRight: 24,
+          paddingRight: 24
         }}
-        onClick={this.toggleEdit}>
+        onClick={this.toggleEdit}
+      >
         {children}
       </div>
     )
   }
 
   render() {
-    const {
-      editable,
-      dataIndex,
-      title,
-      record,
-      index,
-      handleSave,
-      children,
-      ...restProps
-    } = this.props
-    return (
-      <td {...restProps}>
-        {editable ? (
-          <EditableContext.Consumer>{this.renderCell}</EditableContext.Consumer>
-        ) : (
-          children
-        )}
-      </td>
-    )
+    const { editable, dataIndex, title, record, index, handleSave, children, ...restProps } = this.props
+    return <td {...restProps}>{editable ? <EditableContext.Consumer>{this.renderCell}</EditableContext.Consumer> : children}</td>
   }
 }
 
@@ -110,64 +85,62 @@ class Variantion extends React.Component {
     this.columns = [
       {
         title: '规格名称',
-        dataIndex: 'variantName',
+        dataIndex: 'name',
         width: '30%',
-        editable: true,
+        editable: true
       },
       {
         title: 'price',
         dataIndex: 'price',
-        editable: true,
+        editable: true
       },
       {
         title: 'count',
         dataIndex: 'count',
-        editable: true,
+        editable: true
       },
       {
         title: 'operation',
         dataIndex: 'operation',
         render: (text, record) =>
           this.state.dataSource.length >= 1 ? (
-            <Popconfirm
-              title='Sure to delete?'
-              onConfirm={() => this.handleDelete(record.key)}>
+            <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
               <a>Delete</a>
             </Popconfirm>
-          ) : null,
-      },
+          ) : null
+      }
     ]
     this.state = {
-      dataSource: [
+      dataSource: this.props.product.spec_goods || [
         {
           key: '0',
-          variantName: '16G 玫瑰金',
-          price: '3200',
-          count: '10',
-        },
+          name: '',
+          price: '9999',
+          count: '10'
+        }
       ],
-      count: 1,
+      key: 1
     }
   }
 
   handleDelete = (key) => {
     const dataSource = [...this.state.dataSource]
     this.setState({
-      dataSource: dataSource.filter((item) => item.key !== key),
+      dataSource: dataSource.filter((item) => item.key !== key)
     })
   }
 
   handleAdd = () => {
-    const { count, dataSource } = this.state
+    const { key, dataSource } = this.state
     const newData = {
-      key: count,
-      variantName: ``,
+      key: key,
+      name: '',
       price: '',
-      count: '',
+      count: ''
     }
     this.setState({
       dataSource: [...dataSource, newData],
-      count: count + 1,
+      key: key + 1
     })
   }
 
@@ -177,36 +150,37 @@ class Variantion extends React.Component {
     const item = newData[index]
     newData.splice(index, 1, { ...item, ...row })
     this.setState({
-      dataSource: newData,
+      dataSource: newData
     })
   }
   handleConfirm = () => {
-    const { dispatch } = this.props
+    const { dispatch, product } = this.props
     dispatch({
-      type: 'commodity/saveVariantion',
-      payload: this.state.dataSource,
+      type: 'commodity/submitAdvanceInfo',
+      payload: { productId: product._id, spec_goods: this.state.dataSource }
     })
-    // console.log(this.state.dataSource)
   }
   footer() {
     return (
       <>
         <Button
           onClick={this.handleAdd}
-          type='primary'
+          type="primary"
           style={{
             marginBottom: 16,
-            margin: 0,
-          }}>
+            margin: 0
+          }}
+        >
           新增
         </Button>
         <Button
           onClick={this.handleConfirm}
-          type='primary'
+          type="primary"
           style={{
             marginBottom: 16,
-            margin: 0,
-          }}>
+            margin: 0
+          }}
+        >
           确认
         </Button>
       </>
@@ -217,8 +191,8 @@ class Variantion extends React.Component {
     const components = {
       body: {
         row: EditableFormRow,
-        cell: EditableCell,
-      },
+        cell: EditableCell
+      }
     }
     const columns = this.columns.map((col) => {
       if (!col.editable) {
@@ -231,8 +205,8 @@ class Variantion extends React.Component {
           editable: col.editable,
           dataIndex: col.dataIndex,
           title: col.title,
-          handleSave: this.handleSave,
-        }),
+          handleSave: this.handleSave
+        })
       }
     })
     return (
@@ -251,5 +225,5 @@ class Variantion extends React.Component {
   }
 }
 export default connect(({ commodity }) => ({
-  product: commodity.variantion,
+  product: commodity.product
 }))(Variantion)

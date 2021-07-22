@@ -1,14 +1,4 @@
-import {
-  Form,
-  Alert,
-  Button,
-  Icon,
-  Divider,
-  Upload,
-  Input,
-  Modal,
-  message,
-} from 'antd'
+import { Form, Alert, Button, Icon, Divider, Upload, Input, Modal, message } from 'antd'
 import React, { useState } from 'react'
 import { connect } from 'dva'
 import request from '@/utils/request'
@@ -37,7 +27,7 @@ const Advanced = (props) => {
       // });
       dispatch({
         type: 'commodity/saveCurrentStep',
-        payload: 'info',
+        payload: 'info'
       })
     }
   }
@@ -60,7 +50,7 @@ const Advanced = (props) => {
     if (dispatch) {
       dispatch({
         type: 'commodity/submitAdvanceInfo',
-        payload: formData,
+        payload: formData
       })
     }
   }
@@ -76,72 +66,71 @@ const Advanced = (props) => {
 
   const uploadButton = (
     <div>
-      <Icon type='plus' />
-      <div className='ant-upload-text'>Upload</div>
+      <Icon type="plus" />
+      <div className="ant-upload-text">Upload</div>
     </div>
   )
   const handleChange = (obj) => {
     if (dispatch) {
       dispatch({
         type: 'commodity/saveFileList',
-        payload: obj.fileList,
+        payload: obj.fileList
       })
     }
   }
   return (
-    <Form layout='horizontal' name='form_more' className={styles.stepForm}>
+    <Form layout="horizontal" name="form_more" className={styles.stepForm}>
       <Alert
         closable
         showIcon
-        message='最多只能上传5张照片,包括产品主图、尺寸图及规格图。'
+        message="最多只能上传5张照片,包括产品主图、尺寸图及规格图。"
         style={{
-          marginBottom: 24,
+          marginBottom: 24
         }}
       />
-      <div className='clearfix'>
+      <div className="clearfix">
         <Upload
           // action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
-          listType='picture-card'
+          listType="picture-card"
           fileList={fileList}
           onPreview={handlePreview}
-          onChange={handleChange}>
+          onChange={handleChange}
+        >
           {fileList.length >= 5 ? null : uploadButton}
         </Upload>
         <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
-          <img alt='example' style={{ width: '100%' }} src={previewImage} />
+          <img alt="example" style={{ width: '100%' }} src={previewImage} />
         </Modal>
       </div>
       <Divider
         style={{
-          margin: '24px 0',
+          margin: '24px 0'
         }}
       />
-      <Variantion fileList={fileList}></Variantion>
+      <Variantion fileList={product.spec_goods}></Variantion>
       <Form.Item
         style={{
           marginBottom: 8,
-          marginTop: 15,
+          marginTop: 15
         }}
         wrapperCol={{
           xs: {
             span: 24,
-            offset: 8,
-          },
+            offset: 8
+          }
         }}
-        label=''>
+        label=""
+      >
         <Button
           onClick={onPrev}
           style={{
             marginRight: 20,
-            width: 100,
-          }}>
+            width: 100
+          }}
+        >
           上一步
         </Button>
-        <Button
-          type='primary'
-          style={{ width: 100 }}
-          onClick={onAdvanceSubmit}
-          loading={submitting}>
+        <Button type="primary" style={{ width: 100 }} onClick={onAdvanceSubmit} loading={submitting}>
           提交
         </Button>
       </Form.Item>
@@ -153,5 +142,5 @@ export default connect(({ commodity, loading }) => ({
   submitting: loading.effects['commodity/submitStepForm'],
   fileList: commodity.fileList,
   product: commodity.product,
-  variantion: commodity.variantion,
+  variantion: commodity.variantion
 }))(Form.create()(Advanced))

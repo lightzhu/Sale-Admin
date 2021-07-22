@@ -1,4 +1,4 @@
-import { submitAdvanceInfo, submitBasicInfo } from '@/services'
+import { submitAdvanceInfo, submitBasicInfo } from '@/services/product'
 import { message } from "antd";
 const CommodityModel = {
   namespace: 'commodity',
@@ -6,21 +6,16 @@ const CommodityModel = {
     current: 'info',
     variantion: [],// 变体
     product: {
-      shopId: '',
-      name: '',
-      amount: '',
-      subTitle: '',
-      firstCategory: '其他',
-      typeId: '其他',
-      price: '',
-      payWay: '',
-      size: '',
-      color: '',
-      otherOne: '',
-      otherTwo: '',
-      imgList: [],
-      returnDesc: '',
-      productDesc: ''
+      shop_id: '',
+      title: '',
+      sub_title: '',
+      stock: '',
+      category_id: '',
+      pay_type: ['支付宝'],
+      return_desc: '不支持无理由退货！',
+      description: '',
+      image_list: [],
+      spec_goods: []
     },
     fileList: [
       {
@@ -54,13 +49,13 @@ const CommodityModel = {
     ]
   },
   effects: {
-    *saveBasicInfo({ payload }, { call, put }) {
+    *saveBasicInfo ({ payload }, { call, put }) {
       const response = yield call(submitBasicInfo, payload)
-      // yield put({
-      //   type: 'saveStepFormData',
-      //   payload
-      // })
-      if (response.status == 200) {
+      if (response.status == 1) {
+        yield put({
+          type: 'saveStepFormData',
+          payload: response.data
+        })
         yield put({
           type: 'saveCurrentStep',
           payload: 'advance'
@@ -70,9 +65,10 @@ const CommodityModel = {
         message.warn(response.msg)
       }
     },
-    *submitAdvanceInfo({ payload }, { call, put }) {
+    *submitAdvanceInfo ({ payload }, { call, put }) {
+      console.log(payload)
       const response = yield call(submitAdvanceInfo, payload)
-      if (response.status == 200) {
+      if (response.status == 1) {
         yield put({
           type: 'saveCurrentStep',
           payload: 'result'
@@ -83,16 +79,16 @@ const CommodityModel = {
     }
   },
   reducers: {
-    saveCurrentStep(state, { payload }) {
+    saveCurrentStep (state, { payload }) {
       return { ...state, current: payload }
     },
-    saveStepFormData(state, { payload }) {
-      return { ...state, ...payload }
+    saveStepFormData (state, { payload }) {
+      return { ...state, product: { ...payload } }
     },
-    saveFileList(state, { payload }) {
+    saveFileList (state, { payload }) {
       return { ...state, fileList: [...payload] }
     },
-    saveVariantion(state, { payload }) {
+    saveVariantion (state, { payload }) {
       return { ...state, variantion: [...payload] }
     }
   }
