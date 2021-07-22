@@ -11,7 +11,6 @@ class CreatShop extends Component {
     handleUpdateModalVisible: () => {},
     values: {}
   }
-
   formLayout = {
     labelCol: {
       span: 7
@@ -32,24 +31,17 @@ class CreatShop extends Component {
     super(props)
     this.state = {
       currentStep: 0,
-      categoryList: [],
-      addForm: {
-        name: '',
-        address: ['浙江', '杭州', '西湖'],
-        phone: '',
-        category: 5,
-        description: ''
-      }
+      categoryList: []
     }
   }
-  handleCreat = () => {
-    const { form, updateShops, isShopEdit } = this.props
+  handleCreate = () => {
+    const { form, updateShops, isShopEdit, shopInfo } = this.props
     form.validateFields((err, fieldsValue) => {
       if (err) return
       const formVals = { ...fieldsValue }
       console.log(formVals)
       if (isShopEdit) {
-        updateShopInfo(formVals).then((res) => {
+        updateShopInfo({ id: shopInfo.id, ...formVals }).then((res) => {
           if (res.status == 1) {
             updateShops()
           }
@@ -146,7 +138,7 @@ class CreatShop extends Component {
       <Button key="cancel" onClick={() => handleCancel(false)}>
         取消
       </Button>,
-      <Button key="forward" type="primary" onClick={this.handleCreat}>
+      <Button key="forward" type="primary" onClick={this.handleCreate}>
         {isShopEdit ? '确认修改' : '确认新增'}
       </Button>
     ]
@@ -158,14 +150,11 @@ class CreatShop extends Component {
         this.setState({ categoryList: list })
       }
     })
-    this.setState({
-      addForm: { ...this.props.shopInfo }
-    })
   }
   render() {
     const { creatShopVisible, handleCancel, isShopEdit } = this.props
-    // const { shopInfo, admin } = this.props
-    const { addForm, categoryList } = this.state
+    const { shopInfo, admin } = this.props
+    const { categoryList } = this.state
     return (
       <Modal
         width={660}
@@ -179,7 +168,7 @@ class CreatShop extends Component {
         onCancel={() => handleCancel(false)}
       >
         <Form className="add-shop-form">
-          <Row gutter={24}>{this.renderContent(addForm, categoryList)}</Row>
+          <Row gutter={24}>{this.renderContent(shopInfo, categoryList)}</Row>
         </Form>
       </Modal>
     )

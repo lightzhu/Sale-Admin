@@ -13,10 +13,12 @@ const ShopModel = {
       monthCount: 2000
     }],
     shopInfo: {
-      id: 1,
-      merchantId: 1,
-      name: "",
-      shopDesc: ""
+      name: '',
+      address: ['浙江', '杭州', '西湖'],
+      phone: '',
+      category: 5,
+      id: 8,
+      description: ''
     }
   },
   effects: {
@@ -27,14 +29,27 @@ const ShopModel = {
         payload: response.data
       });
     },
-    *creat ({ payload }, { call, put }) {
+    *initShop ({ }, { put }) {
+      yield put({
+        type: "init",
+        payload: {
+          name: '',
+          address: ['浙江', '杭州', '西湖'],
+          phone: '',
+          category: 5,
+          id: 8,
+          description: ''
+        }
+      })
+    },
+    * creat ({ payload }, { call, put }) {
       const response = yield call(creatShop, payload);
       yield put({
         type: "creat",
         payload: { merchantId: window.sessionStorage.getItem('id') }
       });
     },
-    *fetchShops ({ payload }, { call, put }) {
+    * fetchShops ({ payload }, { call, put }) {
       const response = yield call(getShopList, payload);
       console.log(response);
       yield put({
@@ -45,6 +60,9 @@ const ShopModel = {
   },
   reducers: {
     save (state, action) {
+      return { ...state, shopInfo: action.payload || {} };
+    },
+    init (state, action) {
       return { ...state, shopInfo: action.payload || {} };
     },
     creat (state, action) {

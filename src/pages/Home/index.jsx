@@ -95,6 +95,11 @@ class Home extends React.Component {
   }
   // 新增编辑弹框控制
   handleCreatVisible(isEdit) {
+    if (!isEdit) {
+      this.props.dispatch({
+        type: 'shop/initShop'
+      })
+    }
     this.setState({
       isShopEdit: isEdit,
       creatShopVisible: true
@@ -134,7 +139,7 @@ class Home extends React.Component {
   render() {
     const { home, shop, shopsListLoading, productsListLoading, ProductsList, dispatch } = this.props
     const { sumMoney, sumBills } = home
-    
+
     const { shopsList } = shop
     return (
       <div className={styles.main}>
