@@ -17,12 +17,6 @@ const BasicInfo = (props) => {
   const { form, dispatch, data, shopInfo, shopsList } = props
   const secondCate = Object.values(category)[0]
   // console.log(data)
-  if (dispatch && !shopsList.length) {
-    dispatch({
-      type: 'shop/fetchShops',
-      payload: { id: window.sessionStorage.getItem('id') }
-    })
-  }
   const getCategory = (val) => {
     const _shopInfo = shopsList.find((item) => item.id == val)
     console.log(_shopInfo.category)

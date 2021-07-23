@@ -9,6 +9,7 @@ export async function submitBasicInfo (params) {
 export async function submitAdvanceInfo (params) {
   return request('/goods/addProductAdvance', {
     method: 'POST',
+    requestType: 'form',
     data: params
   })
 }

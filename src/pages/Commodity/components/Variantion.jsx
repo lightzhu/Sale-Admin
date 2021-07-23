@@ -2,7 +2,7 @@ import React from 'react'
 import { Table, Input, Button, Popconfirm, Form } from 'antd'
 import { connect } from 'dva'
 import styles from './index.less'
-
+// import { isNumber } from 'lodash'
 const EditableContext = React.createContext()
 
 const EditableRow = ({ form, index, ...props }) => (
@@ -39,7 +39,12 @@ class EditableCell extends React.Component {
       handleSave({ ...record, ...values })
     })
   }
-
+  isNumber = (rule, value, callback) => {
+    if (!/^[1-9]\d*$/.test(value)) {
+      callback('必须为数字')
+    }
+    callback()
+  }
   renderCell = (form) => {
     this.form = form
     const { children, dataIndex, record, title } = this.props
@@ -55,6 +60,9 @@ class EditableCell extends React.Component {
             {
               required: true,
               message: `${title} is required.`
+            },
+            {
+              validator: dataIndex != 'name' ? this.isNumber : null
             }
           ],
           initialValue: record[dataIndex]
@@ -110,8 +118,9 @@ class Variantion extends React.Component {
           ) : null
       }
     ]
+    const { product } = this.props
     this.state = {
-      dataSource: this.props.product.spec_goods || [
+      dataSource: product.spec_goods || [
         {
           key: '0',
           name: '',
@@ -119,15 +128,24 @@ class Variantion extends React.Component {
           count: '10'
         }
       ],
-      key: 1
+      key: product.spec_goods.length ? product.spec_goods[product.spec_goods.length - 1].key + 1 : 1
     }
   }
 
   handleDelete = (key) => {
     const dataSource = [...this.state.dataSource]
-    this.setState({
-      dataSource: dataSource.filter((item) => item.key !== key)
-    })
+    this.setState(
+      {
+        dataSource: dataSource.filter((item) => item.key !== key)
+      },
+      () => {
+        // 保存变体数据
+        this.props.dispatch({
+          type: 'commodity/saveVariantion',
+          payload: this.state.dataSource
+        })
+      }
+    )
   }
 
   handleAdd = () => {
@@ -152,13 +170,21 @@ class Variantion extends React.Component {
     this.setState({
       dataSource: newData
     })
+    // 保存变体数据
+    console.log(row)
+    if (row.name && row.price && row.count) {
+      this.props.dispatch({
+        type: 'commodity/saveVariantion',
+        payload: newData
+      })
+    }
   }
   handleConfirm = () => {
-    const { dispatch, product } = this.props
-    dispatch({
-      type: 'commodity/submitAdvanceInfo',
-      payload: { productId: product._id, spec_goods: this.state.dataSource }
-    })
+    // const { dispatch, product } = this.props
+    // dispatch({
+    //   type: 'commodity/submitAdvanceInfo',
+    //   payload: { productId: product._id, spec_goods: this.state.dataSource }
+    // })
   }
   footer() {
     return (
@@ -172,16 +198,6 @@ class Variantion extends React.Component {
           }}
         >
           新增
-        </Button>
-        <Button
-          onClick={this.handleConfirm}
-          type="primary"
-          style={{
-            marginBottom: 16,
-            margin: 0
-          }}
-        >
-          确认
         </Button>
       </>
     )

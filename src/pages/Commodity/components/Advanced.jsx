@@ -6,7 +6,7 @@ import Variantion from './Variantion'
 import styles from './index.less'
 
 const Advanced = (props) => {
-  const { form, product, variantion, fileList, dispatch, submitting } = props
+  const { product, variantion, fileList, dispatch, submitting } = props
   const [previewVisible, setpreviewVisible] = useState(false)
   const [previewImage, setpreviewImage] = useState('')
 
@@ -37,16 +37,16 @@ const Advanced = (props) => {
       return message.warning('请先确认上方商品规格再提交！')
     }
     // 表单提交，获取表单数据进行更新
-    console.log(variantion)
     const formData = new FormData()
+    console.log(fileList)
     fileList.forEach((file) => {
-      formData.append('files[]', file)
+      formData.append('file', file.originFileObj)
     })
-    formData.append('variantion', variantion)
+    formData.append('spec_goods', variantion)
     console.log(formData)
     //执行上传图片操作
     // handleUpload(formData)
-    // e.preventDefault()
+    e.preventDefault()
     if (dispatch) {
       dispatch({
         type: 'commodity/submitAdvanceInfo',
@@ -89,25 +89,15 @@ const Advanced = (props) => {
         }}
       />
       <div className="clearfix">
-        <Upload
-          // action='https://www.mocky.io/v2/5cc8019d300000980a055e76'
-          listType="picture-card"
-          fileList={fileList}
-          onPreview={handlePreview}
-          onChange={handleChange}
-        >
+        <Upload listType="picture-card" fileList={fileList} onPreview={handlePreview} onChange={handleChange}>
           {fileList.length >= 5 ? null : uploadButton}
         </Upload>
         <Modal visible={previewVisible} footer={null} onCancel={handleCancel}>
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
         </Modal>
       </div>
-      <Divider
-        style={{
-          margin: '24px 0'
-        }}
-      />
-      <Variantion fileList={product.spec_goods}></Variantion>
+      <Divider style={{ margin: '24px 0' }} />
+      <Variantion></Variantion>
       <Form.Item
         style={{
           marginBottom: 8,
@@ -121,13 +111,7 @@ const Advanced = (props) => {
         }}
         label=""
       >
-        <Button
-          onClick={onPrev}
-          style={{
-            marginRight: 20,
-            width: 100
-          }}
-        >
+        <Button onClick={onPrev} style={{ marginRight: 20, width: 100 }}>
           上一步
         </Button>
         <Button type="primary" style={{ width: 100 }} onClick={onAdvanceSubmit} loading={submitting}>

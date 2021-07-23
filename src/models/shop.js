@@ -2,16 +2,7 @@ import { getShopById, getShopList, creatShop } from '@/services/shop'
 const ShopModel = {
   namespace: "shop",
   state: {
-    shopsList: [{
-      id: 1,
-      merchantId: 1,
-      name: "手机特卖店",
-      shopDesc: "一家专门做手机特卖的店铺",
-      dayBill: 20,
-      weekBill: 178,
-      monthBill: 90,
-      monthCount: 2000
-    }],
+    shopsList: [],
     shopInfo: {
       name: '',
       address: ['浙江', '杭州', '西湖'],

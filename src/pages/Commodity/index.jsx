@@ -8,20 +8,7 @@ import styles from './style.less'
 const { Step } = Steps
 
 class Commodity extends Component {
-  state = {
-    category: {
-      家居园艺: [
-        { name: '工艺品', val: '1' },
-        { name: '装修', val: '2' },
-        { name: '宠物用品', val: '3' }
-      ],
-      电子产品: [
-        { name: '手机、平板', val: '4' },
-        { name: '耳机、数据线', val: '5' },
-        { name: '电视音响', val: '6' }
-      ]
-    }
-  }
+  state = {}
   getCurrentStep() {
     const { current } = this.props
     switch (current) {
@@ -35,7 +22,15 @@ class Commodity extends Component {
         return 0
     }
   }
-
+  componentDidMount() {
+    const { shopsList, dispatch } = this.props
+    if (!shopsList.length) {
+      dispatch({
+        type: 'shop/fetchShops',
+        payload: { id: window.sessionStorage.getItem('id') }
+      })
+    }
+  }
   render() {
     const currentStep = this.getCurrentStep()
     let stepComponent
@@ -44,9 +39,8 @@ class Commodity extends Component {
     } else if (currentStep === 2) {
       stepComponent = <Step3 />
     } else {
-      stepComponent = <Step1 category={this.state.category} />
+      stepComponent = <Step1 />
     }
-
     return (
       <div>
         <Card bordered={false}>
@@ -64,6 +58,7 @@ class Commodity extends Component {
   }
 }
 
-export default connect(({ commodity }) => ({
+export default connect(({ commodity, shop }) => ({
+  shopsList: shop.shopsList,
   current: commodity.current
 }))(Commodity)

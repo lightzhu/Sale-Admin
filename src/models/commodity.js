@@ -24,27 +24,6 @@ const CommodityModel = {
         status: 'done',
         url:
           'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-      },
-      {
-        uid: '-2',
-        name: 'image.png',
-        status: 'done',
-        url:
-          'https://i.ebayimg.com/thumbs/images/g/UlgAAOSwFqJWoSRw/s-l225.webp'
-      },
-      {
-        uid: '-3',
-        name: 'image.png',
-        status: 'done',
-        url:
-          'https://i.ebayimg.com/thumbs/images/g/tugAAOSwBahVftdu/s-l225.webp'
-      },
-      {
-        uid: '-4',
-        name: 'image.png',
-        status: 'done',
-        url:
-          'https://i.ebayimg.com/thumbs/images/g/7gEAAOSw3xJVftf-/s-l225.webp'
       }
     ]
   },
