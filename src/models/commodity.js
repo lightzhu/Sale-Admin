@@ -41,7 +41,7 @@ const CommodityModel = {
         })
       } else {
         // console.log(response)
-        message.warn(response.msg)
+        message.warn(response.message)
       }
     },
     *submitAdvanceInfo ({ payload }, { call, put }) {
@@ -49,11 +49,15 @@ const CommodityModel = {
       const response = yield call(submitAdvanceInfo, payload)
       if (response.status == 1) {
         yield put({
+          type: 'saveStepFormData',
+          payload: response.data
+        })
+        yield put({
           type: 'saveCurrentStep',
           payload: 'result'
         })
       } else {
-        message.warn(response.msg)
+        message.warn(response.message)
       }
     }
   },

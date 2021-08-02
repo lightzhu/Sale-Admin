@@ -42,7 +42,8 @@ const Advanced = (props) => {
     fileList.forEach((file) => {
       formData.append('file', file.originFileObj)
     })
-    formData.append('spec_goods', variantion)
+    formData.append('productId', product._id)
+    formData.append('spec_goods', JSON.stringify(variantion))
     console.log(formData)
     //执行上传图片操作
     // handleUpload(formData)
