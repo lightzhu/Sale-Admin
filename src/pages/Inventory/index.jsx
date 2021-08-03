@@ -17,7 +17,7 @@ const handleRemove = async (selectedRows) => {
 
   try {
     await removeRule({
-      key: selectedRows.map((row) => row.key),
+      key: selectedRows.map((row) => row.key)
     })
     hide()
     message.success('删除成功，即将刷新')
@@ -35,7 +35,10 @@ class TableList extends React.Component {
     stepFormValues: {},
     tableData: [],
     page: 1,
-    checkValue: 0, // 0:全部  1:在售  2:不可售
+    status: 0, // 0:全部  1:在售  2:不可售
+    checkShop: 0,
+    pageSize: 20,
+    count: 10
   }
   async handleUpdate() {
     this.handleUpdateModalVisible(false)
@@ -53,24 +56,24 @@ class TableList extends React.Component {
   }
   handleUpdateModalVisible(boolean) {
     this.setState({
-      updateModalVisible: boolean,
+      updateModalVisible: boolean
     })
   }
   setStepFormValues(row) {
     console.log(row)
     this.setState({
-      stepFormValues: row,
+      stepFormValues: row
     })
   }
   updateRowStatus(data) {
     this.setState({
-      tableData: data.data,
+      tableData: data.data
     })
   }
   onChange = (e) => {
     console.log('radio checked', e.target.value)
     this.setState({
-      checkValue: e.target.value,
+      status: e.target.value
     })
   }
   creatShopList = () => {
@@ -86,7 +89,7 @@ class TableList extends React.Component {
   shopChange = (e) => {
     this.setState(
       {
-        checkShop: e.target.value,
+        checkShop: e.target.value
       },
       () => {
         this.initPage()
@@ -94,11 +97,11 @@ class TableList extends React.Component {
     )
   }
   initPage() {
-    const { userId } = this.props
     queryTable({
       shopId: this.state.checkShop,
       page: this.state.page,
-      size: 20,
+      size: 15,
+      status: this.state.status
     }).then((resp) => {
       console.log(resp)
       if (resp.data) {
@@ -107,26 +110,41 @@ class TableList extends React.Component {
         })
         this.setState({
           tableData: arr,
+          count: resp.count
         })
       }
     })
   }
+  pageChange = (val) => {
+    console.log(val)
+    this.setState(
+      {
+        page: val
+      },
+      () => {
+        this.initPage()
+      }
+    )
+  }
   componentDidMount() {
-    const { shopsList } = this.props
-    // 初始化店铺
-    this.setState({ checkShop: shopsList[0].id }, () => {
-      // 获取店铺商品
-      this.initPage()
-    })
+    const { shopsList, dispatch } = this.props
+    if (dispatch && shopsList.length == 0) {
+      dispatch({
+        type: 'shop/fetchShops',
+        payload: { id: window.sessionStorage.getItem('id') }
+      })
+    }
+    // 获取店铺商品
+    this.initPage()
   }
   render() {
-    const { stepFormValues, updateModalVisible } = this.state
+    const { stepFormValues, updateModalVisible, pageSize, page, count } = this.state
     return (
       <>
         <div className={styles.checkbox}>
           <div>
             <span className={styles.label}>商品状态:</span>
-            <Radio.Group onChange={this.onChange} value={this.state.checkValue}>
+            <Radio.Group onChange={this.onChange} value={this.state.status}>
               <Radio value={0}>全部</Radio>
               <Radio value={1}>在售</Radio>
               <Radio value={2}>不可售</Radio>
@@ -134,9 +152,7 @@ class TableList extends React.Component {
           </div>
           <div>
             <span className={styles.label}>店铺选择:</span>
-            <Radio.Group
-              onChange={this.shopChange}
-              value={this.state.checkShop}>
+            <Radio.Group onChange={this.shopChange} value={this.state.checkShop}>
               <Radio value={0}>全部</Radio>
               {this.creatShopList()}
             </Radio.Group>
@@ -145,6 +161,7 @@ class TableList extends React.Component {
 
         <SaTable
           tableData={this.state.tableData}
+          pagination={{ pageSize: pageSize, current: page, total: count, onChange: this.pageChange }}
           updateModalVisible={this.handleUpdateModalVisible.bind(this)}
           setStepFormValues={this.setStepFormValues.bind(this)}
           updateRowStatus={this.updateRowStatus.bind(this)}
@@ -167,5 +184,5 @@ class TableList extends React.Component {
 
 export default connect(({ user, shop }) => ({
   userId: user.currentUser.id,
-  shopsList: shop.shopsList,
+  shopsList: shop.shopsList
 }))(Form.create()(TableList))

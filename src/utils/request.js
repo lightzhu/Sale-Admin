@@ -62,7 +62,7 @@ const errorHandler = error => {
 
 const request = extend({
   errorHandler,
-  timeout: 9000,
+  timeout: 30000,
   ttl: 1000,
   headers: {
     "Content-Type": "multipart/form-data"
