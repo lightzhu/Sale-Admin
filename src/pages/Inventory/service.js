@@ -6,15 +6,11 @@ export async function queryTable (params) {
     params
   })
 }
-export async function disableShop (params) {
-  return request('/product/disableProduct', {
-    params
-  })
+export async function updateSoldStatus (params) {
+  return request('/product/updateSoldStatus', { params })
 }
 export async function removeProduct (params) {
-  return request('/product/removeProduct', {
-    params
-  })
+  return request('/product/removeItem', { params })
 }
 export async function updateRule (params) {
   return request('/product/rule', {

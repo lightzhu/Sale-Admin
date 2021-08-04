@@ -66,15 +66,31 @@ class TableList extends React.Component {
     })
   }
   updateRowStatus(data) {
+    let list = this.state.tableData
+    let key = list.findIndex((spot) => spot._id == data._id)
+    list.splice(key, 1, data)
     this.setState({
-      tableData: data.data
+      tableData: list
+    })
+  }
+  handleDeleRowItem(data) {
+    let list = this.state.tableData
+    let key = list.findIndex((spot) => spot._id == data._id)
+    list.splice(key, 1)
+    this.setState({
+      tableData: list
     })
   }
   onChange = (e) => {
     console.log('radio checked', e.target.value)
-    this.setState({
-      status: e.target.value
-    })
+    this.setState(
+      {
+        status: e.target.value
+      },
+      () => {
+        this.initPage()
+      }
+    )
   }
   creatShopList = () => {
     const { shopsList } = this.props
@@ -165,6 +181,7 @@ class TableList extends React.Component {
           updateModalVisible={this.handleUpdateModalVisible.bind(this)}
           setStepFormValues={this.setStepFormValues.bind(this)}
           updateRowStatus={this.updateRowStatus.bind(this)}
+          deleRowItem={this.handleDeleRowItem.bind(this)}
         />
         {stepFormValues && Object.keys(stepFormValues).length ? (
           <UpdateForm

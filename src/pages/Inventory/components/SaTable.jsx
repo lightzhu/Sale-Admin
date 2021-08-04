@@ -1,29 +1,29 @@
 import { Button, Divider, Dropdown, Radio, message, Form, Table } from 'antd'
 import React, { useState, useRef } from 'react'
-import { updateRule, disableShop, removeProduct } from '../service'
+import { updateRule, updateSoldStatus, removeProduct } from '../service'
+import moment from 'moment'
 import styles from '../index.less'
 const noImage = require('@/assets/img/no-image.png')
 const SaTable = (props) => {
   // const [createModalVisible, handleModalVisible] = useState(false);
   // const [updateModalVisible, handleUpdateModalVisible] = useState(false);
-  const { updateModalVisible, setStepFormValues, updateRowStatus } = props
-  const unSold = async (selectedRows) => {
+  const { updateModalVisible, setStepFormValues, updateRowStatus, deleRowItem } = props
+  const updateSold = async (selectedRows, type) => {
+    const toolType = type == 1 ? '上架' : '下架'
     console.log(selectedRows)
-    const hide = message.loading('正在下架')
-    if (!selectedRows) return true
+    const hide = message.loading(`正在${toolType}`)
     try {
-      let data = await disableShop({
-        key: selectedRows.key
+      let res = await updateSoldStatus({
+        _id: selectedRows._id,
+        status: type
       })
-      console.log(data)
-      updateRowStatus(data)
+      console.log(res)
+      updateRowStatus(res.data)
       hide()
-      message.success('下架成功，即将刷新')
-      return true
+      return message.success(`${toolType}成功，即将刷新`)
     } catch (error) {
       hide()
-      message.error('下架失败，请重试')
-      return false
+      return message.error(`${toolType}失败，请重试`)
     }
   }
   const deleSold = async (selectedRows) => {
@@ -31,17 +31,15 @@ const SaTable = (props) => {
     const hide = message.loading('正在删除')
     if (!selectedRows) return true
     try {
-      let data = await removeProduct({
-        key: selectedRows.key
+      let res = await removeProduct({
+        _id: selectedRows._id
       })
-      updateRowStatus(data)
+      deleRowItem(res.data)
       hide()
-      message.success('删除成功，即将刷新')
-      return true
+      return message.success('删除成功')
     } catch (error) {
       hide()
-      message.error('删除失败，请重试')
-      return false
+      return message.error('删除失败，请重试')
     }
   }
   const columns = [
@@ -97,10 +95,19 @@ const SaTable = (props) => {
     {
       title: '规格&价格',
       dataIndex: 'spec_goods',
-      render: (_, record) => {
-        return '暂无'
-        // return record.spec_goods ? record.spec_goods : '暂无'
-      }
+      render: (_, record) => (
+        <>
+          {record.spec_goods.length
+            ? record.spec_goods.map((item, index) => {
+                return (
+                  <span className={styles.guige} key={index}>
+                    {item.name}: ￥ {item.price}
+                  </span>
+                )
+              })
+            : '暂无'}
+        </>
+      )
     },
     {
       title: '状态',
@@ -120,7 +127,9 @@ const SaTable = (props) => {
     {
       title: '更新时间',
       dataIndex: 'update_time',
-      valueType: 'dateTime'
+      render: (_, record) => {
+        return moment(record.update_time).format('YYYY-MM-DD HH:mm:ss')
+      }
     },
     {
       title: '操作',
@@ -137,15 +146,27 @@ const SaTable = (props) => {
             编辑
           </a>
           <Divider type="vertical" />
-          <a
-            onClick={() => {
-              unSold(record)
-            }}
-          >
-            停售
-          </a>
+          {record.status == 1 ? (
+            <a
+              className={styles.xiajia}
+              onClick={() => {
+                updateSold(record, 2)
+              }}
+            >
+              下架
+            </a>
+          ) : (
+            <a
+              onClick={() => {
+                updateSold(record, 1)
+              }}
+            >
+              上架
+            </a>
+          )}
           <Divider type="vertical" />
           <a
+            className={styles.danger}
             onClick={() => {
               deleSold(record)
             }}
@@ -162,10 +183,10 @@ const SaTable = (props) => {
       <Table
         className={styles.mainTable}
         columns={columns}
+        rowKey="_id"
         dataSource={tableData}
         pagination={pagination}
         size="small"
-        rowKey={() => Math.random(100)}
         bordered
       />
     </>
