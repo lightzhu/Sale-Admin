@@ -14,10 +14,6 @@
   }
 }
 
-:globle #payType {
-  display: block;
-}
-
 .guige {
   display: block;
 }
@@ -28,4 +24,45 @@
 
 .danger {
   color: #ff4d4f;
+}
+
+:global {
+  .ant-form-item {
+    width: 50%;
+    display: inline-block;
+  }
+
+  .ant-form-item {
+    margin-bottom: 10px;
+  }
+}
+
+:global {
+  .describe {
+    .ant-form-item {
+      width: 100%;
+    }
+  }
+
+  .image-list-box {
+    display: flex;
+    align-items: center;
+
+    .ant-form-item {
+      width: 100%;
+    }
+
+    .label {
+      width: 12.5%;
+      color: rgba(0, 0, 0, 0.85);
+      display: inline-block;
+      font-size: 14px;
+      text-align: right;
+    }
+
+    .ant-upload-picture-card-wrapper,
+    .antd-pro-pages-commodity-components-index-container {
+      width: 87.5%;
+    }
+  }
 }

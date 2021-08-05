@@ -2,7 +2,7 @@ import React from 'react'
 import { Table, Input, Button, Popconfirm, Form } from 'antd'
 import { connect } from 'dva'
 import styles from './index.less'
-// import { isNumber } from 'lodash'
+import { cloneDeep } from 'lodash'
 const EditableContext = React.createContext()
 
 const EditableRow = ({ form, index, ...props }) => (
@@ -118,16 +118,18 @@ class Variantion extends React.Component {
           ) : null
       }
     ]
-    const { product } = this.props
+    const { product, spec_goods } = this.props
     this.state = {
-      dataSource: product.spec_goods || [
-        {
-          key: '0',
-          name: '',
-          price: '9999',
-          count: '10'
-        }
-      ],
+      dataSource: spec_goods
+        ? cloneDeep(spec_goods)
+        : product.spec_goods || [
+            {
+              key: '0',
+              name: '',
+              price: '9999',
+              count: '10'
+            }
+          ],
       key: product.spec_goods.length ? product.spec_goods[product.spec_goods.length - 1].key + 1 : 1
     }
   }

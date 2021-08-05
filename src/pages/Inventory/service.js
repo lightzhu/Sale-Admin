@@ -18,3 +18,21 @@ export async function updateRule (params) {
     data: { ...params, method: 'update' }
   })
 }
+export async function updateProductInfo (params) {
+  return request('/product/updateItem', {
+    method: 'POST',
+    data: { ...params }
+  })
+}
+
+export async function addProductPic (params) {
+  return request('/product/addPic', {
+    method: 'POST',
+    requestType: 'form',
+    data: params
+  })
+}
+export async function removeProductPic (params) {
+  return request('/product/removePic', { params })
+}
+

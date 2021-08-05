@@ -1,12 +1,10 @@
 import { Button, Divider, Dropdown, Radio, message, Form, Table } from 'antd'
 import React, { useState, useRef } from 'react'
-import { updateRule, updateSoldStatus, removeProduct } from '../service'
+import { updateSoldStatus, removeProduct } from '../service'
 import moment from 'moment'
 import styles from '../index.less'
 const noImage = require('@/assets/img/no-image.png')
 const SaTable = (props) => {
-  // const [createModalVisible, handleModalVisible] = useState(false);
-  // const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const { updateModalVisible, setStepFormValues, updateRowStatus, deleRowItem } = props
   const updateSold = async (selectedRows, type) => {
     const toolType = type == 1 ? '上架' : '下架'

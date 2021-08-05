@@ -64,6 +64,20 @@ class TableList extends React.Component {
     this.setState({
       stepFormValues: row
     })
+    this.props.dispatch({
+      type: 'commodity/saveVariantion',
+      payload: row.spec_goods
+    })
+    this.props.dispatch({
+      type: 'commodity/saveFileList',
+      payload: row.image_list.map((item, key) => {
+        return {
+          uid: key,
+          status: 'done',
+          url: item
+        }
+      })
+    })
   }
   updateRowStatus(data) {
     let list = this.state.tableData
@@ -188,10 +202,10 @@ class TableList extends React.Component {
             onSubmit={this.handleUpdate.bind(this)}
             onCancel={() => {
               this.handleUpdateModalVisible(false)
-              this.setStepFormValues({})
             }}
             updateModalVisible={updateModalVisible}
             values={stepFormValues}
+            variantion={this.props.variantion}
           />
         ) : null}
       </>
@@ -199,7 +213,8 @@ class TableList extends React.Component {
   }
 }
 
-export default connect(({ user, shop }) => ({
+export default connect(({ user, shop, commodity }) => ({
   userId: user.currentUser.id,
-  shopsList: shop.shopsList
+  shopsList: shop.shopsList,
+  variantion: commodity.variantion
 }))(Form.create()(TableList))
