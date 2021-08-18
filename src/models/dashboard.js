@@ -13,15 +13,15 @@ const Model = {
   namespace: 'dashboard',
   state: initState,
   effects: {
-    *fetch(_, { call, put }) {
+    *fetch (_, { call, put }) {
       const response = yield call(fakeChartData)
       yield put({
         type: 'save',
-        payload: response
+        payload: response.data
       })
     },
 
-    *fetchSalesData(_, { call, put }) {
+    *fetchSalesData (_, { call, put }) {
       const response = yield call(fakeChartData)
       yield put({
         type: 'save',
@@ -32,11 +32,11 @@ const Model = {
     }
   },
   reducers: {
-    save(state, { payload }) {
+    save (state, { payload }) {
       return { ...state, ...payload }
     },
 
-    clear() {
+    clear () {
       return initState
     }
   }

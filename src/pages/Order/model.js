@@ -1,4 +1,4 @@
-import { addFakeList, queryOrderList, removeFakeList, updateFakeList, queryRefundList, queryRefundCondition } from './service'
+import { addFakeList, queryOrderList, removeFakeList, updateFakeList, refundList, queryRefundCondition } from './service'
 
 const Model = {
   namespace: 'order',
@@ -8,7 +8,7 @@ const Model = {
     totalSize: 0
   },
   effects: {
-    *fetch({ payload }, { call, put }) {
+    *fetch ({ payload }, { call, put }) {
       const response = yield call(queryOrderList, payload)
       yield put({
         type: 'queryList',
@@ -16,7 +16,7 @@ const Model = {
       })
     },
 
-    *appendFetch({ payload }, { call, put }) {
+    *appendFetch ({ payload }, { call, put }) {
       const response = yield call(queryOrderList, payload)
       yield put({
         type: 'appendList',
@@ -24,7 +24,7 @@ const Model = {
       })
     },
 
-    *submit({ payload }, { call, put }) {
+    *submit ({ payload }, { call, put }) {
       let callback
       if (payload.id) {
         callback =
@@ -38,14 +38,14 @@ const Model = {
         payload: response
       })
     },
-    *fetchRefundList({ payload }, { call, put }) {
-      const response = yield call(queryRefundList, payload)
+    *fetchRefundList ({ payload }, { call, put }) {
+      const response = yield call(refundList, payload)
       yield put({
         type: 'updateRefundList',
         payload: response
       })
     },
-    *fetchRefundCondition({ payload }, { call, put }) {
+    *fetchRefundCondition ({ payload }, { call, put }) {
       const response = yield call(queryRefundCondition, payload)
       yield put({
         type: 'updateRefundList',
@@ -54,13 +54,13 @@ const Model = {
     },
   },
   reducers: {
-    queryList(state, action) {
+    queryList (state, action) {
       return { ...state, list: action.payload.data }
     },
-    appendList(state = { list: [] }, action) {
+    appendList (state = { list: [] }, action) {
       return { ...state, list: state.list.concat(action.payload) }
     },
-    updateRefundList(state = { refund: [] }, action) {
+    updateRefundList (state = { refund: [] }, action) {
       action.payload.data.forEach((item) => {
         item['description'] = `${item['description']};卖家地址:${item.address}。`
       })

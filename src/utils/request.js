@@ -92,7 +92,7 @@ request.interceptors.request.use((url, options) => {
   );
 });
 request.interceptors.response.use((response) => {
-  console.log(response)
+  // console.log(response)
   if (response.status == '401') {
     router.replace({
       pathname: '/user/login',

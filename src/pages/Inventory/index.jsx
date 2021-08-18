@@ -38,18 +38,16 @@ class TableList extends React.Component {
     status: 0, // 0:全部  1:在售  2:不可售
     checkShop: 0,
     pageSize: 20,
-    count: 10
+    count: 10,
+    pageLoading: true
   }
   async handleUpdate() {
     this.handleUpdateModalVisible(false)
-    const hide = message.loading('正在更新')
     try {
       await this.initPage()
-      hide()
       message.success('更新成功')
       return true
     } catch (error) {
-      hide()
       message.error('更新失败请重试！')
       return false
     }
@@ -127,23 +125,33 @@ class TableList extends React.Component {
     )
   }
   initPage() {
+    this.setState({
+      pageLoading: true
+    })
     queryTable({
       shopId: this.state.checkShop,
       page: this.state.page,
       size: 15,
       status: this.state.status
-    }).then((resp) => {
-      console.log(resp)
-      if (resp.data) {
-        let arr = resp.data.map((item, index) => {
-          return { ...item, key: item.id }
-        })
-        this.setState({
-          tableData: arr,
-          count: resp.count
-        })
-      }
     })
+      .then((resp) => {
+        console.log(resp)
+        if (resp.data) {
+          let arr = resp.data.map((item, index) => {
+            return { ...item, key: item.id }
+          })
+          this.setState({
+            tableData: arr,
+            count: resp.count,
+            pageLoading: false
+          })
+        }
+      })
+      .catch((e) => {
+        this.setState({
+          pageLoading: false
+        })
+      })
   }
   pageChange = (val) => {
     console.log(val)
@@ -191,6 +199,7 @@ class TableList extends React.Component {
 
         <SaTable
           tableData={this.state.tableData}
+          loading={this.props.loading || this.state.pageLoading}
           pagination={{ pageSize: pageSize, current: page, total: count, onChange: this.pageChange }}
           updateModalVisible={this.handleUpdateModalVisible.bind(this)}
           setStepFormValues={this.setStepFormValues.bind(this)}
@@ -213,8 +222,9 @@ class TableList extends React.Component {
   }
 }
 
-export default connect(({ user, shop, commodity }) => ({
+export default connect(({ user, shop, commodity, loading }) => ({
   userId: user.currentUser.id,
   shopsList: shop.shopsList,
+  loading: loading.effects['commodity/saveFileList'],
   variantion: commodity.variantion
 }))(Form.create()(TableList))

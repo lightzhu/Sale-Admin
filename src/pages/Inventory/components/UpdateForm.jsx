@@ -45,11 +45,14 @@ class UpdateForm extends Component {
       // console.log(formVals)
       // console.log(variantion)
       let params = Object.assign(formVals, { _id: this.state.formVals._id, spec_goods: variantion })
+      const hide = message.loading('正在更新')
       updateProductInfo(params).then((info) => {
         console.log(info)
         if (info.status == '1') {
           onSubmit()
+          hide()
         } else {
+          hide()
           return message.error(info.message)
         }
       })
@@ -207,8 +210,9 @@ class UpdateForm extends Component {
         bodyStyle={{
           padding: '8px 10px'
         }}
+        wrapClassName="update-product-mod"
         destroyOnClose
-        title="库存基本信息编辑"
+        title="库存信息编辑"
         visible={updateModalVisible}
         footer={this.renderFooter(currentStep)}
         onCancel={() => handleUpdateModalVisible(false, values)}

@@ -175,7 +175,7 @@ const SaTable = (props) => {
       )
     }
   ]
-  const { tableData, pagination } = props
+  const { tableData, pagination, loading } = props
   return (
     <>
       <Table
@@ -185,6 +185,7 @@ const SaTable = (props) => {
         dataSource={tableData}
         pagination={pagination}
         size="small"
+        loading={loading}
         bordered
       />
     </>
