@@ -255,6 +255,7 @@ export default {
   proxy: {
     '/api': {
       target: 'http://localhost:8099',
+      // target: 'https://api.2048888.xyz',
       changeOrigin: true,
       pathRewrite: {
         '^/api': '',

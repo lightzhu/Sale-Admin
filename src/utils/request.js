@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'development') {
   base_url = 'api' // 开放环境走mock数据
 } else {
   console.log('deploy')
-  base_url = 'https://www.fastmock.site/mock/a63c09f31c2ed788b5a54059058ca453/saleapi';
+  base_url = 'https://api.2048888.xyz';
 }
 import { router } from 'umi'
 import { extend } from "umi-request";
