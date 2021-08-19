@@ -250,7 +250,7 @@ export default {
     },
   },
   manifest: {
-    basePath: '/', // chainWebpack: webpackPlugin,
+    basePath: '/sale-admin', // chainWebpack: webpackPlugin,
   },
   proxy: {
     '/api': {
