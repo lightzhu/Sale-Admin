@@ -73,8 +73,8 @@ export default {
     ie: 11,
   },
   history: 'hash',
-  base: '/', //sale-admin/
-  publicPath: '/',//sale-admin/
+  base: '/sale-admin/', //sale-admin/
+  publicPath: '/sale-admin/',//sale-admin/
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: [
     {
@@ -250,7 +250,7 @@ export default {
     },
   },
   manifest: {
-    basePath: '/sale-admin', // chainWebpack: webpackPlugin,
+    basePath: '/', // chainWebpack: webpackPlugin,
   },
   proxy: {
     '/api': {
