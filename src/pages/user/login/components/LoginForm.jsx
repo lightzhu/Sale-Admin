@@ -7,10 +7,10 @@ import Submit from './LoginSubmit'
 const LoginMessage = ({ content }) => (
   <Alert
     style={{
-      marginBottom: 24,
+      marginBottom: 24
     }}
     message={content}
-    type='error'
+    type="error"
     showIcon
   />
 )
@@ -19,7 +19,7 @@ class LoginForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      autoLogin: true,
+      autoLogin: true
       // type: 'account'
     }
   }
@@ -34,11 +34,11 @@ class LoginForm extends Component {
       }
       dispatch({
         type: 'login/login',
-        payload: { ...values },
+        payload: { ...values }
       })
     })
   }
-
+  componentDidMount() {}
   render() {
     const { getFieldDecorator } = this.props.form
     const { autoLogin } = this.state
@@ -49,35 +49,20 @@ class LoginForm extends Component {
       <>
         <Form onSubmit={this.handleSubmit}>
           <div>
-            {status !== 200 && !submitting && (
-              <LoginMessage content={message} />
-            )}
+            {status !== 200 && !submitting && <LoginMessage content={message} />}
             <Form.Item>
               {getFieldDecorator('username', {
-                rules: [
-                  { required: true, message: 'Please input your username!' },
-                ],
-              })(
-                <Input
-                  prefix={
-                    <Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />
-                  }
-                  placeholder='用户名: admin'
-                />
-              )}
+                rules: [{ required: true, message: 'Please input your username!' }]
+              })(<Input prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="用户名: admin" />)}
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('password', {
-                rules: [
-                  { required: true, message: 'Please input your Password!' },
-                ],
+                rules: [{ required: true, message: 'Please input your Password!' }]
               })(
                 <Input
-                  prefix={
-                    <Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />
-                  }
-                  type='password'
-                  placeholder='密码: 123456'
+                  prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                  type="password"
+                  placeholder="密码: 123456"
                 />
               )}
             </Form.Item>
