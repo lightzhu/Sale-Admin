@@ -74,8 +74,8 @@ export default {
     ie: 11
   },
   history: 'hash',
-  base: process.env.NODE_ENV === 'development' ? '/' : './', //sale-admin/
-  publicPath: process.env.NODE_ENV === 'development' ? '/' : './', //sale-admin/
+  base: '/', // process.env.NODE_ENV === 'development' ? '/' : './', //sale-admin/
+  publicPath: process.env.NODE_ENV === 'development' ? '/' : './',
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: [
     {
